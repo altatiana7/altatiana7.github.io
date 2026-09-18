@@ -5,91 +5,89 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Timofey's English Hub</title>
 <style>
-:root{--panel:#063b76ee;--panel2:#0a4b91f2;--line:#39b8ff;--soft:#dff4ff;--white:#fff}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#d9efff;font-family:Inter,Segoe UI,Arial,sans-serif}button{font:inherit}
-.stage{position:fixed;inset:0;overflow:hidden;background:#d9efff}.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
-.panel{position:absolute;top:7.5%;bottom:6.6%;z-index:4;background:linear-gradient(180deg,rgba(4,50,101,.96),rgba(5,59,112,.94));border:1px solid rgba(68,186,255,.72);box-shadow:0 0 28px rgba(0,91,171,.22),inset 0 0 28px rgba(35,163,255,.08);backdrop-filter:blur(8px);color:#fff}
-.left-panel{left:0;width:min(18.5vw,355px);border-left:0;border-radius:0 22px 22px 0;padding:1.15vw .9vw 1vw}.right-panel{right:0;width:min(17.7vw,340px);border-right:0;border-radius:22px 0 0 22px;padding:1.15vw .9vw 1vw}
-.panel-title{display:flex;align-items:center;gap:.55vw;font-size:clamp(24px,2.05vw,39px);font-weight:900;line-height:1;margin-bottom:.5vh}.panel-title .book{font-size:.9em}.panel-sub{font-size:clamp(11px,.86vw,16px);color:#d8eeff;margin-bottom:1.25vh}
-.modules{height:calc(100% - 8.2vh);overflow:hidden;display:flex;flex-direction:column;gap:.52vh}.module{border:1px solid rgba(98,193,255,.55);border-radius:12px;background:rgba(15,83,145,.73);overflow:hidden}
-.module-btn{width:100%;height:5.1vh;min-height:42px;border:0;background:transparent;color:#fff;display:flex;align-items:center;gap:.65vw;padding:0 .62vw;cursor:pointer;text-align:left}
-.module-btn:hover,.module.open .module-btn{background:linear-gradient(90deg,rgba(0,143,255,.36),rgba(42,182,255,.18))}.module-num{flex:0 0 clamp(35px,2.7vw,52px);height:3.8vh;min-height:34px;border-radius:9px;display:grid;place-items:center;font-size:clamp(18px,1.35vw,27px);font-weight:900;background:linear-gradient(180deg,#2f9af3,#1267b5);border:1px solid rgba(162,221,255,.72)}
-.module-name{font-size:clamp(13px,1vw,19px);font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chev{margin-left:auto;font-size:clamp(17px,1.35vw,25px);transition:.18s transform}.module.open .chev{transform:rotate(90deg)}
-.lessons{display:none;padding:.2vh .4vw .55vh;gap:.35vh}.module.open .lessons{display:grid}.lesson-btn{height:4.35vh;min-height:38px;border-radius:9px;border:1px solid rgba(126,208,255,.55);background:linear-gradient(90deg,rgba(27,137,222,.92),rgba(15,94,170,.93));color:#fff;cursor:pointer;text-align:left;padding:0 .72vw;font-weight:800;font-size:clamp(12px,.9vw,17px);display:flex;align-items:center;justify-content:space-between}.lesson-btn:hover{filter:brightness(1.1)}.lesson-btn small{font-size:.72em;color:#cfeeff;font-weight:600}
-.oge-list{display:grid;gap:.8vh;margin-top:1.1vh}.oge-btn{height:8.45vh;min-height:63px;border-radius:12px;border:1px solid rgba(88,189,255,.72);background:linear-gradient(180deg,rgba(20,85,146,.88),rgba(7,63,121,.9));color:#fff;cursor:pointer;text-align:left;padding:0 .9vw;display:flex;align-items:center;gap:.7vw}.oge-btn:hover{background:linear-gradient(180deg,rgba(33,111,182,.96),rgba(8,75,140,.96))}
-.oge-icon{font-size:clamp(24px,2vw,38px);width:2.3vw;min-width:32px;text-align:center}.oge-text b{display:block;font-size:clamp(14px,1.15vw,22px);line-height:1.05}.oge-text span{display:block;margin-top:.45vh;color:#cfe8ff;font-size:clamp(10px,.78vw,15px)}.oge-arrow{margin-left:auto;font-size:clamp(20px,1.5vw,29px)}
-.hero-start{position:absolute;z-index:3;left:25.6%;top:50.5%;width:19.5%;height:7.6%;border:0;background:transparent;cursor:pointer;border-radius:16px}.hero-start:focus-visible{outline:4px solid #fff;outline-offset:4px}
-.screen{position:fixed;inset:0;z-index:20;background:linear-gradient(135deg,#eaf8ff 0%,#cfeaff 52%,#e9f8ff 100%);display:none;color:#073a6a}.screen.open{display:block}.screen-head{height:76px;display:flex;align-items:center;gap:14px;padding:0 22px;border-bottom:1px solid rgba(15,101,169,.2);background:rgba(255,255,255,.76);backdrop-filter:blur(12px)}
-.back,.close{width:52px;height:52px;border-radius:13px;border:1px solid rgba(32,130,202,.25);background:#fff;color:#0b5eaa;font-size:25px;font-weight:900;cursor:pointer}.screen-title{font-size:clamp(24px,2.2vw,40px);font-weight:900}.screen-type{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#2688c4;font-weight:800}.close{margin-left:auto}
-.blank{height:calc(100% - 76px);display:grid;place-items:center;padding:24px}.blank-card{width:min(900px,76vw);min-height:46vh;border-radius:26px;border:1px solid rgba(38,137,201,.24);background:rgba(255,255,255,.7);box-shadow:0 24px 70px rgba(45,113,158,.16);display:grid;place-items:center;text-align:center;padding:40px}.blank-card h2{font-size:clamp(36px,4.5vw,74px);margin:0 0 12px}.blank-card p{font-size:clamp(16px,1.3vw,22px);color:#6487a1;margin:0;max-width:650px}
-@media(max-aspect-ratio:4/3){.left-panel{width:25vw}.right-panel{width:24vw}.hero-start{left:28%;width:24%}}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#d8efff;font-family:Inter,Segoe UI,Arial,sans-serif}
+button{font:inherit}
+.stage{position:fixed;inset:0;overflow:hidden;background:#d8efff}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.module-zone{position:absolute;z-index:5;left:2.3%;top:19.8%;width:18.9%;height:54.5%;display:flex;flex-direction:column;gap:.45vh;pointer-events:auto}
+.module{border:1px solid rgba(104,205,255,.42);border-radius:10px;background:rgba(4,66,125,.74);backdrop-filter:blur(3px);overflow:hidden;box-shadow:inset 0 0 16px rgba(56,173,255,.06)}
+.module-btn{width:100%;height:5.15vh;min-height:38px;border:0;background:transparent;color:#fff;display:flex;align-items:center;gap:.55vw;padding:0 .55vw;cursor:pointer;text-align:left}
+.module-btn:hover,.module.open .module-btn{background:linear-gradient(90deg,rgba(12,142,238,.54),rgba(39,174,255,.17))}
+.module-num{width:2.6vw;min-width:34px;height:3.65vh;min-height:30px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(180deg,#3aa9ff,#126fbf);border:1px solid rgba(177,229,255,.76);font-size:clamp(16px,1.25vw,24px);font-weight:900}
+.module-name{font-size:clamp(12px,.92vw,17px);font-weight:850;white-space:nowrap}.chev{margin-left:auto;font-size:20px;transition:.18s}.module.open .chev{transform:rotate(90deg)}
+.lessons{display:none;padding:.05vh .35vw .45vh;gap:.28vh}.module.open .lessons{display:grid}
+.lesson{height:3.75vh;min-height:32px;border-radius:8px;border:1px solid rgba(125,211,255,.55);background:linear-gradient(90deg,rgba(30,143,226,.94),rgba(13,93,169,.95));color:#fff;text-align:left;padding:0 .62vw;font-weight:800;font-size:clamp(11px,.8vw,15px);cursor:pointer;display:flex;align-items:center;justify-content:space-between}
+.lesson:hover{filter:brightness(1.12)}
+.right-hotspots{position:absolute;z-index:6;right:2.3%;top:20.6%;width:16.8%;height:61.2%;display:grid;grid-template-rows:repeat(6,1fr);gap:.7vh}
+.hot{border:0;background:transparent;cursor:pointer;border-radius:14px}
+.hot:focus-visible,.hero-hot:focus-visible{outline:4px solid #fff;outline-offset:2px}
+.hero-hot{position:absolute;z-index:6;left:25.4%;top:50.5%;width:19.5%;height:7.5%;border:0;background:transparent;cursor:pointer;border-radius:16px}
+.screen{position:fixed;inset:0;z-index:20;display:none;background:linear-gradient(135deg,#eef9ff,#cfeaff 55%,#effaff);color:#083f70}
+.screen.open{display:block}.head{height:74px;display:flex;align-items:center;gap:14px;padding:0 20px;background:rgba(255,255,255,.84);border-bottom:1px solid rgba(19,105,171,.18);backdrop-filter:blur(12px)}
+.back,.close{width:50px;height:50px;border-radius:13px;border:1px solid rgba(41,135,201,.25);background:#fff;color:#0d63ad;font-size:24px;font-weight:900;cursor:pointer}.close{margin-left:auto}
+.kind{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#208bc7;font-weight:900}.ttl{font-size:clamp(24px,2.2vw,40px);font-weight:900}
+.blank{height:calc(100% - 74px);display:grid;place-items:center;padding:22px}
+.card{width:min(900px,78vw);min-height:48vh;border:1px solid rgba(37,137,202,.22);border-radius:26px;background:rgba(255,255,255,.72);box-shadow:0 24px 70px rgba(44,114,160,.14);display:grid;place-items:center;text-align:center;padding:40px}
+.card h2{font-size:clamp(38px,4.6vw,76px);margin:0 0 10px}.card p{font-size:clamp(16px,1.25vw,21px);color:#66869e;margin:0}
+@media(max-width:1100px){.module-zone{left:1.4%;width:20.5%}.right-hotspots{right:1.4%;width:18.2%}}
 </style>
 </head>
 <body>
 <div class="stage">
   <img class="bg" src="./design.jpg" alt="Timofey's English Hub">
-  <aside class="panel left-panel" aria-label="Modules">
-    <div class="panel-title"><span class="book">▣</span>Modules</div>
-    <div class="panel-sub">20 lessons · 3 lessons in each module</div>
-    <div class="modules" id="modules"></div>
-  </aside>
-  <button class="hero-start" type="button" aria-label="Open Lesson 1" data-open-lesson="1"></button>
-  <aside class="panel right-panel" aria-label="OGE sections">
-    <div class="panel-title">ОГЭ</div>
-    <div class="panel-sub">Exam sections · full-screen mode</div>
-    <div class="oge-list" id="ogeList"></div>
-  </aside>
+  <div class="module-zone" id="modules" aria-label="Modules"></div>
+  <button class="hero-hot" type="button" aria-label="Open Lesson 1"></button>
+  <div class="right-hotspots" id="oge" aria-label="OGE sections"></div>
 </div>
 
 <section class="screen" id="screen" aria-hidden="true">
-  <header class="screen-head">
+  <header class="head">
     <button class="back" type="button" aria-label="Back">←</button>
-    <div><div class="screen-type" id="screenType">Lesson</div><div class="screen-title" id="screenTitle">Lesson 1</div></div>
+    <div><div class="kind" id="kind">LESSON</div><div class="ttl" id="ttl">Lesson 1</div></div>
     <button class="close" type="button" aria-label="Close">×</button>
   </header>
-  <div class="blank"><div class="blank-card"><div><h2 id="blankTitle">Lesson 1</h2><p>This full-screen space is ready. We can add the lesson content here gradually.</p></div></div></div>
+  <div class="blank"><div class="card"><div><h2 id="cardTitle">Lesson 1</h2><p>Full-screen lesson space. We’ll add the content here gradually.</p></div></div></div>
 </section>
 
 <script>
-const moduleRoot=document.getElementById('modules');
+const modules=document.getElementById('modules');
 const screen=document.getElementById('screen');
-const screenTitle=document.getElementById('screenTitle');
-const screenType=document.getElementById('screenType');
-const blankTitle=document.getElementById('blankTitle');
-const moduleNames=['Module 1','Module 2','Module 3','Module 4','Module 5','Module 6','Module 7'];
-let lesson=1;
-moduleNames.forEach((name,index)=>{
-  const wrap=document.createElement('div'); wrap.className='module'+(index===0?' open':'');
-  const top=document.createElement('button'); top.type='button'; top.className='module-btn';
-  top.innerHTML='<span class="module-num">'+(index+1)+'</span><span class="module-name">'+name+'</span><span class="chev">›</span>';
-  const lessons=document.createElement('div'); lessons.className='lessons';
-  const count=index===6?2:3;
+const ttl=document.getElementById('ttl'), kind=document.getElementById('kind'), cardTitle=document.getElementById('cardTitle');
+const names=['Everyday Life','Education','The World Around Us','Culture & Media','Technology','Travel & Future','Revision'];
+let lessonNo=1;
+names.forEach((name,i)=>{
+  const box=document.createElement('div'); box.className='module'+(i===0?' open':'');
+  const top=document.createElement('button'); top.className='module-btn'; top.type='button';
+  top.innerHTML='<span class="module-num">'+(i+1)+'</span><span class="module-name">'+name+'</span><span class="chev">›</span>';
+  const list=document.createElement('div'); list.className='lessons';
+  const count=i===6?2:3;
   for(let j=0;j<count;j++){
-    const n=lesson++;
-    const b=document.createElement('button'); b.type='button'; b.className='lesson-btn';
-    b.innerHTML='<span><small>Lesson</small> '+n+'</span><span>›</span>';
-    b.addEventListener('click',e=>{e.stopPropagation();openScreen('Lesson','Lesson '+n,'lesson-'+n)});
-    lessons.appendChild(b);
+    const n=lessonNo++;
+    const b=document.createElement('button'); b.className='lesson'; b.type='button';
+    b.innerHTML='<span>Lesson '+n+'</span><span>›</span>';
+    b.addEventListener('click',e=>{e.stopPropagation();openScreen('LESSON','Lesson '+n,'lesson-'+n)});
+    list.appendChild(b);
   }
-  top.addEventListener('click',()=>{document.querySelectorAll('.module').forEach(m=>{if(m!==wrap)m.classList.remove('open')});wrap.classList.toggle('open')});
-  wrap.append(top,lessons); moduleRoot.appendChild(wrap);
+  top.addEventListener('click',()=>{
+    document.querySelectorAll('.module').forEach(m=>{if(m!==box)m.classList.remove('open')});
+    box.classList.toggle('open');
+  });
+  box.append(top,list); modules.appendChild(box);
 });
-const oge=[['Listening','◉'],['Reading','▤'],['Grammar','⚙'],['Vocabulary','◇'],['Writing','✎'],['Speaking','◯']];
-const ogeList=document.getElementById('ogeList');
-oge.forEach(([name,icon])=>{
-  const b=document.createElement('button'); b.type='button'; b.className='oge-btn';
-  b.innerHTML='<span class="oge-icon">'+icon+'</span><span class="oge-text"><b>'+name+'</b><span>Full-screen mode</span></span><span class="oge-arrow">›</span>';
-  b.addEventListener('click',()=>openScreen('ОГЭ',name,'oge-'+name.toLowerCase()));
-  ogeList.appendChild(b);
+const ogeNames=['Listening','Reading','Grammar','Vocabulary','Writing','Speaking'];
+const oge=document.getElementById('oge');
+ogeNames.forEach(n=>{
+  const b=document.createElement('button'); b.className='hot'; b.type='button'; b.setAttribute('aria-label',n);
+  b.addEventListener('click',()=>openScreen('ОГЭ',n,'oge-'+n.toLowerCase()));
+  oge.appendChild(b);
 });
-document.querySelector('[data-open-lesson="1"]').addEventListener('click',()=>openScreen('Lesson','Lesson 1','lesson-1'));
+document.querySelector('.hero-hot').addEventListener('click',()=>openScreen('LESSON','Lesson 1','lesson-1'));
 document.querySelector('.back').addEventListener('click',closeScreen);
 document.querySelector('.close').addEventListener('click',closeScreen);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&screen.classList.contains('open'))closeScreen()});
-function openScreen(type,title,hash){screenType.textContent=type;screenTitle.textContent=title;blankTitle.textContent=title;screen.classList.add('open');screen.setAttribute('aria-hidden','false');history.replaceState(null,'','#'+hash)}
+function openScreen(k,t,h){kind.textContent=k;ttl.textContent=t;cardTitle.textContent=t;screen.classList.add('open');screen.setAttribute('aria-hidden','false');history.replaceState(null,'','#'+h)}
 function closeScreen(){screen.classList.remove('open');screen.setAttribute('aria-hidden','true');history.replaceState(null,'',location.pathname+location.search)}
-function openFromHash(){const h=location.hash.slice(1);if(/^lesson-\d+$/.test(h)){const n=Number(h.split('-')[1]);if(n>=1&&n<=20)openScreen('Lesson','Lesson '+n,h)}else if(h.startsWith('oge-')){const key=h.slice(4);const found=oge.find(x=>x[0].toLowerCase()===key);if(found)openScreen('ОГЭ',found[0],h)}}
-openFromHash();
+(function(){const h=location.hash.slice(1);if(/^lesson-\d+$/.test(h)){const n=+h.split('-')[1];if(n>=1&&n<=20)openScreen('LESSON','Lesson '+n,h)}else if(h.startsWith('oge-')){const n=h.slice(4);const f=ogeNames.find(x=>x.toLowerCase()===n);if(f)openScreen('ОГЭ',f,h)}})();
 </script>
 </body>
 </html>
