@@ -102,25 +102,16 @@
     if(m){const found=oge.find(x=>slug(x)===m[1]);if(found)openPanel('oge',found,false)}
   }
 
-  async function loadDesign(){
-    try{
-      const files=['bg1.txt','bg2.txt','bg3.txt'];
-      const chunks=await Promise.all(files.map(async f=>{
-        const r=await fetch(f,{cache:'no-store'});
-        if(!r.ok)throw new Error('Could not load '+f);
-        return (await r.text()).trim();
-      }));
-      design.onload=()=>{
-        loading.classList.add('hidden');
-        stage.classList.add('ready');
-        openFromHash();
-      };
-      design.onerror=()=>{throw new Error('Image decode failed')};
-      design.src='data:image/webp;base64,'+chunks.join('');
-    }catch(err){
+  function loadDesign(){
+    design.onload=()=>{
+      loading.classList.add('hidden');
+      stage.classList.add('ready');
+      openFromHash();
+    };
+    design.onerror=()=>{
       loading.textContent='Не удалось загрузить страницу. Обновите браузер.';
-      console.error(err);
-    }
+    };
+    design.src='design.webp?rev=20260918-1';
   }
 
   loadDesign();
