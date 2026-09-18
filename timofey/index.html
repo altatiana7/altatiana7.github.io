@@ -16,7 +16,7 @@ button{font:inherit}
 
 /* Dynamic module area only. Everything else remains the original artwork. */
 .module-zone{
-  position:absolute;z-index:5;left:2.35%;top:20.6%;width:18.7%;height:61.7%;
+  position:absolute;z-index:5;left:2.55%;top:20.6%;width:14.6%;height:61.7%;
   display:flex;flex-direction:column;gap:.45vh;overflow:auto;padding:.15vh .1vw .5vh;
   scrollbar-width:none;
 }
@@ -28,24 +28,24 @@ button{font:inherit}
 }
 .module-head{
   width:100%;min-height:4.7vh;border:0;background:transparent;color:#fff;
-  display:flex;align-items:center;gap:.62vw;padding:.35vh .5vw;cursor:pointer;text-align:left
+  display:flex;align-items:center;gap:.42vw;padding:.32vh .42vw;cursor:pointer;text-align:left
 }
 .module-head:hover,.module.open .module-head{background:linear-gradient(90deg,rgba(0,153,255,.42),rgba(38,173,255,.16))}
 .num{
-  flex:0 0 clamp(34px,2.45vw,48px);height:3.6vh;min-height:31px;border-radius:8px;
+  flex:0 0 clamp(30px,2.05vw,40px);height:3.35vh;min-height:29px;border-radius:8px;
   display:grid;place-items:center;background:linear-gradient(180deg,#2ea4ff,#176ab6);
-  border:1px solid rgba(172,225,255,.82);font-size:clamp(17px,1.25vw,25px);font-weight:900
+  border:1px solid rgba(172,225,255,.82);font-size:clamp(15px,1.05vw,21px);font-weight:900
 }
-.mname{font-size:clamp(12px,.92vw,18px);font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mname{font-size:clamp(11px,.78vw,15px);font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .arrow{margin-left:auto;font-size:clamp(17px,1.35vw,25px);transition:.18s transform}
 .module.open .arrow{transform:rotate(90deg)}
-.lessons{display:none;padding:.15vh .35vw .55vh;gap:.38vh}
+.lessons{display:none;padding:.12vh .28vw .45vh;gap:.38vh}
 .module.open .lessons{display:grid}
 .lesson{
-  min-height:3.95vh;border-radius:8px;border:1px solid rgba(126,211,255,.66);
+  min-height:3.7vh;border-radius:8px;border:1px solid rgba(126,211,255,.66);
   background:linear-gradient(90deg,rgba(26,144,228,.96),rgba(12,91,168,.96));
-  color:#fff;cursor:pointer;text-align:left;padding:.28vh .62vw;
-  display:flex;align-items:center;justify-content:space-between;font-size:clamp(11px,.82vw,16px);font-weight:800
+  color:#fff;cursor:pointer;text-align:left;padding:.24vh .5vw;
+  display:flex;align-items:center;justify-content:space-between;font-size:clamp(10px,.72vw,14px);font-weight:800
 }
 .lesson:hover{filter:brightness(1.12)}
 .lesson small{display:block;color:#d3efff;font-size:.73em;font-weight:650;margin-bottom:.06vh}
@@ -136,7 +136,7 @@ button{font:inherit}
 
   modules.forEach((entry,i)=>{
     const wrap=document.createElement('div');
-    wrap.className='module'+(i===0?' open':'');
+    wrap.className='module';
     const head=document.createElement('button');
     head.type='button'; head.className='module-head';
     head.innerHTML='<span class="num">'+(i+1)+'</span><span class="mname">'+entry[0]+'</span><span class="arrow">›</span>';
