@@ -3,17 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex">
-<title>Timofey — Проверка</title>
-<link rel="stylesheet" href="./hw.css?v=20261007b">
-<link rel="stylesheet" href="./teacher.css?v=20261007b">
+<title>Timofey — Homework</title>
+<link rel="stylesheet" href="../timofey-homework/hw.css?v=20261007b">
+<link rel="stylesheet" href="../timofey-homework/app.css?v=20261007b">
 </head>
 <body>
 <header class="top">
   <a class="btn" href="../timofey/">← Hub</a>
   <div class="grow"><b>&gt;</b> <span id="hdr"></span></div>
-  <div class="note" id="who">Файл ответов не открыт</div>
-  <div class="stat" id="sum"></div>
+  <div class="note" id="saveStatus">Ответы сохраняются на этом устройстве</div>
+  <div class="stat" id="progress"></div>
 </header>
 <div class="shell">
   <nav class="panel nav" id="nav" aria-label="Разделы"></nav>
@@ -24,9 +23,8 @@
 </div>
 <div class="toast hidden" id="toast" role="status"></div>
 <input type="file" id="fileInput" class="hidden" accept=".json,application/json">
-<script src="./common.js?v=20261007b"></script>
-<script src="./tasks.js?v=20261007b"></script>
-<script src="./keys.js?v=20261007b"></script>
-<script src="./teacher.js?v=20261007b"></script>
+<script src="../timofey-homework/common.js?v=20261007b"></script>
+<script src="./oge-tasks.js?v=20261007b"></script>
+<script src="../timofey-homework/app.js?v=20261007b"></script>
 </body>
 </html>

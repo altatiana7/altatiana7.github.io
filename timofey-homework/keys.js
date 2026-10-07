@@ -10,9 +10,3 @@ g12:"haven't seen|have not seen",g13:"knew",g14:"playing",g15:"hers",
 f1:"competition",f2:"useful",f3:"dangerous",f4:"designer",f5:"carefully",f6:"communication",
 r1:"False",r2:"False",r3:"Not stated",r4:"True",r5:"True",r6:"Not stated",r7:"False"
 };
-function norm(s){return String(s||"").toLowerCase().replace(/[’`]/g,"'").replace(/\s+/g," ").trim();}
-function checkAnswer(id,answer){
-  const key=KEYS[id];if(key===undefined)return null;
-  const a=norm(answer);if(!a)return false;
-  return key.split("|").some(k=>norm(k)===a||(k.startsWith("'")&&a.endsWith(norm(k))));
-}
