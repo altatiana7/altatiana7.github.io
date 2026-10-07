@@ -82,6 +82,10 @@ button{font:inherit;color:inherit}
 .title small{font-size:17px;font-weight:400;color:#c9d6df;margin-right:8px}
 .workspace{min-height:0;display:grid;place-items:center;padding:24px}
 .workspace p{margin:0;font-size:20px;color:var(--muted)}
+.workspace.frame{padding:0;display:block}
+.workspace iframe{width:100%;height:100%;border:0;display:block;background:var(--bg)}
+.teach{flex:0 0 auto;margin-top:8px;border:1px dashed var(--line);border-radius:6px;background:transparent;padding:8px 12px;font-size:15px;color:var(--muted);cursor:pointer;text-align:left}
+.teach:hover{border-color:var(--accent);color:var(--accent)}
 
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){.hero-text h1::after{animation:none}}
@@ -117,7 +121,7 @@ button{font:inherit;color:inherit}
 
   <section class="panel">
     <div class="tab"><b>//</b> ОГЭ practice</div>
-    <div class="body"><div class="secs" id="oge"></div></div>
+    <div class="body"><div class="secs" id="oge"></div><button class="teach" id="teach" type="button">// проверка (для учителя)</button></div>
   </section>
 </main>
 
@@ -126,7 +130,7 @@ button{font:inherit;color:inherit}
     <button class="back" id="back" type="button">← Hub</button>
     <div class="title"><small id="kind"></small><span id="title"></span></div>
   </header>
-  <div class="workspace"><p>// Materials for this section will appear here.</p></div>
+  <div class="workspace" id="ws"><p>// Materials for this section will appear here.</p></div>
 </section>
 
 <script>
@@ -160,7 +164,7 @@ button{font:inherit;color:inherit}
   sections.forEach(s=>{
     const b=document.createElement('button');
     b.type='button'; b.className='sec'; b.innerHTML=s+'<span>›</span>';
-    b.addEventListener('click',()=>{if(s==='Listening')openScreen('ОГЭ · ',s,'oge-listening');else location.href='../timofey-oge/#'+encodeURIComponent(s);});
+    b.addEventListener('click',()=>{if(s==='Listening')openScreen('ОГЭ · ',s,'oge-listening');else openFrame('ОГЭ · ',s,'../timofey-oge/#'+encodeURIComponent(s),'oge-'+s.toLowerCase());});
     $('oge').appendChild(b);
   });
 
@@ -172,13 +176,23 @@ button{font:inherit;color:inherit}
     current=n; try{localStorage.setItem(KEY,n)}catch(e){}
     markCurrent(); openScreen('','Lesson '+n,'lesson-'+n);
   }
+  const WS0=$('ws').innerHTML;
+  function openFrame(type,name,url,hash){
+    openScreen(type,name,hash);
+    const ws=$('ws');ws.className='workspace frame';ws.innerHTML='';
+    const f=document.createElement('iframe');f.title=name;f.src=url;
+    f.addEventListener('load',()=>{try{const a=f.contentDocument.querySelector('header .btn');if(a)a.style.display='none';}catch(e){}});
+    ws.appendChild(f);
+  }
+  $('teach').addEventListener('click',()=>openFrame('','Проверка ОГЭ','../timofey-oge/teacher.html','oge-teacher'));
   function openScreen(type,name,hash){
+    const w=$('ws');w.className='workspace';w.innerHTML=WS0;
     $('kind').textContent=type; $('title').textContent=name;
     screen.classList.add('open'); screen.setAttribute('aria-hidden','false');
     history.replaceState(null,'','#'+hash);
   }
   function closeScreen(){
-    screen.classList.remove('open'); screen.setAttribute('aria-hidden','true');
+    screen.classList.remove('open'); screen.setAttribute('aria-hidden','true'); $('ws').innerHTML=WS0; $('ws').className='workspace';
     history.replaceState(null,'',location.pathname+location.search);
   }
 
@@ -188,6 +202,9 @@ button{font:inherit;color:inherit}
   markCurrent();
 
   const h=location.hash.slice(1);
+  const mo=h.match(/^oge-(\w+)$/);
+  if(mo&&mo[1]==='teacher')openFrame('','Проверка ОГЭ','../timofey-oge/teacher.html','oge-teacher');
+  else if(mo){const nm=sections.find(x=>x.toLowerCase()===mo[1]);if(nm&&nm!=='Listening')openFrame('ОГЭ · ',nm,'../timofey-oge/#'+nm,h);}
   if(/^lesson-\d+$/.test(h)){
     const n=Number(h.split('-')[1]); if(n>=1&&n<=20)openLesson(n);
   }
