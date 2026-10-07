@@ -147,8 +147,14 @@ function listPage(sec){
     const r=el("div","r"), q=el("div","q"), a=ans(t), res=checkAnswer(t.id,a);
     const qb=el("div");qb.append(el("b","",String(i+1).padStart(2,"0")+" "),document.createTextNode(t.prompt+(t.word?" ["+t.word+"]":"")));qb.lang="en";
     q.append(qb);
-    const ae=el("div","a "+(t.type==="long"?"":res?"ok":"no")+(a?"":" empty"),a?a:"нет ответа");ae.lang="en";q.append(ae);
+    const shown=t.id.startsWith("sp")?(a?"прослушано вопросов: "+a.split(",").length+" из 6 ("+a+")":"не слушал"):(a||"нет ответа");
+    const ae=el("div","a "+(t.type==="long"?"":res?"ok":"no")+(a?"":" empty"),shown);ae.lang="en";q.append(ae);
     if(res===false)q.append(el("div","k","ключ: "+KEYS[t.id].split("|").join(" / ")));
+    if(t.id.startsWith("sp")){
+      const c=Number(t.id[2])-1, lst=el("div","k");lst.lang="en";
+      lst.innerHTML="";SPEAKING[c].questions.forEach((x,k)=>{const d=el("div","",(k+1)+". "+x);lst.append(d);});
+      q.append(lst);
+    }
     r.append(q,scoreInput(t),commentInput(t));rows.append(r);
   });
   main.append(head,rows);
