@@ -121,7 +121,7 @@ button{font:inherit;color:inherit}
 
   <section class="panel">
     <div class="tab"><b>//</b> ОГЭ practice</div>
-    <div class="body"><div class="secs" id="oge"></div><button class="teach" id="teach" type="button">// проверка (для учителя)</button></div>
+    <div class="body"><div class="secs" id="oge"></div></div>
   </section>
 </main>
 
@@ -164,7 +164,7 @@ button{font:inherit;color:inherit}
   sections.forEach(s=>{
     const b=document.createElement('button');
     b.type='button'; b.className='sec'; b.innerHTML=s+'<span>›</span>';
-    b.addEventListener('click',()=>{if(s==='Listening')openScreen('ОГЭ · ',s,'oge-listening');else openFrame('ОГЭ · ',s,'../timofey-oge/#'+encodeURIComponent(s),'oge-'+s.toLowerCase());});
+    b.addEventListener('click',()=>{openScreen('ОГЭ · ',s,'oge-'+s.toLowerCase());});
     $('oge').appendChild(b);
   });
 
@@ -184,7 +184,6 @@ button{font:inherit;color:inherit}
     f.addEventListener('load',()=>{try{const a=f.contentDocument.querySelector('header .btn');if(a)a.style.display='none';}catch(e){}});
     ws.appendChild(f);
   }
-  $('teach').addEventListener('click',()=>openFrame('','Проверка ОГЭ','../timofey-oge/teacher.html','oge-teacher'));
   function openScreen(type,name,hash){
     const w=$('ws');w.className='workspace';w.innerHTML=WS0;
     $('kind').textContent=type; $('title').textContent=name;
@@ -202,9 +201,6 @@ button{font:inherit;color:inherit}
   markCurrent();
 
   const h=location.hash.slice(1);
-  const mo=h.match(/^oge-(\w+)$/);
-  if(mo&&mo[1]==='teacher')openFrame('','Проверка ОГЭ','../timofey-oge/teacher.html','oge-teacher');
-  else if(mo){const nm=sections.find(x=>x.toLowerCase()===mo[1]);if(nm&&nm!=='Listening')openFrame('ОГЭ · ',nm,'../timofey-oge/#'+nm,h);}
   if(/^lesson-\d+$/.test(h)){
     const n=Number(h.split('-')[1]); if(n>=1&&n<=20)openLesson(n);
   }
