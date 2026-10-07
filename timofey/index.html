@@ -19,7 +19,7 @@ button{font:inherit;color:inherit}
 
 .hub{
   height:100vh;display:grid;gap:18px;padding:18px;
-  grid-template-columns:minmax(280px,330px) minmax(0,1fr) minmax(240px,290px);
+  grid-template-columns:272px minmax(0,1fr) minmax(240px,290px);
 }
 .panel{
   min-height:0;background:var(--card);border:1px solid var(--line);border-radius:10px;
@@ -30,7 +30,7 @@ button{font:inherit;color:inherit}
   font-size:17px;color:#e6edf2
 }
 .tab b{color:#a8d8c2;font-weight:700}
-.body{flex:1;min-height:0;padding:8px 16px 12px;display:flex;flex-direction:column}
+.body{flex:1;min-height:0;padding:8px 14px 12px;display:flex;flex-direction:column}
 
 /* Modules: one list, every lesson visible at once */
 .mods{flex:1;min-height:0;display:flex;flex-direction:column;overflow:auto}
@@ -38,7 +38,7 @@ button{font:inherit;color:inherit}
 .mod:first-child{border-top:0}
 .mod-name{flex:1;font-size:18px;font-weight:700;white-space:nowrap}
 .mod-name i{font-style:normal;color:var(--muted);font-weight:400}
-.chips{display:grid;grid-template-columns:repeat(3,46px);gap:8px}
+.chips{display:grid;grid-template-columns:repeat(3,42px);gap:6px}
 .chip{
   height:40px;border:1px solid var(--line);border-radius:6px;background:var(--card2);
   font-size:18px;font-weight:700;cursor:pointer
@@ -144,7 +144,7 @@ button{font:inherit;color:inherit}
   modules.forEach((lessons,i)=>{
     const row=document.createElement('div'); row.className='mod';
     const name=document.createElement('span'); name.className='mod-name';
-    name.innerHTML='<i>'+pad(i+1)+'</i> Module '+(i+1);
+    name.textContent='Module '+(i+1);
     row.appendChild(name);
     const chips=document.createElement('div'); chips.className='chips'; row.appendChild(chips);
     lessons.forEach(n=>{
