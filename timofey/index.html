@@ -6,165 +6,155 @@
 <title>Timofey's English Hub</title>
 <style>
 :root{
-  --blue:#0a4d91; --blue2:#0f68bc; --cyan:#42c7ff; --line:rgba(117,210,255,.76);
+  --bg:#f5f3ee; --card:#ffffff; --ink:#1c2230; --muted:#6a7180; --line:#e1ddd3;
+  --accent:#1f5fd1; --accent-dark:#174aa6;
 }
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#d7efff;font-family:Inter,Segoe UI,Arial,sans-serif}
-button{font:inherit}
-.stage{position:fixed;inset:0;overflow:hidden;background:#d7efff}
-.design{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;user-select:none;-webkit-user-drag:none}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+  font-family:"Segoe UI",Inter,Arial,sans-serif}
+button{font:inherit;color:inherit}
 
-/* Dynamic module area only. Everything else remains the original artwork. */
-.module-zone{
-  position:absolute;z-index:5;left:2.55%;top:20.6%;width:14.6%;height:61.7%;
-  display:flex;flex-direction:column;gap:.45vh;overflow:auto;padding:.15vh .1vw .5vh;
-  scrollbar-width:none;
+.hub{
+  height:100vh;display:grid;gap:18px;padding:18px;
+  grid-template-columns:minmax(270px,320px) minmax(0,1fr) minmax(230px,280px);
 }
-.module-zone::-webkit-scrollbar{display:none}
-.module{
-  flex:0 0 auto;border:1px solid var(--line);border-radius:11px;overflow:hidden;
-  background:linear-gradient(180deg,rgba(16,87,155,.97),rgba(7,66,127,.97));
-  box-shadow:inset 0 1px rgba(255,255,255,.08)
+.panel{
+  min-height:0;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:16px;display:flex;flex-direction:column
 }
-.module-head{
-  width:100%;min-height:4.7vh;border:0;background:transparent;color:#fff;
-  display:flex;align-items:center;gap:.42vw;padding:.32vh .42vw;cursor:pointer;text-align:left
-}
-.module-head:hover,.module.open .module-head{background:linear-gradient(90deg,rgba(0,153,255,.42),rgba(38,173,255,.16))}
-.num{
-  flex:0 0 clamp(30px,2.05vw,40px);height:3.35vh;min-height:29px;border-radius:8px;
-  display:grid;place-items:center;background:linear-gradient(180deg,#2ea4ff,#176ab6);
-  border:1px solid rgba(172,225,255,.82);font-size:clamp(15px,1.05vw,21px);font-weight:900
-}
-.mname{font-size:clamp(11px,.78vw,15px);font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.arrow{margin-left:auto;font-size:clamp(17px,1.35vw,25px);transition:.18s transform}
-.module.open .arrow{transform:rotate(90deg)}
-.lessons{display:none;padding:.12vh .28vw .45vh;gap:.38vh}
-.module.open .lessons{display:grid}
-.lesson{
-  min-height:3.7vh;border-radius:8px;border:1px solid rgba(126,211,255,.66);
-  background:linear-gradient(90deg,rgba(26,144,228,.96),rgba(12,91,168,.96));
-  color:#fff;cursor:pointer;text-align:left;padding:.24vh .5vw;
-  display:flex;align-items:center;justify-content:space-between;font-size:clamp(10px,.72vw,14px);font-weight:800
-}
-.lesson:hover{filter:brightness(1.12)}
-.lesson small{display:block;color:#d3efff;font-size:.73em;font-weight:650;margin-bottom:.06vh}
+.panel h2{margin:0 0 10px;font-size:22px;font-weight:800;line-height:1.1}
 
-/* Hotspots over the ORIGINAL right OGE panel and central Open Lesson button */
-.hot{position:absolute;z-index:6;border:0;background:transparent;cursor:pointer;border-radius:13px}
-.hot:focus-visible{outline:4px solid #fff;outline-offset:2px}
-.hero{left:25.45%;top:50.3%;width:19.2%;height:7.6%}
-.oge{left:80.05%;width:16.8%;height:8.8%}
-.oge1{top:20.7%}.oge2{top:31.2%}.oge3{top:41.9%}.oge4{top:52.7%}.oge5{top:63.6%}.oge6{top:74.5%}
+/* Modules: one list, every lesson visible at once */
+.mods{flex:1;min-height:0;display:flex;flex-direction:column;overflow:auto}
+.mod{flex:1;display:flex;align-items:center;gap:10px;padding:5px 0;border-top:1px solid var(--line)}
+.chips{display:grid;grid-template-columns:repeat(3,44px);gap:10px}
+.mod:first-child{border-top:0}
+.mod-name{flex:1;font-size:18px;font-weight:700;white-space:nowrap}
+.chip{
+  width:44px;height:40px;border:1px solid var(--line);border-radius:10px;background:var(--bg);
+  font-size:18px;font-weight:700;cursor:pointer
+}
+.chip:hover,.sec:hover{border-color:var(--ink)}
+.chip.current{border:2px solid var(--accent);background:#fff;color:var(--accent)}
 
-/* Full-screen lesson/exam workspace */
-.screen{
-  position:fixed;inset:0;z-index:30;display:none;color:#07365f;
-  background:linear-gradient(135deg,#effaff 0%,#d8efff 48%,#edf9ff 100%)
+/* Centre */
+.hero{padding:0;overflow:hidden;flex-direction:row}
+.photo{flex:0 0 42%;min-width:0;height:100%;object-fit:cover;object-position:50% 22%}
+.hero-text{flex:1;min-width:0;padding:22px 26px;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.hero-text h1{margin:0;font-size:clamp(30px,3.3vw,48px);font-weight:800;line-height:1.05;letter-spacing:-.01em}
+.hero-text p{margin:0;font-size:19px;color:var(--muted)}
+.go{
+  align-self:flex-start;margin-top:6px;border:0;border-radius:12px;background:var(--accent);color:#fff;
+  font-size:21px;font-weight:700;padding:14px 26px;cursor:pointer
 }
-.screen.open{display:grid;grid-template-rows:72px 1fr}
-.head{
-  display:flex;align-items:center;gap:14px;padding:10px 18px;
-  background:rgba(255,255,255,.88);border-bottom:1px solid rgba(28,121,188,.2);backdrop-filter:blur(12px)
+.go:hover{background:var(--accent-dark)}
+
+/* OGE */
+.secs{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;overflow:auto}
+.sec{
+  flex:1;min-height:40px;display:flex;align-items:center;justify-content:space-between;
+  border:1px solid var(--line);border-radius:10px;background:var(--bg);
+  padding:0 16px;font-size:19px;font-weight:700;cursor:pointer;text-align:left
 }
-.back,.close{
-  width:50px;height:50px;border:1px solid rgba(20,112,182,.23);border-radius:12px;background:#fff;
-  color:#0b5fa9;font-size:25px;font-weight:900;cursor:pointer
+.sec span{color:var(--muted);font-weight:400}
+
+/* Lesson / exam screen */
+.screen{position:fixed;inset:0;z-index:30;display:none;background:var(--bg)}
+.screen.open{display:grid;grid-template-rows:56px 1fr}
+.head{display:flex;align-items:center;gap:14px;padding:0 18px;background:var(--card);border-bottom:1px solid var(--line)}
+.back{
+  border:1px solid var(--line);border-radius:10px;background:var(--bg);
+  font-size:17px;font-weight:700;padding:8px 16px;cursor:pointer
 }
-.close{margin-left:auto}
-.kind{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#2791ce;font-weight:900}
-.title{font-size:clamp(24px,2.2vw,39px);font-weight:900;line-height:1.05}
+.back:hover{border-color:var(--ink)}
+.title{font-size:24px;font-weight:800}
+.title small{font-size:17px;font-weight:400;color:var(--muted);margin-right:8px}
 .workspace{min-height:0;display:grid;place-items:center;padding:24px}
-.empty{
-  width:min(900px,76vw);min-height:52vh;border:1px solid rgba(37,138,203,.22);border-radius:26px;
-  background:rgba(255,255,255,.72);box-shadow:0 24px 70px rgba(37,104,151,.14);
-  display:grid;place-items:center;text-align:center;padding:38px
-}
-.empty h1{font-size:clamp(38px,5vw,78px);margin:0 0 12px;color:#0a4e8e}
-.empty p{margin:0;color:#6689a3;font-size:clamp(15px,1.25vw,21px);line-height:1.45}
+.workspace p{margin:0;font-size:21px;color:var(--muted)}
+
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 
 @media(max-width:900px){
- .module-zone{left:1.8%;width:20.3%}
- .oge{left:79.3%;width:18.3%}
+  html,body{height:auto}
+  .hub{height:auto;grid-template-columns:1fr}
+  .hero{order:-1;min-height:260px}
+  .mods,.secs{overflow:visible}
 }
 </style>
 </head>
 <body>
-<div class="stage" aria-label="Timofey's English Hub">
-  <img class="design" src="./design.jpg?v=20260918-fixed" alt="Timofey's English Hub">
-  <div class="module-zone" id="modules" aria-label="Modules"></div>
+<main class="hub">
+  <section class="panel">
+    <h2>Modules</h2>
+    <div class="mods" id="modules"></div>
+  </section>
 
-  <button class="hot hero" type="button" aria-label="Open Lesson 1" data-lesson="1"></button>
-  <button class="hot oge oge1" type="button" aria-label="Open OGE Listening" data-oge="Listening"></button>
-  <button class="hot oge oge2" type="button" aria-label="Open OGE Reading" data-oge="Reading"></button>
-  <button class="hot oge oge3" type="button" aria-label="Open OGE Grammar" data-oge="Grammar"></button>
-  <button class="hot oge oge4" type="button" aria-label="Open OGE Vocabulary" data-oge="Vocabulary"></button>
-  <button class="hot oge oge5" type="button" aria-label="Open OGE Writing" data-oge="Writing"></button>
-  <button class="hot oge oge6" type="button" aria-label="Open OGE Speaking" data-oge="Speaking"></button>
-</div>
+  <section class="panel hero">
+    <img class="photo" src="./timofey.jpg?v=20261007" alt="Timofey">
+    <div class="hero-text">
+      <h1>Timofey's English Hub</h1>
+      <p>Grade 9 · ОГЭ preparation</p>
+      <button class="go" id="go" type="button">Continue: Lesson 1</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>ОГЭ</h2>
+    <div class="secs" id="oge"></div>
+  </section>
+</main>
 
 <section class="screen" id="screen" aria-hidden="true">
   <header class="head">
-    <button class="back" type="button" aria-label="Back">←</button>
-    <div><div class="kind" id="kind">LESSON</div><div class="title" id="title">Lesson 1</div></div>
-    <button class="close" type="button" aria-label="Close">×</button>
+    <button class="back" id="back" type="button">← Hub</button>
+    <div class="title"><small id="kind"></small><span id="title"></span></div>
   </header>
-  <div class="workspace">
-    <div class="empty">
-      <div><h1 id="bigTitle">Lesson 1</h1><p>This space is ready for the lesson. Content can be added gradually without changing the main hub.</p></div>
-    </div>
-  </div>
+  <div class="workspace"><p>Materials for this section will appear here.</p></div>
 </section>
 
 <script>
 (()=>{
-  const modulesEl=document.getElementById('modules');
-  const screen=document.getElementById('screen');
-  const title=document.getElementById('title');
-  const bigTitle=document.getElementById('bigTitle');
-  const kind=document.getElementById('kind');
+  const modules=[[1,2,3],[4,5,6],[7,8,9],[10,11,12],[13,14,15],[16,17,18],[19,20]];
+  const sections=['Listening','Reading','Grammar','Vocabulary','Writing','Speaking'];
+  const KEY='timofey-current-lesson';
+  const $=id=>document.getElementById(id);
+  const screen=$('screen');
 
-  const modules=[
-    ['Module 1',[1,2,3]],
-    ['Module 2',[4,5,6]],
-    ['Module 3',[7,8,9]],
-    ['Module 4',[10,11,12]],
-    ['Module 5',[13,14,15]],
-    ['Module 6',[16,17,18]],
-    ['Module 7',[19,20]]
-  ];
+  let current=1;
+  try{const n=Number(localStorage.getItem(KEY)); if(n>=1&&n<=20)current=n}catch(e){}
 
-  modules.forEach((entry,i)=>{
-    const wrap=document.createElement('div');
-    wrap.className='module';
-    const head=document.createElement('button');
-    head.type='button'; head.className='module-head';
-    head.innerHTML='<span class="num">'+(i+1)+'</span><span class="mname">'+entry[0]+'</span><span class="arrow">›</span>';
-    const list=document.createElement('div'); list.className='lessons';
-    entry[1].forEach(n=>{
+  modules.forEach((lessons,i)=>{
+    const row=document.createElement('div'); row.className='mod';
+    const name=document.createElement('span'); name.className='mod-name'; name.textContent='Module '+(i+1);
+    row.appendChild(name);
+    const chips=document.createElement('div'); chips.className='chips'; row.appendChild(chips);
+    lessons.forEach(n=>{
       const b=document.createElement('button');
-      b.type='button'; b.className='lesson';
-      b.innerHTML='<span><small>Lesson</small>'+n+'</span><span>›</span>';
-      b.addEventListener('click',e=>{e.stopPropagation();openScreen('Lesson','Lesson '+n,'lesson-'+n)});
-      list.appendChild(b);
+      b.type='button'; b.className='chip'; b.textContent=n; b.dataset.n=n;
+      b.setAttribute('aria-label','Lesson '+n);
+      b.addEventListener('click',()=>openLesson(n));
+      chips.appendChild(b);
     });
-    head.addEventListener('click',()=>{
-      document.querySelectorAll('.module').forEach(m=>{if(m!==wrap)m.classList.remove('open')});
-      wrap.classList.toggle('open');
-      if(wrap.classList.contains('open'))wrap.scrollIntoView({block:'nearest',behavior:'smooth'});
-    });
-    wrap.append(head,list); modulesEl.appendChild(wrap);
+    $('modules').appendChild(row);
   });
 
-  document.querySelector('[data-lesson="1"]').addEventListener('click',()=>openScreen('Lesson','Lesson 1','lesson-1'));
-  document.querySelectorAll('[data-oge]').forEach(b=>b.addEventListener('click',()=>openScreen('ОГЭ',b.dataset.oge,'oge-'+b.dataset.oge.toLowerCase())));
+  sections.forEach(s=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='sec'; b.innerHTML=s+'<span>›</span>';
+    b.addEventListener('click',()=>openScreen('ОГЭ',s,'oge-'+s.toLowerCase()));
+    $('oge').appendChild(b);
+  });
 
-  document.querySelector('.back').addEventListener('click',closeScreen);
-  document.querySelector('.close').addEventListener('click',closeScreen);
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&screen.classList.contains('open'))closeScreen()});
-
+  function markCurrent(){
+    document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('current',Number(c.dataset.n)===current));
+    $('go').textContent='Continue: Lesson '+current;
+  }
+  function openLesson(n){
+    current=n; try{localStorage.setItem(KEY,n)}catch(e){}
+    markCurrent(); openScreen('','Lesson '+n,'lesson-'+n);
+  }
   function openScreen(type,name,hash){
-    kind.textContent=type; title.textContent=name; bigTitle.textContent=name;
+    $('kind').textContent=type; $('title').textContent=name;
     screen.classList.add('open'); screen.setAttribute('aria-hidden','false');
     history.replaceState(null,'','#'+hash);
   }
@@ -172,12 +162,17 @@ button{font:inherit}
     screen.classList.remove('open'); screen.setAttribute('aria-hidden','true');
     history.replaceState(null,'',location.pathname+location.search);
   }
+
+  $('go').addEventListener('click',()=>openLesson(current));
+  $('back').addEventListener('click',closeScreen);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&screen.classList.contains('open'))closeScreen()});
+  markCurrent();
+
   const h=location.hash.slice(1);
   if(/^lesson-\d+$/.test(h)){
-    const n=Number(h.split('-')[1]); if(n>=1&&n<=20)openScreen('Lesson','Lesson '+n,h);
-  } else if(h.startsWith('oge-')){
-    const map={listening:'Listening',reading:'Reading',grammar:'Grammar',vocabulary:'Vocabulary',writing:'Writing',speaking:'Speaking'};
-    const k=h.slice(4); if(map[k])openScreen('ОГЭ',map[k],h);
+    const n=Number(h.split('-')[1]); if(n>=1&&n<=20)openLesson(n);
+  }else if(h.startsWith('oge-')){
+    const s=sections.find(x=>x.toLowerCase()===h.slice(4)); if(s)openScreen('ОГЭ',s,h);
   }
 })();
 </script>
