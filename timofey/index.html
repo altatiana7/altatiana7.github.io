@@ -19,7 +19,7 @@ button{font:inherit;color:inherit}
 
 .hub{
   height:100vh;display:grid;gap:18px;padding:18px;
-  grid-template-columns:272px minmax(0,1fr) minmax(240px,290px);
+  grid-template-columns:212px minmax(0,1fr) minmax(240px,290px);
 }
 .panel{
   min-height:0;background:var(--card);border:1px solid var(--line);border-radius:10px;
@@ -144,7 +144,7 @@ button{font:inherit;color:inherit}
   modules.forEach((lessons,i)=>{
     const row=document.createElement('div'); row.className='mod';
     const name=document.createElement('span'); name.className='mod-name';
-    name.textContent='Module '+(i+1);
+    name.textContent='M'+(i+1); name.title='Module '+(i+1);
     row.appendChild(name);
     const chips=document.createElement('div'); chips.className='chips'; row.appendChild(chips);
     lessons.forEach(n=>{
