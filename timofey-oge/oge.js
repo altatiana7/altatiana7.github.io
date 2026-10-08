@@ -26,6 +26,15 @@ const PAGES=[
   {id:"lis",grp:"Listening",label:"скоро",soon:"Здесь будет аудирование. Для него нужны аудиозаписи, их ещё нет."},
   {id:"wr",grp:"Writing",label:"скоро",soon:"Здесь будет письмо. Материалов по нему пока нет."}
 ];
+const INSTR={
+  tf:"Прочитай текст. Для каждого утверждения выбери: True (верно), False (неверно) или Not stated (в тексте об этом не сказано).",
+  mt:"К каждому из 6 текстов A–F выбери вопрос 1–7, на который в нём есть ответ. Один вопрос лишний.",
+  gr:"Поставь слово в скобках в нужную грамматическую форму. Пиши в окошко полностью, например: was snowing.",
+  wf:"Образуй от слова справа однокоренное слово, которое подходит по смыслу. Пиши в окошко.",
+  s1:"Прочитай текст про себя 1,5 минуты, потом прочитай вслух. Можно записать себя.",
+  s2:"Слушай вопрос и отвечай вслух за 40 секунд. Текст вопроса и образец ответа открываются на обороте карточки.",
+  s3:"Подготовься 1,5 минуты и расскажи по плану до 2 минут. Образец ответа смотри после своего."
+};
 const ALIAS={reading:"tf",grammar:"gr","word formation":"wf",vocabulary:"wf",speaking:"s2",listening:"lis",writing:"wr"};
 const byId=id=>PAGES.find(p=>p.id===id);
 const rk=(p,it)=>p.id+":"+it.n;
@@ -93,6 +102,12 @@ function open(id,n){
 /* ---------- list ---------- */
 function listPage(p){
   const box=el("div","list");let cards=null,lastTopic=null;
+  const todo=p.data.find(it=>!itemDone(p,it));
+  const intro=el("div","intro");
+  intro.append(el("div","",INSTR[p.id]||""));
+  if(todo){const b=button("Начать: "+String(todo.n).padStart(2,"0")+" · "+todo.title,()=>open(p.id,todo.n),"primary");intro.append(b);}
+  else{intro.append(el("div","verdict ok","✓ Все задания этого раздела сделаны."),button("Скачать результаты для Татьяны →",()=>open("results"),"primary"));}
+  box.append(intro);
   p.data.forEach(it=>{
     if(it.topic!==undefined&&it.topic!==lastTopic){box.append(el("h4","",it.topic));cards=null;lastTopic=it.topic;}
     if(!cards){cards=el("div","cards");box.append(cards);}
@@ -107,7 +122,7 @@ function listPage(p){
   main.append(box);
 }
 function head(p,it,extra){
-  const h=el("div","ihead");
+  const h=el("div","ihead");setTimeout(()=>{const hint=el("div","hint",INSTR[p.id]||"");h.after(hint);},0);
   h.append(button("← Список",()=>open(p.id)),el("span","ttl",String(it.n).padStart(2,"0")+" · "+it.title));
   if(extra)h.append(extra);
   main.append(h);return h;

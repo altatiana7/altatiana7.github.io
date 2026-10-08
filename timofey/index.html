@@ -60,6 +60,8 @@ button{font:inherit;color:inherit}
   font-size:20px;font-weight:800;padding:13px 22px;cursor:pointer
 }
 .go:hover{background:var(--accent-dark)}
+.todo{margin:0;padding-left:22px;font-size:16px;line-height:1.55;color:var(--muted)}
+.todo li::marker{color:var(--accent);font-weight:700}
 
 /* OGE */
 .secs{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;overflow:auto;padding-top:4px}
@@ -115,6 +117,7 @@ button{font:inherit;color:inherit}
 <pre class="code"><span class="k">grade</span> = <span class="n">9</span>
 <span class="k">goal</span>  = <span class="s">"ОГЭ"</span></pre>
         <button class="go" id="go" type="button">Continue: Lesson 1</button>
+        <ol class="todo"><li>Справа выбери раздел ОГЭ</li><li>Сделай задание: ответы проверяются сразу</li><li>В «Результатах» скачай файл и пришли Татьяне</li></ol>
       </div>
     </div>
   </section>
