@@ -6,9 +6,9 @@
 <meta name="robots" content="noindex">
 <title>Timofey — ОГЭ: результаты</title>
 <script>try{if(self!==top)document.documentElement.classList.add("embed")}catch(e){document.documentElement.classList.add("embed")}</script>
-<link rel="stylesheet" href="../timofey-homework/hw.css?v=20261009">
-<link rel="stylesheet" href="../timofey-homework/app.css?v=20261009">
-<link rel="stylesheet" href="./oge.css?v=20261009">
+<link rel="stylesheet" href="../timofey-homework/hw.css?v=20261010">
+<link rel="stylesheet" href="../timofey-homework/app.css?v=20261010">
+<link rel="stylesheet" href="./oge.css?v=20261010">
 <style>
 body{grid-template-rows:52px minmax(0,1fr)}
 .embed body{grid-template-rows:minmax(0,1fr)}
@@ -66,7 +66,7 @@ const $=id=>document.getElementById(id),main=$("main");
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e;}
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let rows=[],filter="all",done={};try{done=JSON.parse(localStorage.getItem(DK)||"{}")}catch(e){}
-const SEC={tf:"Reading · True/False",mt:"Reading · Matching",gr:"Grammar",wf:"Word formation"};
+const SEC={wr:"Writing · Письмо",tf:"Reading · True/False",mt:"Reading · Matching",gr:"Grammar",wf:"Word formation"};
 const secOf=r=>(String(r.test_id).match(/^timofey-oge-(\w+)-/)||[])[1];
 function msg(t,btn,fn){main.replaceChildren();const d=el("div","msg");d.append(el("span","",t));if(btn){const b=el("button","btn primary",btn);b.type="button";b.onclick=fn;d.append(b);}main.append(d);}
 async function load(ask){
@@ -95,6 +95,7 @@ function draw(){
   const secs=el("div","secs"),by={};rows.forEach(r=>{const s=secOf(r);(by[s]=by[s]||[]).push(r);});
   const mk=(id,name,list)=>{const s=list.reduce((n,r)=>n+r.score,0),m=list.reduce((n,r)=>n+r.max_score,0);
     const b=el("button","sec"+(filter===id?" on":""));b.type="button";
+    if(!m){b.className="sec"+(filter===id?" on":"");b.innerHTML='<div class="n"><span>'+esc(name)+'</span><span>'+list.length+'</span></div><small>работ сдано: '+list.length+'</small>';b.onclick=()=>{filter=filter===id?"all":id;draw();};secs.append(b);return;}
     b.innerHTML='<div class="n"><span>'+esc(name)+'</span><span>'+(m?Math.round(s/m*100):0)+'%</span></div><div class="bar"><i class="g" style="width:'+(m?s/m*100:0)+'%"></i><i class="r" style="width:'+(m?(m-s)/m*100:0)+'%"></i></div><small>'+list.length+' зад. · ошибок '+(m-s)+'</small>';
     b.onclick=()=>{filter=filter===id?"all":id;draw();};secs.append(b);};
   Object.keys(by).forEach(s=>mk(s,SEC[s]||s,by[s]));
@@ -104,7 +105,11 @@ function draw(){
   const c1=el("button","chip"+(onlyErr?" on":""),"Только с ошибками");c1.type="button";c1.onclick=()=>{window._onlyErr=!onlyErr;draw();};
   const c2=el("button","chip","Обновить");c2.type="button";c2.onclick=()=>load();
   bar.append(c1,c2);dash.append(bar);
-  rows.filter(r=>filter==="all"||secOf(r)===filter).filter(r=>!onlyErr||r.score<r.max_score).forEach(r=>{
+  rows.filter(r=>filter==="all"||secOf(r)===filter).filter(r=>!onlyErr||r.score<r.max_score||secOf(r)==="wr").forEach(r=>{
+    if(secOf(r)==="wr"){const x=(Array.isArray(r.details)?r.details:[])[0]||{},d=el("details","work"),sm=el("summary"),n=x.words||0;
+      sm.innerHTML="<span>"+esc(r.test_title)+" · "+esc(new Date(r.created_at).toLocaleDateString("ru-RU"))+"</span><span class='pill"+(n>=100&&n<=120?"":" bad")+"'>"+n+" слов</span>";
+      const body=el("div","rows");body.innerHTML="<p style='margin:6px 0'><b>"+esc(x.question||"")+"</b></p><p style='white-space:pre-wrap;margin:6px 0;font-size:16px'>"+esc(x.chosen||"")+"</p><p class='muted'>Отметил ответов на вопросы: "+esc(x.answered)+"/3 · элементы письма: "+esc(x.checks||"")+" · норма 100–120 слов, проверять по критериям К1–К5</p>";
+      d.append(sm,body);dash.append(d);return;}
     const d=el("details","work"),det=Array.isArray(r.details)?r.details:[],bad=r.max_score-r.score;
     const sm=el("summary");sm.innerHTML="<span>"+esc(r.test_title)+"</span><span class='pill"+(bad?" bad":"")+"'>"+r.score+" / "+r.max_score+"</span>";
     const body=el("div","rows");body.innerHTML='<div class="r1 h"><span>Задание</span><span>Ответ Тимофея</span><span>Верно</span><span></span></div>';

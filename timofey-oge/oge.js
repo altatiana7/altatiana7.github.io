@@ -24,7 +24,7 @@ const PAGES=[
   {id:"s2",grp:"Speaking",label:"2 · Интервью",data:OGE.SP2,kind:"s2"},
   {id:"s3",grp:"Speaking",label:"3 · Монолог",data:OGE.SP3,kind:"s3"},
   {id:"lis",grp:"Listening",label:"скоро",soon:"Здесь будет аудирование. Для него нужны аудиозаписи, их ещё нет."},
-  {id:"wr",grp:"Writing",label:"скоро",soon:"Здесь будет письмо. Материалов по нему пока нет."}
+  {id:"wr",grp:"Writing",label:"Личное письмо (38)",data:OGE.WR,kind:"wr"}
 ];
 const INSTR={
   tf:"Прочитай текст. Для каждого утверждения выбери: True (верно), False (неверно) или Not stated (в тексте об этом не сказано).",
@@ -33,6 +33,7 @@ const INSTR={
   wf:"Образуй от слова справа однокоренное слово, которое подходит по смыслу. Пиши в окошко.",
   s1:"Прочитай текст про себя 1,5 минуты, потом прочитай вслух. Можно записать себя.",
   s2:"Слушай вопрос и отвечай вслух за 40 секунд. Текст вопроса и образец ответа открываются на обороте карточки.",
+  wr:"Прочитай письмо друга и напиши ответ: 100–120 слов, ответь на все 3 вопроса. Шаблон письма справа. Письмо можно отправить Татьяне.",
   s3:"Подготовься 1,5 минуты и расскажи по плану до 2 минут. Образец ответа смотри после своего."
 };
 const ALIAS={reading:"tf",grammar:"gr","word formation":"wf",vocabulary:"wf",speaking:"s2",listening:"lis",writing:"wr"};
@@ -134,7 +135,7 @@ function open(id,n){
   if(p.soon){main.append(el("div","box",p.soon));prog();return;}
   if(n==null)listPage(p);else{
     const it=p.data.find(x=>x.n===n);
-    if(p.kind==="s1")s1Page(p,it);else if(p.kind==="s2")s2Page(p,it);else if(p.kind==="s3")s3Page(p,it);else stepperPage(p,it);
+    if(p.kind==="s1")s1Page(p,it);else if(p.kind==="s2")s2Page(p,it);else if(p.kind==="s3")s3Page(p,it);else if(p.kind==="wr")wrPage(p,it);else stepperPage(p,it);
   }
   prog();
 }
@@ -162,7 +163,7 @@ function listPage(p){
   main.append(box);
 }
 function head(p,it,extra){
-  const h=el("div","ihead");setTimeout(()=>{const hint=el("div","hint",INSTR[p.id]||"");h.after(hint);},0);
+  const h=el("div","ihead");if(p.id!=="wr")setTimeout(()=>{const hint=el("div","hint",INSTR[p.id]||"");h.after(hint);},0);
   h.append(button("← Список",()=>open(p.id)),el("span","ttl",String(it.n).padStart(2,"0")+" · "+it.title));
   if(extra)h.append(extra);
   main.append(h);return h;
@@ -344,6 +345,66 @@ function s1Page(p,it){
   right.append(d);split.append(left,right);main.append(split);
 }
 /* ---------- speaking 3: monologue ---------- */
+/* ---------- writing: personal letter ---------- */
+function wordCount(t){return (t.match(/\S+/g)||[]).filter(w=>/[A-Za-z0-9А-Яа-я]/.test(w)).length;}
+function wrChecks(t){
+  const lines=t.split("\n").map(x=>x.trim()).filter(Boolean),low=t.toLowerCase();
+  const last=lines[lines.length-1]||"";
+  return [
+    ["Обращение",/^(hello|hi|dear)\b/i.test(lines[0]||"")],
+    ["Благодарность",/thanks?|thank you|glad to (hear|get)|nice to (hear|get)/.test(low)],
+    ["Жду ответа",/write back|looking forward|hope to hear|waiting for your|hear from you/.test(low)],
+    ["Прощание",/(best wishes|with love|all the best|yours|love,|take care)/i.test(t)],
+    ["Подпись",lines.length>=2&&last.split(" ").length<=2&&!/[.?!,]$/.test(last)||/^[A-Z][a-z]+$/.test(last)],
+    ["Абзацы",lines.length>=4]
+  ];
+}
+function wrPage(p,it){
+  const r=rec(p,it);r.text=r.text||"";r.q=r.q||[false,false,false];
+  head(p,it);
+  const split=el("div","split"),left=el("div","col"),right=el("div","col");
+  const card=el("div","source scroll wrcard");card.style.flex="3";card.lang="en";
+  card.append(el("b","","You have received a letter from your English-speaking pen friend, "+it.friend+"."),el("p","",it.letter));
+  const ul=el("ol","bul");ul.style.fontSize="16px";it.qs.forEach(q=>ul.append(el("li","",q)));card.append(ul);
+  card.append(el("p","muted","Write him/her a letter and answer his/her 3 questions. Write 100–120 words. Remember the rules of letter writing."));
+  const tpl=el("div","sample");tpl.lang="en";
+  tpl.textContent="Hello "+it.friend+",\nThanks for your email. I'm glad to hear from you again.\nIn your letter you asked me about… Well, (ответы на 3 вопроса, по 2–3 предложения)\nThat's all for now. Write back soon.\nBest wishes,\n(Name)";
+  tpl.style.flex="1";tpl.style.minHeight="0";tpl.style.overflow="auto";tpl.style.fontSize="14px";
+  const tb=el("b","","Шаблон ОГЭ");
+  left.append(card,tb,tpl);
+  const ta=el("textarea","wrta");ta.lang="en";ta.spellcheck=false;ta.placeholder="Hello "+it.friend+",\n…";ta.value=r.text;
+  const cnt=el("div","cnt"),chk=el("div","chk");
+  const qrow=el("div","qrow");
+  it.qs.forEach((q,i)=>{const l=el("label");const c=el("input");c.type="checkbox";c.checked=!!r.q[i];c.onchange=()=>{r.q[i]=c.checked;save();};l.append(c,document.createTextNode(" Вопрос "+(i+1)+" ✓"));qrow.append(l);});
+  function paint(){
+    const n=wordCount(ta.value);
+    cnt.textContent=n+" слов (нужно 100–120)";
+    cnt.className="cnt "+(n>=100&&n<=120?"ok":n>=90&&n<=132?"mid":"no");
+    chk.replaceChildren(...wrChecks(ta.value).map(([t,ok])=>el("div","c"+(ok?" ok":""),(ok?"✓ ":"○ ")+t)));
+  }
+  ta.oninput=()=>{r.text=ta.value;paint();clearTimeout(wrPage.t);wrPage.t=setTimeout(save,500);};
+  const send=button(r.sent?"Отправлено ✓":"Отправить Татьяне",async()=>{
+    const n=wordCount(ta.value);
+    if(n<30){toast("Сначала напиши письмо.");return;}
+    send.disabled=true;
+    try{await sendLetter(p,it);send.textContent="Отправлено ✓";toast("Письмо отправлено Татьяне.");}
+    catch(e){toast("Не получилось отправить. Проверь интернет и нажми ещё раз.");}
+    send.disabled=false;
+  },"primary");
+  const tm=el("span","wtm","30:00"),tb2=button("Старт 30 мин",()=>{clearInterval(tick);let left=1800;tb2.disabled=true;tick=setInterval(()=>{left--;tm.textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0");if(left<=0){clearInterval(tick);tick=null;tb2.disabled=false;toast("Время вышло.");}},1000);});
+  const top=el("div","row");top.append(cnt,tm,tb2);cnt.style.flex="1";
+  const bot=el("div","row");bot.append(qrow,send);qrow.style.flex="1";
+  right.append(top,ta,chk,bot);
+  split.append(left,right);main.append(split);paint();
+}
+async function sendLetter(p,it){
+  const r=rec(p,it),text=r.text||"",n=wordCount(text);
+  const det=[{kind:"letter",question:"Личное письмо · "+it.friend+": "+it.qs.join(" "),chosen:text,correct:"",is_correct:true,words:n,answered:(r.q||[]).filter(Boolean).length,checks:wrChecks(text).filter(x=>x[1]).length+"/6"}];
+  const res=await fetch(DB_URL+"/rest/v1/rpc/submit_arina_homework",{method:"POST",headers:{apikey:DB_KEY,Authorization:"Bearer "+DB_KEY,"Content-Type":"application/json"},
+    body:JSON.stringify({p_test_id:"timofey-oge-wr-"+it.n,p_test_title:"Тимофей · ОГЭ · Writing · Личное письмо · "+String(it.n).padStart(2,"0"),p_score:0,p_max_score:0,p_answers:{student:"Тимофей"},p_details:det})});
+  if(!res.ok)throw Error("send");
+  r.done=true;r.sent=true;save();
+}
 function s3Page(p,it){
   head(p,it);
   const split=el("div","split"),left=el("div","col"),right=el("div","col");
