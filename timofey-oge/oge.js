@@ -59,9 +59,49 @@ function itemDone(p,it){
 function itemScore(p,it){const r=S.res[rk(p,it)];if(!r)return 0;let n=0;for(let i=0;i<size(p,it);i++)if(okAt(p,it,i,r.a[i]))n++;return n;}
 function save(){
   try{localStorage.setItem(KEY,JSON.stringify(S));storageOK=true;}catch(e){storageOK=false;}
-  $("saveStatus").textContent=storageOK?"Прогресс сохраняется на этом устройстве":"Сохранение недоступно: скачай файл результатов";
   prog();
+  sendDone();
 }
+/* ---------- автоотправка учителю (та же база, что у сайта Арины) ---------- */
+const DB_URL="https://lzxcmrlubhjfdhtqvqzt.supabase.co",DB_KEY="sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI";
+function detailsOf(p,it){
+  const r=S.res[rk(p,it)]||{a:[]};
+  return Array.from({length:size(p,it)},(_,i)=>{
+    const v=r.a[i];
+    if(p.kind==="tf")return {question:(13+i)+". "+it.stmts[i],chosen:v?TFN[v-1]:"",correct:TFN[it.key[i]-1],is_correct:v===it.key[i]};
+    if(p.kind==="mt")return {question:"Text "+"ABCDEF"[i],chosen:v==null?"":String(v),correct:String(it.key[i]),is_correct:v===it.key[i]};
+    return {question:(i+1)+". ["+it.items[i].w+"]",chosen:v||"",correct:it.items[i].d,is_correct:okAt(p,it,i,v)};
+  });
+}
+function sendOne(p,it){
+  const det=detailsOf(p,it),score=det.filter(d=>d.is_correct).length;
+  const sig=score+"|"+det.map(d=>d.chosen).join("~");
+  return fetch(DB_URL+"/rest/v1/rpc/submit_arina_homework",{method:"POST",
+    headers:{apikey:DB_KEY,Authorization:"Bearer "+DB_KEY,"Content-Type":"application/json"},
+    body:JSON.stringify({p_test_id:"timofey-oge-"+p.id+"-"+it.n,p_test_title:"Тимофей · ОГЭ · "+p.grp+" · "+p.label+" · "+String(it.n).padStart(2,"0"),
+      p_score:score,p_max_score:det.length,p_answers:{student:"Тимофей"},p_details:det})
+  }).then(r=>{if(!r.ok)throw Error("send");S.sent=S.sent||{};S.sent[rk(p,it)]=sig;try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}return true;});
+}
+let sending=false;
+async function sendDone(manual){
+  if(sending)return;sending=true;let ok=0,fail=0;
+  try{
+    for(const p of PAGES){if(!p.data||!isStepper(p))continue;
+      for(const it of p.data){
+        if(!itemDone(p,it))continue;
+        const det=detailsOf(p,it),sig=det.filter(d=>d.is_correct).length+"|"+det.map(d=>d.chosen).join("~");
+        if((S.sent||{})[rk(p,it)]===sig)continue;
+        try{await sendOne(p,it);ok++;}catch(e){fail++;}
+      }}
+  }finally{sending=false;}
+  const st=$("saveStatus");
+  if(fail)st.textContent="Не удалось отправить Татьяне — повторится позже";
+  else if(ok||manual)st.textContent="Результаты отправлены Татьяне ✓";
+  else st.textContent="Результаты уходят Татьяне автоматически";
+  if(manual)toast(fail?"Не получилось отправить. Проверь интернет и нажми ещё раз.":"Отправлено Татьяне.");
+}
+window.addEventListener("online",()=>sendDone());
+window.addEventListener("load",()=>setTimeout(()=>sendDone(),1500));
 function prog(){
   let d=0;PAGES.forEach(p=>{if(p.data)d+=p.data.filter(it=>itemDone(p,it)).length;});
   $("progress").textContent=d+" выполнено";
@@ -394,8 +434,8 @@ function resultsPage(){
   summary().forEach(s=>{const tr=el("tr");tr.append(el("td","",s.name),el("td","",s.done+" из "+s.total),el("td","",s.max?s.points+" / "+s.max:"—"));t.append(tr);});
   const wrap=el("div","scroll");wrap.style.flex="1";wrap.append(t);
   const row=el("div","row");
-  row.append(button("Скачать результаты для Татьяны",exportResults,"primary"),button("Сбросить прогресс",resetAll));
-  main.append(wrap,row,el("p","muted","Сайт ничего не отправляет сам: скачай файл и пришли его Татьяне вместе с аудиозаписями."));
+  row.append(button("Отправить Татьяне сейчас",()=>sendDone(true),"primary"),button("Скачать файл",exportResults),button("Сбросить прогресс",resetAll));
+  main.append(wrap,row,el("p","muted","Каждое выполненное задание уходит Татьяне само. Аудиозаписи присылай отдельно."));
 }
 function exportResults(){
   const snap={app:"timofey-oge",schema:2,student:"Тимофей",exportedAt:new Date().toISOString(),summary:summary(),details:S.res,audioFiles:S.audio||[]};
@@ -405,7 +445,7 @@ function exportResults(){
 }
 function resetAll(){
   const d=el("dialog"),f=el("div","foot");
-  f.append(button("Отмена",()=>{d.close();d.remove();}),button("Сбросить",()=>{S={res:{},audio:[]};save();d.close();d.remove();open("results");},"primary"));
+  f.append(button("Отмена",()=>{d.close();d.remove();}),button("Сбросить",()=>{S={res:{},audio:[],sent:{}};save();d.close();d.remove();open("results");},"primary"));
   d.append(el("h2","","Сбросить прогресс?"),el("p","","Все результаты на этом устройстве будут удалены."),f);
   document.body.append(d);d.showModal();
 }

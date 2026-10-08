@@ -6,24 +6,52 @@
 <meta name="robots" content="noindex">
 <title>Timofey — ОГЭ: результаты</title>
 <script>try{if(self!==top)document.documentElement.classList.add("embed")}catch(e){document.documentElement.classList.add("embed")}</script>
-<link rel="stylesheet" href="../timofey-homework/hw.css?v=20261008">
-<link rel="stylesheet" href="../timofey-homework/app.css?v=20261008">
-<link rel="stylesheet" href="./oge.css?v=20261008">
+<link rel="stylesheet" href="../timofey-homework/hw.css?v=20261009">
+<link rel="stylesheet" href="../timofey-homework/app.css?v=20261009">
+<link rel="stylesheet" href="./oge.css?v=20261009">
 <style>
 body{grid-template-rows:52px minmax(0,1fr)}
 .embed body{grid-template-rows:minmax(0,1fr)}
 .shell{grid-template-columns:minmax(0,1fr)}
-.errs{display:flex;flex-direction:column;gap:6px;font-size:16px}
-.errs .it{border-top:1px solid var(--line);padding:6px 0}
-.errs .it b{color:var(--accent)}
-.errs .w{color:var(--bad)}
+.dash{display:flex;flex-direction:column;gap:12px;padding-bottom:8px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;position:relative;overflow:hidden}
+.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent)}
+.kpi.bad:before{background:var(--bad)}
+.kpi small{display:block;color:var(--muted);font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.kpi b{font-size:30px;line-height:1.1;color:var(--accent-dark)}
+.kpi.bad b{color:var(--bad)}
+.secs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.sec{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;text-align:left;font:inherit;transition:.15s}
+.sec:hover,.sec.on{border-color:var(--accent);box-shadow:0 2px 10px rgba(60,100,90,.15);transform:translateY(-1px)}
+.sec .n{font-weight:700;font-size:16px;display:flex;justify-content:space-between}
+.bar{height:8px;border-radius:4px;background:#e3ebe8;margin-top:8px;overflow:hidden;display:flex}
+.bar i{display:block;height:100%;transition:width .6s}
+.bar .g{background:var(--accent)}.bar .r{background:var(--bad)}
+.sec small{color:var(--muted);font-size:13px}
+.bar2{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--card2);border-radius:999px;padding:4px 12px;font:inherit;font-size:15px;cursor:pointer}
+.chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.work{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.work summary{cursor:pointer;padding:9px 12px;display:flex;gap:10px;align-items:center;font-weight:700;font-size:16px}
+.work summary span:first-child{flex:1;min-width:0}
+.pill{border-radius:999px;padding:2px 10px;font-size:14px;font-weight:700;background:var(--okbg);color:var(--accent-dark)}
+.pill.bad{background:var(--badbg);color:var(--bad)}
+.work .rows{padding:0 12px 10px;font-size:15px}
+.work .r1{border-top:1px solid var(--line);padding:5px 0;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) minmax(0,1fr) 28px;gap:8px;align-items:center}
+.work .r1.h{color:var(--muted);font-size:13px;text-transform:uppercase}
+.w{color:var(--bad);font-weight:700}.o{color:var(--accent-dark);font-weight:700}
+.done{opacity:.45;text-decoration:line-through}
+.mini{border:1px solid var(--line);background:#fff;border-radius:4px;cursor:pointer;font-size:14px}
+.msg{padding:14px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+@media(max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
 <header class="top">
   <a class="btn" href="../timofey/" id="hubLink">← Hub</a>
   <div class="grow"><b>&gt;</b> oge / results</div>
-  <div class="note" id="who">Файл результатов не открыт</div>
+  <div class="note" id="who"></div>
 </header>
 <div class="shell">
   <main class="panel">
@@ -31,47 +59,64 @@ body{grid-template-rows:52px minmax(0,1fr)}
     <div class="body" id="main"></div>
   </main>
 </div>
-<input type="file" id="fileInput" class="hidden" accept=".json,application/json">
-<script src="./oge-data.js?v=20261008"></script>
 <script>
 "use strict";
+const DB_URL="https://lzxcmrlubhjfdhtqvqzt.supabase.co",DB_KEY="sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI",CK="arina-teacher-code",DK="timofey-oge-errdone";
 const $=id=>document.getElementById(id),main=$("main");
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e;}
-const TFN=["True","False","Not stated"];
-const SRC={tf:OGE.TF,mt:OGE.MATCH,gr:OGE.GR,wf:OGE.WF,s1:OGE.SP1,s2:OGE.SP2,s3:OGE.SP3};
-const nz=s=>String(s).toLowerCase().replace(/[’`]/g,"'").replace(/\bcan't\b/g,"cannot").replace(/\bwon't\b/g,"will not")
-  .replace(/n't\b/g," not").replace(/'m\b/g," am").replace(/'re\b/g," are").replace(/'ve\b/g," have").replace(/'ll\b/g," will").replace(/[^a-z]/g,"");
-function render(j){
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let rows=[],filter="all",done={};try{done=JSON.parse(localStorage.getItem(DK)||"{}")}catch(e){}
+const SEC={tf:"Reading · True/False",mt:"Reading · Matching",gr:"Grammar",wf:"Word formation"};
+const secOf=r=>(String(r.test_id).match(/^timofey-oge-(\w+)-/)||[])[1];
+function msg(t,btn,fn){main.replaceChildren();const d=el("div","msg");d.append(el("span","",t));if(btn){const b=el("button","btn primary",btn);b.type="button";b.onclick=fn;d.append(b);}main.append(d);}
+async function load(ask){
+  let code="";try{code=localStorage.getItem(CK)||""}catch(e){}
+  if(!code&&ask){code=prompt("Код доступа к результатам (тот же, что на сайте Арины):")||"";if(code)try{localStorage.setItem(CK,code)}catch(e){}}
+  if(!code)return msg("Введите код доступа, и результаты Тимофея появятся здесь.","Ввести код",()=>load(true));
+  $("who").textContent="Загрузка…";
+  try{
+    const r=await fetch(DB_URL+"/rest/v1/rpc/get_arina_homework",{method:"POST",headers:{apikey:DB_KEY,Authorization:"Bearer "+DB_KEY,"Content-Type":"application/json"},body:JSON.stringify({p_teacher_code:code})});
+    if(!r.ok){if([400,401,403].includes(r.status)){try{localStorage.removeItem(CK)}catch(e){}return msg("Неверный код доступа.","Ввести ещё раз",()=>load(true));}throw Error("load");}
+    const all=await r.json();
+    const latest={};all.filter(x=>String(x.test_id).startsWith("timofey-oge-")).forEach(x=>{const o=latest[x.test_id];if(!o||new Date(x.created_at)>new Date(o.created_at))latest[x.test_id]=x;});
+    rows=Object.values(latest).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+    $("who").textContent="Обновлено "+new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
+    draw();
+  }catch(e){msg("Не удалось загрузить. Проверьте интернет.","Повторить",()=>load());$("who").textContent="Нет связи";}
+}
+function draw(){
   main.replaceChildren();
-  $("who").textContent=(j.student||"")+" · "+new Date(j.exportedAt).toLocaleString("ru-RU");
-  const sc=el("div","scroll");sc.style.flex="1";
-  const t=el("table","res");t.innerHTML="<tr><th>Раздел</th><th>Выполнено</th><th>Баллы</th></tr>";
-  j.summary.forEach(s=>{const tr=el("tr");tr.append(el("td","",s.name),el("td","",s.done+" из "+s.total),el("td","",s.max?s.points+" / "+s.max:"—"));t.append(tr);});
-  sc.append(t);
-  const errs=el("div","errs");errs.append(el("h4","","Ошибки"));
-  let count=0;
-  Object.entries(j.details||{}).forEach(([k,r])=>{
-    const [pid,n]=k.split(":");const list=SRC[pid];if(!list||!Array.isArray(r.a))return;
-    const it=list.find(x=>x.n===Number(n));if(!it)return;
-    const bad=[];
-    if(pid==="tf")r.a.forEach((v,i)=>{if(v!=null&&v!==it.key[i])bad.push((13+i)+". "+it.stmts[i]+" — ответил: "+TFN[v-1]+", правильно: "+TFN[it.key[i]-1]);});
-    else if(pid==="mt")r.a.forEach((v,i)=>{if(v!=null&&v!==it.key[i])bad.push("Text "+"ABCDEF"[i]+" — ответил: "+v+", правильно: "+it.key[i]);});
-    else if(pid==="gr"||pid==="wf")r.a.forEach((v,i)=>{if(v!=null&&v!==""&&!it.items[i].k.some(x=>nz(x)===nz(v)))bad.push((i+1)+". ["+it.items[i].w+"] ответил: "+v+", правильно: "+it.items[i].d);});
-    if(bad.length){count++;const d=el("div","it");d.append(el("b","",pid.toUpperCase()+" "+String(it.n).padStart(2,"0")+" · "+it.title));bad.forEach(b=>d.append(el("div","w",b)));errs.append(d);}
+  if(!rows.length)return msg("Тимофей пока ничего не отправил. Как только он выполнит задание, оно появится здесь.","Обновить",()=>load());
+  const sc=el("div","scroll");sc.style.flex="1";const dash=el("div","dash");
+  let S=0,M=0,E=0;rows.forEach(r=>{S+=r.score;M+=r.max_score;E+=r.max_score-r.score;});
+  const k=el("div","kpis");
+  [["Заданий сдано",rows.length,""],["Верно",M?Math.round(S/M*100)+"%":"—",""],["Ошибок",E,"bad"],["Последняя сдача",new Date(rows[0].created_at).toLocaleDateString("ru-RU"),""]].forEach(([a,b,c])=>{const d=el("div","kpi "+c);d.innerHTML="<small>"+a+"</small><b>"+esc(b)+"</b>";k.append(d);});
+  dash.append(k);
+  const secs=el("div","secs"),by={};rows.forEach(r=>{const s=secOf(r);(by[s]=by[s]||[]).push(r);});
+  const mk=(id,name,list)=>{const s=list.reduce((n,r)=>n+r.score,0),m=list.reduce((n,r)=>n+r.max_score,0);
+    const b=el("button","sec"+(filter===id?" on":""));b.type="button";
+    b.innerHTML='<div class="n"><span>'+esc(name)+'</span><span>'+(m?Math.round(s/m*100):0)+'%</span></div><div class="bar"><i class="g" style="width:'+(m?s/m*100:0)+'%"></i><i class="r" style="width:'+(m?(m-s)/m*100:0)+'%"></i></div><small>'+list.length+' зад. · ошибок '+(m-s)+'</small>';
+    b.onclick=()=>{filter=filter===id?"all":id;draw();};secs.append(b);};
+  Object.keys(by).forEach(s=>mk(s,SEC[s]||s,by[s]));
+  dash.append(secs);
+  const bar=el("div","bar2");
+  const onlyErr=window._onlyErr!==false;
+  const c1=el("button","chip"+(onlyErr?" on":""),"Только с ошибками");c1.type="button";c1.onclick=()=>{window._onlyErr=!onlyErr;draw();};
+  const c2=el("button","chip","Обновить");c2.type="button";c2.onclick=()=>load();
+  bar.append(c1,c2);dash.append(bar);
+  rows.filter(r=>filter==="all"||secOf(r)===filter).filter(r=>!onlyErr||r.score<r.max_score).forEach(r=>{
+    const d=el("details","work"),det=Array.isArray(r.details)?r.details:[],bad=r.max_score-r.score;
+    const sm=el("summary");sm.innerHTML="<span>"+esc(r.test_title)+"</span><span class='pill"+(bad?" bad":"")+"'>"+r.score+" / "+r.max_score+"</span>";
+    const body=el("div","rows");body.innerHTML='<div class="r1 h"><span>Задание</span><span>Ответ Тимофея</span><span>Верно</span><span></span></div>';
+    det.forEach((x,i)=>{if(onlyErr&&x.is_correct)return;const key=r.test_id+"|"+i+"|"+x.chosen,row=el("div","r1"+(done[key]?" done":""));
+      row.innerHTML="<span>"+esc(x.question)+"</span><span class='"+(x.is_correct?"o":"w")+"'>"+esc(x.chosen||"—")+"</span><span class='o'>"+esc(x.correct)+"</span>";
+      if(!x.is_correct){const b=el("button","mini","✓");b.type="button";b.title="Отработано";b.onclick=()=>{done[key]=!done[key];try{localStorage.setItem(DK,JSON.stringify(done))}catch(e){}draw();};row.append(b);}else row.append(el("span"));
+      body.append(row);});
+    d.append(sm,body);dash.append(d);
   });
-  if(!count)errs.append(el("div","","Ошибок нет."));
-  sc.append(errs);
-  if((j.audioFiles||[]).length){const d=el("div","errs");d.append(el("h4","","Аудиозаписи (Тимофей присылает отдельно)"),el("div","",j.audioFiles.join(", ")));sc.append(d);}
-  main.append(sc,pickRow());
+  sc.append(dash);main.append(sc);
 }
-function pickRow(){
-  const row=el("div","row");const b=el("button","btn primary","Открыть другой файл");b.type="button";b.onclick=pick;row.append(b);return row;
-}
-function pick(){const i=$("fileInput");i.value="";i.onchange=async()=>{
-  try{const f=i.files[0];if(!f)return;if(f.size>3000000)throw Error("Файл слишком большой.");
-    const j=JSON.parse(await f.text());if(j.app!=="timofey-oge"||!Array.isArray(j.summary))throw Error("Это не файл результатов ОГЭ.");render(j);
-  }catch(e){alert(e instanceof SyntaxError?"Файл повреждён или это не .json.":e.message);}};i.click();}
-{const b=el("button","btn primary","Открыть файл результатов");b.type="button";b.onclick=pick;main.append(b,el("p","muted","Тимофей скачивает файл на странице «Результаты» и присылает вам."));}
+load();
 </script>
 </body>
 </html>
