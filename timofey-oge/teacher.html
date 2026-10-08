@@ -44,6 +44,32 @@ body{grid-template-rows:52px minmax(0,1fr)}
 .done{opacity:.45;text-decoration:line-through}
 .mini{border:1px solid var(--line);background:#fff;border-radius:4px;cursor:pointer;font-size:14px}
 .msg{padding:14px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+.hero{display:grid;grid-template-columns:170px minmax(0,1fr);gap:14px;align-items:center;background:linear-gradient(135deg,#f4f8f6,#e6eff0);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+.donut{width:150px;height:150px;position:relative}
+.donut svg{width:100%;height:100%;transform:rotate(-90deg)}
+.donut circle{fill:none;stroke-width:14}
+.donut .t{stroke:#d5e1dd}.donut .v{stroke:var(--accent);stroke-linecap:round;transition:stroke-dasharray 1s cubic-bezier(.2,.8,.2,1)}
+.donut .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.donut .c b{font-size:32px;color:var(--accent-dark);line-height:1}.donut .c small{color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.hero .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
+.act{display:flex;align-items:flex-end;gap:4px;height:46px;margin-top:10px}
+.act i{flex:1;background:var(--accent);opacity:.75;border-radius:3px 3px 0 0;min-height:3px;transition:height .6s}
+.act i.z{background:#cfdcd8;opacity:1}
+.act-l{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}
+.ring{width:54px;height:54px;flex:0 0 54px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:6}.ring .t{stroke:#e0e9e6}.ring .v{stroke-linecap:round;transition:stroke-dasharray .9s}
+.ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px}
+.sec{display:flex;gap:12px;align-items:center}
+.sec .tx{flex:1;min-width:0}
+.top5{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.top5 h4{margin:0 0 6px;font-size:14px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-weight:400}
+.top5 .t5{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:8px;padding:4px 0;border-top:1px solid var(--line);font-size:15px;align-items:center}
+.top5 .t5 em{font-style:normal;background:var(--badbg);color:var(--bad);border-radius:999px;padding:0 9px;font-weight:700}
+.work{transition:box-shadow .15s}.work:hover{box-shadow:0 2px 10px rgba(60,100,90,.15)}
+.fade{animation:fd .4s both}@keyframes fd{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+@media(max-width:700px){.hero{grid-template-columns:1fr;justify-items:center}.hero .kpis{grid-template-columns:repeat(2,1fr);width:100%}}
 @media(max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
@@ -89,14 +115,25 @@ function draw(){
   if(!rows.length)return msg("Тимофей пока ничего не отправил. Как только он выполнит задание, оно появится здесь.","Обновить",()=>load());
   const sc=el("div","scroll");sc.style.flex="1";const dash=el("div","dash");
   let S=0,M=0,E=0;rows.forEach(r=>{S+=r.score;M+=r.max_score;E+=r.max_score-r.score;});
-  const k=el("div","kpis");
-  [["Заданий сдано",rows.length,""],["Верно",M?Math.round(S/M*100)+"%":"—",""],["Ошибок",E,"bad"],["Последняя сдача",new Date(rows[0].created_at).toLocaleDateString("ru-RU"),""]].forEach(([a,b,c])=>{const d=el("div","kpi "+c);d.innerHTML="<small>"+a+"</small><b>"+esc(b)+"</b>";k.append(d);});
-  dash.append(k);
-  const secs=el("div","secs"),by={};rows.forEach(r=>{const s=secOf(r);(by[s]=by[s]||[]).push(r);});
+  const pc=M?S/M:0,hero=el("div","hero fade");
+  const dn=el("div","donut");dn.innerHTML='<svg viewBox="0 0 100 100"><circle class="t" cx="50" cy="50" r="42"/><circle class="v" cx="50" cy="50" r="42" stroke-dasharray="0 264"/></svg><div class="c"><b>'+(M?Math.round(pc*100)+"%":"—")+'</b><small>верно</small></div>';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{const v=dn.querySelector(".v");if(v)v.setAttribute("stroke-dasharray",(pc*264)+" 264");}));
+  const right=el("div"),k=el("div","kpis");
+  [["Заданий сдано",rows.length,""],["Ошибок",E,"bad"],["Последняя сдача",new Date(rows[0].created_at).toLocaleDateString("ru-RU"),""]].forEach(([a,b,c])=>{const d=el("div","kpi "+c);d.innerHTML="<small>"+a+"</small><b>"+esc(b)+"</b>";k.append(d);});
+  const days=[];for(let i=13;i>=0;i--){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-i);days.push(d);}
+  const cnt=days.map(d=>rows.filter(r=>{const x=new Date(r.created_at);x.setHours(0,0,0,0);return +x===+d}).length),mx=Math.max(1,...cnt);
+  const act=el("div","act");cnt.forEach((n,i)=>{const b=el("i",n?"":"z");b.style.height=(n?8+n/mx*38:3)+"px";b.title=days[i].toLocaleDateString("ru-RU")+": "+n;act.append(b);});
+  const al=el("div","act-l");al.innerHTML="<span>14 дней назад</span><span>сегодня</span>";
+  right.append(k,act,al);hero.append(dn,right);dash.append(hero);
+  const freq={};rows.forEach(r=>(Array.isArray(r.details)?r.details:[]).forEach(x=>{if(x.is_correct===false&&x.question){const q=x.question.replace(/^\d+\.\s*/,"");const o=freq[q]||(freq[q]={n:0,c:x.correct});o.n++;}}));
+  const t5=Object.entries(freq).sort((a,b)=>b[1].n-a[1].n).slice(0,5);
+  if(t5.length){const tp=el("div","top5 fade");tp.innerHTML="<h4>Слабые места</h4>"+t5.map(([q,o],i)=>'<div class="t5"><b>'+(i+1)+'</b><span>'+esc(q)+' → <span class="o">'+esc(o.c)+'</span></span><em>'+o.n+'×</em></div>').join("");dash.append(tp);}
+  const secs=el("div","secs fade"),by={};rows.forEach(r=>{const s=secOf(r);(by[s]=by[s]||[]).push(r);});
   const mk=(id,name,list)=>{const s=list.reduce((n,r)=>n+r.score,0),m=list.reduce((n,r)=>n+r.max_score,0);
     const b=el("button","sec"+(filter===id?" on":""));b.type="button";
-    if(!m){b.className="sec"+(filter===id?" on":"");b.innerHTML='<div class="n"><span>'+esc(name)+'</span><span>'+list.length+'</span></div><small>работ сдано: '+list.length+'</small>';b.onclick=()=>{filter=filter===id?"all":id;draw();};secs.append(b);return;}
-    b.innerHTML='<div class="n"><span>'+esc(name)+'</span><span>'+(m?Math.round(s/m*100):0)+'%</span></div><div class="bar"><i class="g" style="width:'+(m?s/m*100:0)+'%"></i><i class="r" style="width:'+(m?(m-s)/m*100:0)+'%"></i></div><small>'+list.length+' зад. · ошибок '+(m-s)+'</small>';
+    if(!m){b.className="sec"+(filter===id?" on":"");b.innerHTML='<div class="ring"><svg viewBox="0 0 40 40"><circle class="t" cx="20" cy="20" r="16"/></svg><b>'+list.length+'</b></div><div class="tx"><div class="n"><span>'+esc(name)+'</span></div><small>писем: '+list.length+' · проверить самой</small></div>';b.onclick=()=>{filter=filter===id?"all":id;draw();};secs.append(b);return;}
+    const q=m?s/m:0,col=q>=.8?"var(--accent)":q>=.5?"#c9a227":"var(--bad)";
+    b.innerHTML='<div class="ring"><svg viewBox="0 0 40 40"><circle class="t" cx="20" cy="20" r="16"/><circle class="v" cx="20" cy="20" r="16" stroke="'+col+'" stroke-dasharray="'+(q*100.5)+' 100.5"/></svg><b>'+Math.round(q*100)+'%</b></div><div class="tx"><div class="n"><span>'+esc(name)+'</span></div><small>'+list.length+' зад. · ошибок '+(m-s)+'</small></div>';
     b.onclick=()=>{filter=filter===id?"all":id;draw();};secs.append(b);};
   Object.keys(by).forEach(s=>mk(s,SEC[s]||s,by[s]));
   dash.append(secs);
@@ -121,7 +158,15 @@ function draw(){
   });
   sc.append(dash);main.append(sc);
 }
-load();
+if(/[?&]demo/.test(location.search)){
+  const t=n=>new Date(Date.now()-n*864e5).toISOString(),T=["True","False","Not stated"];
+  const mkd=(q,ch,co)=>({question:q,chosen:ch,correct:co,is_correct:ch===co});
+  rows=[{test_id:"timofey-oge-gr-1",test_title:"Тимофей · ОГЭ · Grammar · Задания 20–28 · 01",score:7,max_score:9,created_at:t(0),details:[mkd("1. [be]","was","was"),mkd("2. [snow]","snowed","was snowing"),mkd("3. [do]","did","did"),mkd("4. [good]","gooder","better")]},
+  {test_id:"timofey-oge-wf-2",test_title:"Тимофей · ОГЭ · Word formation · 02",score:4,max_score:6,created_at:t(1),details:[mkd("1. [happy]","unhappy","unhappiness"),mkd("2. [use]","useful","useful")]},
+  {test_id:"timofey-oge-tf-1",test_title:"Тимофей · ОГЭ · Reading · True/False · 01",score:5,max_score:7,created_at:t(3),details:[mkd("13. Sam likes games",T[0],T[1]),mkd("14. He lives in Rome",T[2],T[2])]},
+  {test_id:"timofey-oge-wr-1",test_title:"Тимофей · ОГЭ · Writing · Личное письмо · 01",score:0,max_score:0,created_at:t(5),details:[{question:"Личное письмо · Ben",chosen:"Hi Ben, thanks for your letter...",words:104,answered:3,checks:"5/6"}]}];
+  $("who").textContent="демо-данные";draw();
+}else load();
 </script>
 </body>
 </html>
