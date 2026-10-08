@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Timofey — ОГЭ: результаты</title>
+<script>try{if(self!==top)document.documentElement.classList.add("embed")}catch(e){document.documentElement.classList.add("embed")}</script>
+<link rel="stylesheet" href="../timofey-homework/hw.css?v=20261008">
+<link rel="stylesheet" href="../timofey-homework/app.css?v=20261008">
+<link rel="stylesheet" href="./oge.css?v=20261008">
+<style>
+body{grid-template-rows:52px minmax(0,1fr)}
+.embed body{grid-template-rows:minmax(0,1fr)}
+.shell{grid-template-columns:minmax(0,1fr)}
+.errs{display:flex;flex-direction:column;gap:6px;font-size:16px}
+.errs .it{border-top:1px solid var(--line);padding:6px 0}
+.errs .it b{color:var(--accent)}
+.errs .w{color:var(--bad)}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="btn" href="../timofey/" id="hubLink">← Hub</a>
+  <div class="grow"><b>&gt;</b> oge / results</div>
+  <div class="note" id="who">Файл результатов не открыт</div>
+</header>
+<div class="shell">
+  <main class="panel">
+    <div class="tab">// результаты Тимофея</div>
+    <div class="body" id="main"></div>
+  </main>
+</div>
+<input type="file" id="fileInput" class="hidden" accept=".json,application/json">
+<script src="./oge-data.js?v=20261008"></script>
+<script>
+"use strict";
+const $=id=>document.getElementById(id),main=$("main");
+function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e;}
+const TFN=["True","False","Not stated"];
+const SRC={tf:OGE.TF,mt:OGE.MATCH,gr:OGE.GR,wf:OGE.WF,s1:OGE.SP1,s2:OGE.SP2,s3:OGE.SP3};
+const nz=s=>String(s).toLowerCase().replace(/[’`]/g,"'").replace(/\bcan't\b/g,"cannot").replace(/\bwon't\b/g,"will not")
+  .replace(/n't\b/g," not").replace(/'m\b/g," am").replace(/'re\b/g," are").replace(/'ve\b/g," have").replace(/'ll\b/g," will").replace(/[^a-z]/g,"");
+function render(j){
+  main.replaceChildren();
+  $("who").textContent=(j.student||"")+" · "+new Date(j.exportedAt).toLocaleString("ru-RU");
+  const sc=el("div","scroll");sc.style.flex="1";
+  const t=el("table","res");t.innerHTML="<tr><th>Раздел</th><th>Выполнено</th><th>Баллы</th></tr>";
+  j.summary.forEach(s=>{const tr=el("tr");tr.append(el("td","",s.name),el("td","",s.done+" из "+s.total),el("td","",s.max?s.points+" / "+s.max:"—"));t.append(tr);});
+  sc.append(t);
+  const errs=el("div","errs");errs.append(el("h4","","Ошибки"));
+  let count=0;
+  Object.entries(j.details||{}).forEach(([k,r])=>{
+    const [pid,n]=k.split(":");const list=SRC[pid];if(!list||!Array.isArray(r.a))return;
+    const it=list.find(x=>x.n===Number(n));if(!it)return;
+    const bad=[];
+    if(pid==="tf")r.a.forEach((v,i)=>{if(v!=null&&v!==it.key[i])bad.push((13+i)+". "+it.stmts[i]+" — ответил: "+TFN[v-1]+", правильно: "+TFN[it.key[i]-1]);});
+    else if(pid==="mt")r.a.forEach((v,i)=>{if(v!=null&&v!==it.key[i])bad.push("Text "+"ABCDEF"[i]+" — ответил: "+v+", правильно: "+it.key[i]);});
+    else if(pid==="gr"||pid==="wf")r.a.forEach((v,i)=>{if(v!=null&&v!==""&&!it.items[i].k.some(x=>nz(x)===nz(v)))bad.push((i+1)+". ["+it.items[i].w+"] ответил: "+v+", правильно: "+it.items[i].d);});
+    if(bad.length){count++;const d=el("div","it");d.append(el("b","",pid.toUpperCase()+" "+String(it.n).padStart(2,"0")+" · "+it.title));bad.forEach(b=>d.append(el("div","w",b)));errs.append(d);}
+  });
+  if(!count)errs.append(el("div","","Ошибок нет."));
+  sc.append(errs);
+  if((j.audioFiles||[]).length){const d=el("div","errs");d.append(el("h4","","Аудиозаписи (Тимофей присылает отдельно)"),el("div","",j.audioFiles.join(", ")));sc.append(d);}
+  main.append(sc,pickRow());
+}
+function pickRow(){
+  const row=el("div","row");const b=el("button","btn primary","Открыть другой файл");b.type="button";b.onclick=pick;row.append(b);return row;
+}
+function pick(){const i=$("fileInput");i.value="";i.onchange=async()=>{
+  try{const f=i.files[0];if(!f)return;if(f.size>3000000)throw Error("Файл слишком большой.");
+    const j=JSON.parse(await f.text());if(j.app!=="timofey-oge"||!Array.isArray(j.summary))throw Error("Это не файл результатов ОГЭ.");render(j);
+  }catch(e){alert(e instanceof SyntaxError?"Файл повреждён или это не .json.":e.message);}};i.click();}
+{const b=el("button","btn primary","Открыть файл результатов");b.type="button";b.onclick=pick;main.append(b,el("p","muted","Тимофей скачивает файл на странице «Результаты» и присылает вам."));}
+</script>
+</body>
+</html>

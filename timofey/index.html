@@ -121,7 +121,7 @@ button{font:inherit;color:inherit}
 
   <section class="panel">
     <div class="tab"><b>//</b> ОГЭ practice</div>
-    <div class="body"><div class="secs" id="oge"></div></div>
+    <div class="body"><div class="secs" id="oge"></div><button class="teach" id="teach" type="button">// результаты (для учителя)</button></div>
   </section>
 </main>
 
@@ -136,7 +136,7 @@ button{font:inherit;color:inherit}
 <script>
 (()=>{
   const modules=[[1,2,3],[4,5,6],[7,8,9],[10,11,12],[13,14,15],[16,17,18],[19,20]];
-  const sections=['Listening','Reading','Grammar','Vocabulary','Writing','Speaking'];
+  const sections=['Listening','Reading','Grammar','Word formation','Writing','Speaking'];
   const KEY='timofey-current-lesson';
   const $=id=>document.getElementById(id);
   const screen=$('screen');
@@ -164,7 +164,7 @@ button{font:inherit;color:inherit}
   sections.forEach(s=>{
     const b=document.createElement('button');
     b.type='button'; b.className='sec'; b.innerHTML=s+'<span>›</span>';
-    b.addEventListener('click',()=>{openScreen('ОГЭ · ',s,'oge-'+s.toLowerCase());});
+    b.addEventListener('click',()=>openFrame('ОГЭ · ',s,'../timofey-oge/#'+encodeURIComponent(s.toLowerCase()),'oge-'+s.toLowerCase().replace(/ /g,'-')));
     $('oge').appendChild(b);
   });
 
@@ -184,6 +184,7 @@ button{font:inherit;color:inherit}
     f.addEventListener('load',()=>{try{const a=f.contentDocument.querySelector('header .btn');if(a)a.style.display='none';}catch(e){}});
     ws.appendChild(f);
   }
+  $('teach').addEventListener('click',()=>openFrame('','Результаты ОГЭ','../timofey-oge/teacher.html','oge-teacher'));
   function openScreen(type,name,hash){
     const w=$('ws');w.className='workspace';w.innerHTML=WS0;
     $('kind').textContent=type; $('title').textContent=name;
@@ -201,6 +202,9 @@ button{font:inherit;color:inherit}
   markCurrent();
 
   const h=location.hash.slice(1);
+  const mo=h.match(/^oge-([\w-]+)$/);
+  if(mo&&mo[1]==='teacher')openFrame('','Результаты ОГЭ','../timofey-oge/teacher.html',h);
+  else if(mo){const nm=sections.find(x=>x.toLowerCase().replace(/ /g,'-')===mo[1]);if(nm)openFrame('ОГЭ · ',nm,'../timofey-oge/#'+encodeURIComponent(nm.toLowerCase()),h);}
   if(/^lesson-\d+$/.test(h)){
     const n=Number(h.split('-')[1]); if(n>=1&&n<=20)openLesson(n);
   }
