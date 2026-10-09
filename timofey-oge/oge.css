@@ -108,7 +108,7 @@
 .bkbody .source.read{font-size:17px;line-height:1.5}
 
 /* текст шире, колонка ответа узкая — текст целиком без прокрутки */
-.split.wide{grid-template-columns:minmax(0,2.6fr) minmax(240px,1fr);gap:14px}
+.split.wide{grid-template-columns:minmax(0,1fr) 270px;gap:14px}
 .split.wide .source{font-size:17px;line-height:1.45;padding:10px 14px}
 .split.wide .strip{flex-wrap:wrap;gap:5px}
 .split.wide .strip .num{width:32px;height:32px;font-size:15px}
@@ -118,3 +118,14 @@
 /* открытое задание: боковое меню скрыто, всё место — тексту (назад — кнопка «← Список») */
 .focus .shell{grid-template-columns:minmax(0,1fr)}
 .focus .nav{display:none}
+.split.wide .prompt{font-size:17px;line-height:1.35}
+.split.wide .word{font-size:17px}
+.split.wide .short{width:100%;min-width:0}
+.split.wide .q .row{flex-wrap:wrap}
+.split.wide .foot .btn{padding:7px 12px;font-size:16px}
+.split.wide .tm{gap:10px}.split.wide .tm .ring{width:76px;height:76px}
+.split.wide .rec{flex-wrap:wrap}
+.split.wide .q{gap:6px}
+.split.wide .opts{gap:5px}
+.split.wide .opts .opt{padding:5px 10px;font-size:16px}
+.split.wide .strip{margin-bottom:2px}

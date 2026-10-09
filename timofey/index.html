@@ -167,7 +167,7 @@ button{font:inherit;color:inherit}
   sections.forEach(s=>{
     const b=document.createElement('button');
     b.type='button'; b.className='sec'; b.innerHTML=s+'<span>›</span>';
-    b.addEventListener('click',()=>openFrame('ОГЭ · ',s,'../timofey-oge/#'+encodeURIComponent(s.toLowerCase()),'oge-'+s.toLowerCase().replace(/ /g,'-')));
+    b.addEventListener('click',()=>openFrame('ОГЭ · ',s,'../timofey-oge/?v=20261018#'+encodeURIComponent(s.toLowerCase()),'oge-'+s.toLowerCase().replace(/ /g,'-')));
     $('oge').appendChild(b);
   });
 
@@ -207,7 +207,7 @@ button{font:inherit;color:inherit}
   const h=location.hash.slice(1);
   const mo=h.match(/^oge-([\w-]+)$/);
   if(mo&&mo[1]==='teacher')openFrame('','Результаты ОГЭ','../timofey-oge/teacher.html',h);
-  else if(mo){const nm=sections.find(x=>x.toLowerCase().replace(/ /g,'-')===mo[1]);if(nm)openFrame('ОГЭ · ',nm,'../timofey-oge/#'+encodeURIComponent(nm.toLowerCase()),h);}
+  else if(mo){const nm=sections.find(x=>x.toLowerCase().replace(/ /g,'-')===mo[1]);if(nm)openFrame('ОГЭ · ',nm,'../timofey-oge/?v=20261018#'+encodeURIComponent(nm.toLowerCase()),h);}
   if(/^lesson-\d+$/.test(h)){
     const n=Number(h.split('-')[1]); if(n>=1&&n<=20)openLesson(n);
   }
