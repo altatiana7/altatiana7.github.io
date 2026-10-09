@@ -25,7 +25,7 @@ function BK(t){
         .concat(b.tf.split("").map((d,i)=>({lab:String(13+i),k:[d],tf:1})));}
     else if(t==="g"){page="с. "+b.pG+"–"+(b.pG+1);slots=b.gr.map((k,i)=>({lab:String(20+i),k}));}
     else if(t==="w"){page="с. "+b.pG+"–"+(b.pG+1);slots=b.wf.map((k,i)=>({lab:String(29+i),k}));}
-    else page="с. "+b.pS;
+    else page="задания ФИПИ";
     return {n,title:"Вариант "+n,page,slots,b};
   });
 }
@@ -51,7 +51,7 @@ const INSTR={
   bkr:"Открой сборник ОГЭ-2026 на нужном варианте. Задание 12: для текстов A–F впиши номер вопроса (1–7). Задания 13–19: 1 — True, 2 — False, 3 — Not stated. Потом нажми «Проверить».",
   bkg:"Открой сборник ОГЭ-2026 на нужном варианте (задания 20–28). Впиши слово в нужной форме, как в бланк ответов, и нажми «Проверить».",
   bkw:"Открой сборник ОГЭ-2026 на нужном варианте (задания 29–34). Впиши однокоренное слово и нажми «Проверить».",
-  bks:"Устная часть по сборнику: задания 1–3 на странице варианта. Таймеры как на экзамене, ответ можно записать.",
+  bks:"Устная часть: задания ФИПИ. 1 — чтение вслух, 2 — интервью (вопрос звучит, 40 секунд на ответ), 3 — монолог. Ответ можно записать.",
   tf:"Прочитай текст. Для каждого утверждения выбери: True (верно), False (неверно) или Not stated (в тексте об этом не сказано).",
   mt:"К каждому из 6 текстов A–F выбери вопрос 1–7, на который в нём есть ответ. Один вопрос лишний.",
   gr:"Поставь слово в скобках в нужную грамматическую форму. Пиши в окошко полностью, например: was snowing.",
@@ -374,58 +374,80 @@ function bkPage(p,it){
   draw();
 }
 
-/* ---------- сборник: устная часть ---------- */
+/* ---------- сборник: устная часть (тексты ФИПИ, открытый банк) ---------- */
 function bksPage(p,it){
-  const r=rec(p,it);let task=1;
+  const r=rec(p,it),O=(typeof ORAL!=="undefined"&&ORAL[it.n])||null;let task=1;
   head(p,it);
   const tabs=el("div","row bktabs"),body=el("div","bkbody");
   main.append(tabs,body);
+  if(!O){body.append(el("div","box","Для этого варианта задания пока не добавлены."));return;}
   function draw(){
-    stopAll();r.t=task;
+    stopAll();
     tabs.replaceChildren(...[["1","Чтение вслух"],["2","Интервью"],["3","Монолог"]].map(([k,t])=>
       button(k+" · "+t,()=>{if(media&&media.state==="recording"){toast("Сначала останови запись.");return;}task=Number(k);draw();},Number(k)===task?"primary":"")));
     const d=button(itemDone(p,it)?"Вариант выполнен ✓":"Отметить вариант выполненным",()=>{markDone(p,it);d.textContent="Вариант выполнен ✓";});
     tabs.append(d);
     body.replaceChildren();
-    if(task===1){
-      body.append(el("div","bkinfo",""),
-        phaseTimer([{label:"Подготовка",sec:90},{label:"Читай вслух",sec:120}]),
-        recorder("book"+it.n+"-T1"));
-      body.firstChild.append(el("b","","Сборник · Вариант "+it.n+" · "+it.page+" · задание 1"),el("span","muted","1,5 минуты читаешь про себя, потом до 2 минут — вслух."));
-    }else if(task===3){
-      body.append(el("div","bkinfo",""),
-        phaseTimer([{label:"Подготовка",sec:90},{label:"Говори",sec:120}]),
-        recorder("book"+it.n+"-T3"));
-      body.firstChild.append(el("b","","Сборник · Вариант "+it.n+" · "+it.page+" · задание 3"),el("span","muted","1,5 минуты на подготовку, монолог до 2 минут по всем пунктам плана."));
-    }else interview();
+    if(task===1)t1();else if(task===2)t2();else t3();
   }
-  function interview(){
-    let qi=0,flipped=false;
+  function t1(){
+    const split=el("div","split"),left=el("div","col"),right=el("div","col");
+    const src=el("div","source read scroll");src.lang="en";src.style.flex="1";
+    src.append(el("b","",O.t1.title),document.createTextNode("\n"+O.t1.text));left.append(src);
+    right.append(el("p","muted","Задание 1. Прочитай текст про себя за 1,5 минуты, потом прочитай вслух (не больше 2 минут)."),
+      phaseTimer([{label:"Подготовка",sec:90},{label:"Читай вслух",sec:120}]),recorder("book"+it.n+"-T1"));
+    split.append(left,right);body.append(split);
+  }
+  function t3(){
+    const split=el("div","split"),left=el("div","col"),right=el("div","col");
+    const card=el("div","source scroll");card.style.flex="1";card.lang="en";
+    card.append(el("b","",O.t3.prompt));const ul=el("ul","bul");O.t3.bul.forEach(x=>ul.append(el("li","",x)));card.append(ul);
+    card.append(el("p","muted","You will speak for not more than 2 minutes (10–12 phrases)."));
+    left.append(card);
+    const sample=el("div","sample hidden");sample.lang="en";sample.textContent=O.t3.sample.join("\n");
+    sample.style.cssText="overflow:auto;flex:1;min-height:0";
+    const show=button("Показать образец",()=>{sample.classList.toggle("hidden");show.textContent=sample.classList.contains("hidden")?"Показать образец":"Скрыть образец";});
+    right.append(el("p","muted","Задание 3. 1,5 минуты на подготовку, монолог до 2 минут по всем пунктам плана. Образец смотри после своего ответа."),
+      phaseTimer([{label:"Подготовка",sec:90},{label:"Говори",sec:120}]),recorder("book"+it.n+"-T3"),show,sample);
+    split.append(left,right);body.append(split);
+  }
+  function t2(){
+    const qa=O.t2.qa;let qi=0,flipped=false,showSample=false;
     const strip=el("div","strip"),card=el("div","card"),foot=el("div","foot");
     body.append(strip,card,foot,recorder("book"+it.n+"-T2"));
-    function go(n){stopAll();qi=n;flipped=false;paint();}
+    function go(n){stopAll();qi=n;flipped=false;showSample=false;paint();}
     function paint(){
-      strip.replaceChildren(...Array.from({length:6},(_,k)=>{const b=el("button","num"+(k===qi?" cur":""),String(k+1).padStart(2,"0"));b.type="button";b.onclick=()=>go(k);return b;}));
+      strip.replaceChildren(el("span","muted",O.t2.title+" ·"),...qa.map((_,k)=>{const b=el("button","num"+(k===qi?" cur":""),String(k+1).padStart(2,"0"));b.type="button";b.onclick=()=>go(k);return b;}));
       card.innerHTML='<svg class="ring" viewBox="0 0 112 112" aria-hidden="true"><circle class="bg" cx="56" cy="56" r="46"/><circle class="fg" cx="56" cy="56" r="46" stroke-dasharray="'+RING+'" stroke-dashoffset="0"/><text x="56" y="56">40</text></svg>';
       const fg=card.querySelector(".fg"),txt=card.querySelector("text"),side=el("div","side");card.append(side);
-      const status=el("p","muted","Включи вопрос "+(qi+1)+" из аудио к сборнику (или его задаёт Татьяна) и сразу нажми «Отвечать».");
+      const text=qa[qi].q,status=el("p","muted","Нажми Play, послушай вопрос и отвечай вслух.");
+      function timer(){
+        clearInterval(tick);let left=40;txt.textContent=left;fg.style.strokeDashoffset=0;
+        tick=setInterval(()=>{left--;txt.textContent=left;fg.style.strokeDashoffset=RING*(1-left/40);
+          if(left<=0){clearInterval(tick);tick=null;status.textContent="Время вышло. Переходи к следующему вопросу.";}},1000);
+      }
+      function play(){
+        stopAll();txt.textContent="40";fg.style.strokeDashoffset=0;
+        if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){status.textContent="Звук недоступен. Переверни карточку и прочитай вопрос.";timer();return;}
+        const my=++speakToken,u=new SpeechSynthesisUtterance(text);u.lang="en-GB";u.rate=.92;
+        const vs=speechSynthesis.getVoices(),v=vs.find(v=>/^en[-_]GB/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang));if(v)u.voice=v;
+        u.onend=()=>{if(my===speakToken){status.textContent="Отвечай. У тебя 40 секунд.";timer();}};
+        u.onerror=()=>{if(my===speakToken)status.textContent="Не удалось озвучить. Переверни карточку и прочитай вопрос.";};
+        status.textContent="Слушай вопрос…";speechSynthesis.speak(u);
+      }
       if(!flipped){
-        side.append(el("h3","","Question "+(qi+1)+" of 6"));
+        side.append(el("h3","","Question "+(qi+1)+" of "+qa.length));
         const row=el("div","row");
-        row.append(button("Отвечать · 40 с",()=>{
-          clearInterval(tick);let left=40;txt.textContent=left;fg.style.strokeDashoffset=0;status.textContent="Отвечай полным ответом: 2–3 фразы.";
-          tick=setInterval(()=>{left--;txt.textContent=left;fg.style.strokeDashoffset=RING*(1-left/40);
-            if(left<=0){clearInterval(tick);tick=null;status.textContent="Время вышло. Переходи к следующему вопросу.";}},1000);
-        },"primary"),button("Stop",()=>{stopAll();status.textContent="Остановлено.";}));
+        row.append(button("Play",play,"primary"),button("Replay",play),button("Stop",()=>{stopAll();status.textContent="Остановлено.";}));
         side.append(row,status);
       }else{
-        side.append(el("p","muted","Тексты вопросов интервью"),
-          el("div","back-text","Сборник, с. "+it.b.pI+" — «Тексты для аудирования к заданию 2», Вариант "+it.n+"."),
-          el("p","muted","Смотри только после того, как ответил, чтобы проверить, что понял вопрос."));
+        const bt=el("div","back-text",text);bt.lang="en";
+        const sm=el("div","sample"+(showSample?"":" hidden"),qa[qi].a);sm.lang="en";
+        side.append(bt,button(showSample?"Скрыть образец":"Показать образец",()=>{showSample=!showSample;paint();}),sm);
       }
       const back=button("← Назад",()=>go(qi-1));back.disabled=qi===0;
-      const last=qi===5;
-      foot.replaceChildren(back,button(flipped?"Перевернуть обратно":"Перевернуть карточку",()=>{flipped=!flipped;stopAll();paint();}),
+      const last=qi===qa.length-1;
+      foot.replaceChildren(back,button(flipped?"Скрыть текст":"Перевернуть карточку",()=>{flipped=!flipped;showSample=false;stopAll();paint();}),
         button(last?"К заданию 3 →":"Вперёд →",()=>{if(last){task=3;draw();}else go(qi+1);},"primary"));
     }
     paint();
