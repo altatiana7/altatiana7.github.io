@@ -16,8 +16,9 @@ function stopAll(){speakToken++;if(window.speechSynthesis)speechSynthesis.cancel
 
 /* ---------- сборник 2026: только ключи и страницы, задания — по книге ---------- */
 const TF3=["True","False","Not stated"];
+const BOOK_OPEN=3; // сколько вариантов сборника открыто Тимофею (всего 20)
 function BK(t){
-  return Object.keys(BOOK).map(Number).sort((a,b)=>a-b).map(n=>{
+  return Object.keys(BOOK).map(Number).filter(n=>n<=BOOK_OPEN).sort((a,b)=>a-b).map(n=>{
     const b=BOOK[n];let slots=[],page;
     if(t==="r"){page="с. "+b.pR+"–"+(b.pR+2);
       slots="ABCDEF".split("").map((L,i)=>({lab:"12 · "+L,k:[b.r12[i]],num:1}))
@@ -375,7 +376,7 @@ function bkPage(p,it){
 
 /* ---------- сборник: устная часть ---------- */
 function bksPage(p,it){
-  const r=rec(p,it);let task=r.t||1;
+  const r=rec(p,it);let task=1;
   head(p,it);
   const tabs=el("div","row bktabs"),body=el("div","bkbody");
   main.append(tabs,body);
