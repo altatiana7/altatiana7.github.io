@@ -153,6 +153,7 @@ nav.append(el("hr"));
 function open(id,n){
   if(media&&media.state==="recording"){toast("Сначала останови запись.");return;}
   stopAll();view={page:id,item:n==null?null:n};
+  document.body.classList.toggle("focus",n!=null&&id!=="results");
   nav.querySelectorAll("button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
   main.replaceChildren();
   try{history.replaceState(null,"","#"+id+(n==null?"":"/"+n));}catch(e){}
@@ -209,13 +210,13 @@ function stepperPage(p,it){
   const strip=el("div","strip"),q=el("div","q"),foot=el("div","foot");
   const qbox=el("div","qlist scroll");qbox.lang="en";
   if(p.kind==="mt"){src.classList.add("mini");left.append(qbox);right.append(strip,src,q,foot);q.style.flex="0 0 auto";split.style.gridTemplateColumns="minmax(0,1fr) minmax(0,1fr)";}
-  else{left.append(src);right.append(strip,q,foot);}
+  else{left.append(src);right.append(strip,q,foot);split.classList.add("wide");}
   split.append(left,right);main.append(split);
   const label=k=>p.kind==="mt"?"ABCDEF"[k]:p.kind==="tf"?String(13+k):String(k+1);
   function check(v){r.a[i]=v;save();draw();}
   function drawSource(){
     src.replaceChildren();src.scrollTop=0;
-    if(p.kind==="tf")src.textContent=it.paras.join("\n\n");
+    if(p.kind==="tf")src.textContent=it.paras.join("\n");
     else if(p.kind==="mt"){
       const k=Math.min(i,N-1);src.append(document.createTextNode(it.texts[k]));
     }else{
@@ -391,7 +392,7 @@ function bksPage(p,it){
     if(task===1)t1();else if(task===2)t2();else t3();
   }
   function t1(){
-    const split=el("div","split"),left=el("div","col"),right=el("div","col");
+    const split=el("div","split wide"),left=el("div","col"),right=el("div","col");
     const src=el("div","source read scroll");src.lang="en";src.style.flex="1";
     src.append(el("b","",O.t1.title),document.createTextNode("\n"+O.t1.text));left.append(src);
     right.append(el("p","muted","Задание 1. Прочитай текст про себя за 1,5 минуты, потом прочитай вслух (не больше 2 минут)."),
@@ -399,7 +400,7 @@ function bksPage(p,it){
     split.append(left,right);body.append(split);
   }
   function t3(){
-    const split=el("div","split"),left=el("div","col"),right=el("div","col");
+    const split=el("div","split wide"),left=el("div","col"),right=el("div","col");
     const card=el("div","source scroll");card.style.flex="1";card.lang="en";
     card.append(el("b","",O.t3.prompt));const ul=el("ul","bul");O.t3.bul.forEach(x=>ul.append(el("li","",x)));card.append(ul);
     card.append(el("p","muted","You will speak for not more than 2 minutes (10–12 phrases)."));
@@ -505,7 +506,7 @@ function markDone(p,it){S.res[rk(p,it)]=Object.assign(rec(p,it),{done:true});sav
 /* ---------- speaking 1: read aloud ---------- */
 function s1Page(p,it){
   head(p,it);
-  const split=el("div","split"),left=el("div","col"),right=el("div","col");
+  const split=el("div","split wide"),left=el("div","col"),right=el("div","col");
   const src=el("div","source read scroll",it.paras.join("\n\n"));src.lang="en";src.style.flex="1";left.append(src);
   right.append(el("p","muted","Задание 1: подготовка 1,5 минуты, потом читай текст вслух (до 1,5 минут)."),
     phaseTimer([{label:"Подготовка",sec:90},{label:"Читай вслух",sec:90}]),
@@ -576,7 +577,7 @@ async function sendLetter(p,it){
 }
 function s3Page(p,it){
   head(p,it);
-  const split=el("div","split"),left=el("div","col"),right=el("div","col");
+  const split=el("div","split wide"),left=el("div","col"),right=el("div","col");
   const card=el("div","source scroll");card.style.flex="1";card.lang="en";
   card.append(el("b","",it.prompt));const ul=el("ul","bul");it.bul.forEach(b=>ul.append(el("li","",b)));card.append(ul);
   left.append(card);

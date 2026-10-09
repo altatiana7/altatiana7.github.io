@@ -106,3 +106,15 @@
 @media(max-width:820px){.shell{grid-template-columns:1fr}.nav{flex-direction:row;flex-wrap:wrap;max-height:none}.nav .grp{flex-basis:100%}
 .cell .fix{padding-left:0}.bktabs .btn:last-child{margin-left:0}.sheet,.sheet.rd{grid-template-columns:1fr;overflow:visible}.bkbody{overflow:visible}}
 .bkbody .source.read{font-size:17px;line-height:1.5}
+
+/* текст шире, колонка ответа узкая — текст целиком без прокрутки */
+.split.wide{grid-template-columns:minmax(0,2.6fr) minmax(240px,1fr);gap:14px}
+.split.wide .source{font-size:17px;line-height:1.45;padding:10px 14px}
+.split.wide .strip{flex-wrap:wrap;gap:5px}
+.split.wide .strip .num{width:32px;height:32px;font-size:15px}
+.split.wide .opts .opt{padding:7px 10px}
+@media(max-width:820px){.split.wide{grid-template-columns:1fr}}
+
+/* открытое задание: боковое меню скрыто, всё место — тексту (назад — кнопка «← Список») */
+.focus .shell{grid-template-columns:minmax(0,1fr)}
+.focus .nav{display:none}
