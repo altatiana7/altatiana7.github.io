@@ -14,8 +14,28 @@ function button(text,fn,cls){const b=el("button","btn"+(cls?" "+cls:""),text);b.
 function toast(s){const t=$("toast");t.textContent=s;t.classList.remove("hidden");clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.add("hidden"),6000);}
 function stopAll(){speakToken++;if(window.speechSynthesis)speechSynthesis.cancel();clearInterval(tick);tick=null;}
 
+/* ---------- сборник 2026: только ключи и страницы, задания — по книге ---------- */
+const TF3=["True","False","Not stated"];
+function BK(t){
+  return Object.keys(BOOK).map(Number).sort((a,b)=>a-b).map(n=>{
+    const b=BOOK[n];let slots=[],page;
+    if(t==="r"){page="с. "+b.pR+"–"+(b.pR+2);
+      slots="ABCDEF".split("").map((L,i)=>({lab:"12 · "+L,k:[b.r12[i]],num:1}))
+        .concat(b.tf.split("").map((d,i)=>({lab:String(13+i),k:[d],tf:1})));}
+    else if(t==="g"){page="с. "+b.pG+"–"+(b.pG+1);slots=b.gr.map((k,i)=>({lab:String(20+i),k}));}
+    else if(t==="w"){page="с. "+b.pG+"–"+(b.pG+1);slots=b.wf.map((k,i)=>({lab:String(29+i),k}));}
+    else page="с. "+b.pS;
+    return {n,title:"Вариант "+n,page,slots,b};
+  });
+}
+const BKG="Сборник 2026";
+
 /* ---------- pages ---------- */
 const PAGES=[
+  {id:"bkr",grp:BKG,label:"Чтение",data:BK("r"),kind:"bk"},
+  {id:"bkg",grp:BKG,label:"Грамматика",data:BK("g"),kind:"bk"},
+  {id:"bkw",grp:BKG,label:"Словообраз.",data:BK("w"),kind:"bk"},
+  {id:"bks",grp:BKG,label:"Устная часть",data:BK("s"),kind:"bks"},
   {id:"tf",grp:"Reading",label:"True/False/NS",data:OGE.TF,kind:"tf"},
   {id:"mt",grp:"Reading",label:"Matching",data:OGE.MATCH,kind:"mt"},
   {id:"gr",grp:"Grammar",label:"Задания 20–28",data:OGE.GR,kind:"gap"},
@@ -27,6 +47,10 @@ const PAGES=[
   {id:"wr",grp:"Writing",label:"Личное письмо (38)",data:OGE.WR,kind:"wr"}
 ];
 const INSTR={
+  bkr:"Открой сборник ОГЭ-2026 на нужном варианте. Задание 12: для текстов A–F впиши номер вопроса (1–7). Задания 13–19: 1 — True, 2 — False, 3 — Not stated. Потом нажми «Проверить».",
+  bkg:"Открой сборник ОГЭ-2026 на нужном варианте (задания 20–28). Впиши слово в нужной форме, как в бланк ответов, и нажми «Проверить».",
+  bkw:"Открой сборник ОГЭ-2026 на нужном варианте (задания 29–34). Впиши однокоренное слово и нажми «Проверить».",
+  bks:"Устная часть по сборнику: задания 1–3 на странице варианта. Таймеры как на экзамене, ответ можно записать.",
   tf:"Прочитай текст. Для каждого утверждения выбери: True (верно), False (неверно) или Not stated (в тексте об этом не сказано).",
   mt:"К каждому из 6 текстов A–F выбери вопрос 1–7, на который в нём есть ответ. Один вопрос лишний.",
   gr:"Поставь слово в скобках в нужную грамматическую форму. Пиши в окошко полностью, например: was snowing.",
@@ -36,20 +60,21 @@ const INSTR={
   wr:"Прочитай письмо друга и напиши ответ: 100–120 слов, ответь на все 3 вопроса. Шаблон письма справа. Письмо можно отправить Татьяне.",
   s3:"Подготовься 1,5 минуты и расскажи по плану до 2 минут. Образец ответа смотри после своего."
 };
-const ALIAS={reading:"tf",grammar:"gr","word formation":"wf",vocabulary:"wf",speaking:"s2",listening:"lis",writing:"wr"};
+const ALIAS={"сборник 2026":"bkr",book:"bkr",reading:"tf",grammar:"gr","word formation":"wf",vocabulary:"wf",speaking:"s2",listening:"lis",writing:"wr"};
 const byId=id=>PAGES.find(p=>p.id===id);
 const rk=(p,it)=>p.id+":"+it.n;
 const rec=(p,it)=>S.res[rk(p,it)]||(S.res[rk(p,it)]={a:[]});
-function size(p,it){return p.kind==="tf"?it.stmts.length:p.kind==="mt"?it.texts.length:p.kind==="gap"?it.items.length:p.kind==="s2"?it.qa.length:1;}
+function size(p,it){return p.kind==="bk"?it.slots.length:p.kind==="tf"?it.stmts.length:p.kind==="mt"?it.texts.length:p.kind==="gap"?it.items.length:p.kind==="s2"?it.qa.length:1;}
 const nz=s=>String(s).toLowerCase().replace(/[’`]/g,"'").replace(/\bcan't\b/g,"cannot").replace(/\bwon't\b/g,"will not")
   .replace(/n't\b/g," not").replace(/'m\b/g," am").replace(/'re\b/g," are").replace(/'ve\b/g," have").replace(/'ll\b/g," will").replace(/[^a-z]/g,"");
 function okAt(p,it,i,v){
   if(v==null||v==="")return false;
+  if(p.kind==="bk"){const s=it.slots[i];return s.num||s.tf?String(v).trim()===s.k[0]:s.k.some(k=>nz(k)===nz(v));}
   if(p.kind==="tf")return v===it.key[i];
   if(p.kind==="mt")return v===it.key[i];
   return it.items[i].k.some(k=>nz(k)===nz(v));
 }
-function isStepper(p){return p.kind==="tf"||p.kind==="mt"||p.kind==="gap";}
+function isStepper(p){return p.kind==="bk"||p.kind==="tf"||p.kind==="mt"||p.kind==="gap";}
 function answered(p,it){const r=S.res[rk(p,it)];return r?r.a.filter(v=>v!=null&&v!=="").length:0;}
 function itemDone(p,it){
   if(isStepper(p))return answered(p,it)>=size(p,it);
@@ -69,6 +94,8 @@ function detailsOf(p,it){
   const r=S.res[rk(p,it)]||{a:[]};
   return Array.from({length:size(p,it)},(_,i)=>{
     const v=r.a[i];
+    if(p.kind==="bk"){const s=it.slots[i],sh=x=>s.tf&&TF3[x-1]?x+" ("+TF3[x-1]+")":String(x);
+      return {question:"Вариант "+it.n+" · "+s.lab,chosen:v==null||v==="-"?"":sh(v),correct:s.k.map(sh).join(" / "),is_correct:okAt(p,it,i,v)};}
     if(p.kind==="tf")return {question:(13+i)+". "+it.stmts[i],chosen:v?TFN[v-1]:"",correct:TFN[it.key[i]-1],is_correct:v===it.key[i]};
     if(p.kind==="mt")return {question:"Text "+"ABCDEF"[i],chosen:v==null?"":String(v),correct:String(it.key[i]),is_correct:v===it.key[i]};
     return {question:(i+1)+". ["+it.items[i].w+"]",chosen:v||"",correct:it.items[i].d,is_correct:okAt(p,it,i,v)};
@@ -135,7 +162,7 @@ function open(id,n){
   if(p.soon){main.append(el("div","box",p.soon));prog();return;}
   if(n==null)listPage(p);else{
     const it=p.data.find(x=>x.n===n);
-    if(p.kind==="s1")s1Page(p,it);else if(p.kind==="s2")s2Page(p,it);else if(p.kind==="s3")s3Page(p,it);else if(p.kind==="wr")wrPage(p,it);else stepperPage(p,it);
+    if(p.kind==="bk")bkPage(p,it);else if(p.kind==="bks")bksPage(p,it);else if(p.kind==="s1")s1Page(p,it);else if(p.kind==="s2")s2Page(p,it);else if(p.kind==="s3")s3Page(p,it);else if(p.kind==="wr")wrPage(p,it);else stepperPage(p,it);
   }
   prog();
 }
@@ -282,6 +309,125 @@ function stepperPage(p,it){
       const k=Number(part)-1,v=r.a[k],g=el("span","g "+(okAt(p,it,k,v)?"ok":"no"),(v||"").trim());src.append(g);
       if(!okAt(p,it,k,v))src.append(" ",el("span","fix",it.items[k].d));
     });
+  }
+  draw();
+}
+
+/* ---------- сборник: бланк ответов ---------- */
+function bkPage(p,it){
+  const r=rec(p,it),N=size(p,it);r.d=r.d||[];
+  const checked=()=>answered(p,it)>=N;
+  const sc=el("span","sc");head(p,it,sc);
+  const info=el("div","bkinfo");
+  info.append(el("b","","Сборник ОГЭ-2026 · Вариант "+it.n+" · "+it.page),
+    el("span","muted",p.id==="bkr"?"1 — True · 2 — False · 3 — Not stated":"Пиши так, как в бланке ответов"));
+  const sheet=el("div","sheet"+(p.id==="bkr"?" rd":""));
+  const foot=el("div","foot");
+  main.append(info,sheet,foot);
+  const inputs=[];let countEmpty=()=>{};
+  function draw(){
+    const done=checked();sheet.replaceChildren();foot.replaceChildren();inputs.length=0;
+    sc.textContent=done?itemScore(p,it)+" / "+N:"";
+    it.slots.forEach((s,i)=>{
+      const v=done?r.a[i]:r.d[i],ok=done&&okAt(p,it,i,v);
+      const c=el("div","cell"+(done?(ok?" ok":" no"):""));
+      c.append(el("span","lab",s.lab));
+      if(s.tf){
+        const g=el("div","tfb");
+        ["1","2","3"].forEach((d,k)=>{
+          const b=button(d+" "+["T","F","NS"][k],()=>{r.d[i]=d;save();draw();},"opt");b.title=TF3[k];
+          if(String(v)===d)b.classList.add(done?(ok?"ok":"no"):"sel");
+          if(done){b.disabled=true;if(!ok&&d===s.k[0])b.classList.add("ok");}
+          g.append(b);});
+        c.append(g);
+      }else{
+        const inp=el("input",s.num?"bnum":"bword");inp.type="text";inp.lang="en";inp.spellcheck=false;inp.autocomplete="off";
+        inp.maxLength=s.num?1:40;if(s.num)inp.inputMode="numeric";
+        inp.value=v&&v!=="-"?v:"";inp.disabled=done;inp.setAttribute("aria-label","Задание "+s.lab);
+        inp.oninput=()=>{
+          if(s.num)inp.value=inp.value.replace(/[^1-7]/g,"");
+          r.d[i]=inp.value.trim();countEmpty();clearTimeout(bkPage.t);bkPage.t=setTimeout(save,400);
+          if(s.num&&inp.value){const nx=inputs[inputs.indexOf(inp)+1];if(nx)nx.focus();}
+        };
+        inp.onkeydown=e=>{if(e.key==="Enter"){const nx=inputs[inputs.indexOf(inp)+1];if(nx)nx.focus();}};
+        inputs.push(inp);c.append(inp);
+      }
+      if(done&&!ok&&!s.tf)c.append(el("span","fix","→ "+s.k.join(" / ")));
+      sheet.append(c);
+    });
+    if(!done){
+      const left=el("span","muted");let warned=false;
+      const empty=()=>it.slots.filter((s,i)=>!r.d[i]).length;
+      countEmpty=()=>{const e=empty();left.textContent=e?"Не заполнено: "+e:"Всё заполнено";warned=false;};countEmpty();
+      foot.append(left,button("Проверить",()=>{
+          const e=empty();
+          if(e&&!warned){warned=true;left.textContent="Не заполнено: "+e+". Пустые засчитаются как ошибки — нажми «Проверить» ещё раз.";return;}
+          r.a=it.slots.map((s,i)=>r.d[i]||"-");save();draw();
+        },"primary"));
+    }else{
+      foot.append(el("span","verdict "+(itemScore(p,it)===N?"ok":""),itemScore(p,it)+" из "+N+(itemScore(p,it)===N?" — без ошибок":"")),
+        button("Пройти заново",()=>{S.res[rk(p,it)]={a:[],d:[]};save();draw();}),
+        button("К списку",()=>open(p.id),"primary"));
+    }
+  }
+  draw();
+}
+
+/* ---------- сборник: устная часть ---------- */
+function bksPage(p,it){
+  const r=rec(p,it);let task=r.t||1;
+  head(p,it);
+  const tabs=el("div","row bktabs"),body=el("div","bkbody");
+  main.append(tabs,body);
+  function draw(){
+    stopAll();r.t=task;
+    tabs.replaceChildren(...[["1","Чтение вслух"],["2","Интервью"],["3","Монолог"]].map(([k,t])=>
+      button(k+" · "+t,()=>{if(media&&media.state==="recording"){toast("Сначала останови запись.");return;}task=Number(k);draw();},Number(k)===task?"primary":"")));
+    const d=button(itemDone(p,it)?"Вариант выполнен ✓":"Отметить вариант выполненным",()=>{markDone(p,it);d.textContent="Вариант выполнен ✓";});
+    tabs.append(d);
+    body.replaceChildren();
+    if(task===1){
+      body.append(el("div","bkinfo",""),
+        phaseTimer([{label:"Подготовка",sec:90},{label:"Читай вслух",sec:120}]),
+        recorder("book"+it.n+"-T1"));
+      body.firstChild.append(el("b","","Сборник · Вариант "+it.n+" · "+it.page+" · задание 1"),el("span","muted","1,5 минуты читаешь про себя, потом до 2 минут — вслух."));
+    }else if(task===3){
+      body.append(el("div","bkinfo",""),
+        phaseTimer([{label:"Подготовка",sec:90},{label:"Говори",sec:120}]),
+        recorder("book"+it.n+"-T3"));
+      body.firstChild.append(el("b","","Сборник · Вариант "+it.n+" · "+it.page+" · задание 3"),el("span","muted","1,5 минуты на подготовку, монолог до 2 минут по всем пунктам плана."));
+    }else interview();
+  }
+  function interview(){
+    let qi=0,flipped=false;
+    const strip=el("div","strip"),card=el("div","card"),foot=el("div","foot");
+    body.append(strip,card,foot,recorder("book"+it.n+"-T2"));
+    function go(n){stopAll();qi=n;flipped=false;paint();}
+    function paint(){
+      strip.replaceChildren(...Array.from({length:6},(_,k)=>{const b=el("button","num"+(k===qi?" cur":""),String(k+1).padStart(2,"0"));b.type="button";b.onclick=()=>go(k);return b;}));
+      card.innerHTML='<svg class="ring" viewBox="0 0 112 112" aria-hidden="true"><circle class="bg" cx="56" cy="56" r="46"/><circle class="fg" cx="56" cy="56" r="46" stroke-dasharray="'+RING+'" stroke-dashoffset="0"/><text x="56" y="56">40</text></svg>';
+      const fg=card.querySelector(".fg"),txt=card.querySelector("text"),side=el("div","side");card.append(side);
+      const status=el("p","muted","Включи вопрос "+(qi+1)+" из аудио к сборнику (или его задаёт Татьяна) и сразу нажми «Отвечать».");
+      if(!flipped){
+        side.append(el("h3","","Question "+(qi+1)+" of 6"));
+        const row=el("div","row");
+        row.append(button("Отвечать · 40 с",()=>{
+          clearInterval(tick);let left=40;txt.textContent=left;fg.style.strokeDashoffset=0;status.textContent="Отвечай полным ответом: 2–3 фразы.";
+          tick=setInterval(()=>{left--;txt.textContent=left;fg.style.strokeDashoffset=RING*(1-left/40);
+            if(left<=0){clearInterval(tick);tick=null;status.textContent="Время вышло. Переходи к следующему вопросу.";}},1000);
+        },"primary"),button("Stop",()=>{stopAll();status.textContent="Остановлено.";}));
+        side.append(row,status);
+      }else{
+        side.append(el("p","muted","Тексты вопросов интервью"),
+          el("div","back-text","Сборник, с. "+it.b.pI+" — «Тексты для аудирования к заданию 2», Вариант "+it.n+"."),
+          el("p","muted","Смотри только после того, как ответил, чтобы проверить, что понял вопрос."));
+      }
+      const back=button("← Назад",()=>go(qi-1));back.disabled=qi===0;
+      const last=qi===5;
+      foot.replaceChildren(back,button(flipped?"Перевернуть обратно":"Перевернуть карточку",()=>{flipped=!flipped;stopAll();paint();}),
+        button(last?"К заданию 3 →":"Вперёд →",()=>{if(last){task=3;draw();}else go(qi+1);},"primary"));
+    }
+    paint();
   }
   draw();
 }

@@ -92,7 +92,7 @@ const $=id=>document.getElementById(id),main=$("main");
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e;}
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let rows=[],filter="all",done={};try{done=JSON.parse(localStorage.getItem(DK)||"{}")}catch(e){}
-const SEC={wr:"Writing · Письмо",tf:"Reading · True/False",mt:"Reading · Matching",gr:"Grammar",wf:"Word formation"};
+const SEC={bkr:"Сборник 2026 · Чтение",bkg:"Сборник 2026 · Грамматика",bkw:"Сборник 2026 · Словообразование",wr:"Writing · Письмо",tf:"Reading · True/False",mt:"Reading · Matching",gr:"Grammar",wf:"Word formation"};
 const secOf=r=>(String(r.test_id).match(/^timofey-oge-(\w+)-/)||[])[1];
 function msg(t,btn,fn){main.replaceChildren();const d=el("div","msg");d.append(el("span","",t));if(btn){const b=el("button","btn primary",btn);b.type="button";b.onclick=fn;d.append(b);}main.append(d);}
 async function load(ask){
