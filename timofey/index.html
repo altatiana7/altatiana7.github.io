@@ -71,6 +71,7 @@ button{font:inherit;color:inherit}
   padding:0 14px;font-size:19px;font-weight:700;cursor:pointer;text-align:left
 }
 .sec span{color:var(--muted);font-weight:400}
+.secs.top .sec{flex:0 0 52px}
 
 /* Lesson / exam screen */
 .screen{position:fixed;inset:0;z-index:30;display:none;background:var(--bg)}
@@ -105,7 +106,7 @@ button{font:inherit;color:inherit}
 <main class="hub">
   <section class="panel">
     <div class="tab"><b>//</b> on screen</div>
-    <div class="body"><div class="mods" id="modules"></div></div>
+    <div class="body"><div class="secs top" id="modules"></div></div>
   </section>
 
   <section class="panel hero">
@@ -116,8 +117,7 @@ button{font:inherit;color:inherit}
         <h1>Timofey's English Hub</h1>
 <pre class="code"><span class="k">grade</span> = <span class="n">9</span>
 <span class="k">goal</span>  = <span class="s">"ОГЭ"</span></pre>
-        <button class="go" id="go" type="button">Continue: Lesson 1</button>
-        <ol class="todo"><li>Справа выбери раздел ОГЭ</li><li>Сделай задание: ответы проверяются сразу</li><li>В «Результатах» скачай файл и пришли Татьяне</li></ol>
+        <ol class="todo"><li>Слева домашка On Screen, справа разделы ОГЭ</li><li>Сделай задание: ответы проверяются сразу</li><li>В «Результатах» скачай файл и пришли Татьяне</li></ol>
       </div>
     </div>
   </section>
@@ -138,47 +138,26 @@ button{font:inherit;color:inherit}
 
 <script>
 (()=>{
-  const modules=[[1,2,3],[4,5,6],[7,8,9],[10,11,12],[13,14,15],[16,17,18],[19,20]];
-  const sections=['Listening','Reading','Grammar','Word formation','Writing','Speaking','Сборник 2026'];
-  const KEY='timofey-current-lesson';
+    const sections=['Reading','Grammar','Word formation','Writing','Speaking','Сборник 2026'];
   const $=id=>document.getElementById(id);
   const screen=$('screen');
-  const pad=n=>String(n).padStart(2,'0');
 
-  let current=1;
-  try{const n=Number(localStorage.getItem(KEY)); if(n>=1&&n<=20)current=n}catch(e){}
-
-  modules.forEach((lessons,i)=>{
-    const row=document.createElement('div'); row.className='mod';
-    const name=document.createElement('span'); name.className='mod-name';
-    name.textContent='M'+(i+1); name.title='Module '+(i+1);
-    row.appendChild(name);
-    const chips=document.createElement('div'); chips.className='chips'; row.appendChild(chips);
-    lessons.forEach(n=>{
-      const b=document.createElement('button');
-      b.type='button'; b.className='chip'; b.textContent=pad(n); b.dataset.n=n;
-      b.setAttribute('aria-label','Lesson '+n);
-      b.addEventListener('click',()=>openLesson(n));
-      chips.appendChild(b);
-    });
-    $('modules').appendChild(row);
+  /* On Screen: только то, что уже загружено */
+  const onscreen=[['Homework','../timofey-homework/?v=20261019','homework']];
+  onscreen.forEach(([name,url,hash])=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='sec'; b.innerHTML=name+'<span>›</span>';
+    b.addEventListener('click',()=>openFrame('On Screen · ',name,url,hash));
+    $('modules').appendChild(b);
   });
 
   sections.forEach(s=>{
     const b=document.createElement('button');
     b.type='button'; b.className='sec'; b.innerHTML=s+'<span>›</span>';
-    b.addEventListener('click',()=>openFrame('ОГЭ · ',s,'../timofey-oge/?v=20261018#'+encodeURIComponent(s.toLowerCase()),'oge-'+s.toLowerCase().replace(/ /g,'-')));
+    b.addEventListener('click',()=>openFrame('ОГЭ · ',s,'../timofey-oge/?v=20261019#'+encodeURIComponent(s.toLowerCase()),'oge-'+s.toLowerCase().replace(/ /g,'-')));
     $('oge').appendChild(b);
   });
 
-  function markCurrent(){
-    document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('current',Number(c.dataset.n)===current));
-    $('go').textContent='Continue: Lesson '+current;
-  }
-  function openLesson(n){
-    current=n; try{localStorage.setItem(KEY,n)}catch(e){}
-    markCurrent(); openScreen('','Lesson '+n,'lesson-'+n);
-  }
   const WS0=$('ws').innerHTML;
   function openFrame(type,name,url,hash){
     openScreen(type,name,hash);
@@ -199,18 +178,14 @@ button{font:inherit;color:inherit}
     history.replaceState(null,'',location.pathname+location.search);
   }
 
-  $('go').addEventListener('click',()=>openLesson(current));
   $('back').addEventListener('click',closeScreen);
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&screen.classList.contains('open'))closeScreen()});
-  markCurrent();
 
   const h=location.hash.slice(1);
   const mo=h.match(/^oge-([\w-]+)$/);
   if(mo&&mo[1]==='teacher')openFrame('','Результаты ОГЭ','../timofey-oge/teacher.html',h);
-  else if(mo){const nm=sections.find(x=>x.toLowerCase().replace(/ /g,'-')===mo[1]);if(nm)openFrame('ОГЭ · ',nm,'../timofey-oge/?v=20261018#'+encodeURIComponent(nm.toLowerCase()),h);}
-  if(/^lesson-\d+$/.test(h)){
-    const n=Number(h.split('-')[1]); if(n>=1&&n<=20)openLesson(n);
-  }
+  else if(mo){const nm=sections.find(x=>x.toLowerCase().replace(/ /g,'-')===mo[1]);if(nm)openFrame('ОГЭ · ',nm,'../timofey-oge/?v=20261019#'+encodeURIComponent(nm.toLowerCase()),h);}
+  const os=onscreen.find(x=>x[2]===h);if(os)openFrame('On Screen · ',os[0],os[1],h);
 })();
 </script>
 </body>
