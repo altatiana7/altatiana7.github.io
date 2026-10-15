@@ -70,3 +70,12 @@ dialog .foot{margin-top:16px;justify-content:flex-end}
   .nav button{width:auto}
   .nav hr{display:none}
 }
+
+/* компактные полосы сверху — больше места для задания */
+body{grid-template-rows:40px minmax(0,1fr)}
+.top{gap:12px;padding:0 12px}
+.top .btn{padding:4px 12px;font-size:16px}
+.top .note{font-size:14px}
+.shell{gap:10px;padding:8px 10px}
+.tab{padding:4px 14px;font-size:15px}
+.body{padding:8px 12px;gap:8px}

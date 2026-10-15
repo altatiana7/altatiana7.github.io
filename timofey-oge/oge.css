@@ -129,3 +129,10 @@
 .split.wide .opts{gap:5px}
 .split.wide .opts .opt{padding:5px 10px;font-size:16px}
 .split.wide .strip{margin-bottom:2px}
+
+/* компактная шапка задания */
+.ihead{gap:10px}
+.ihead .btn{padding:3px 10px;font-size:15px}
+.ihead .ttl{font-size:17px}
+.hint{font-size:13.5px;margin-top:-4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.split{gap:10px}

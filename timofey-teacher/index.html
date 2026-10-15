@@ -65,10 +65,10 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#1aa4ff,#0b5fe0);-webki
 
 /* ---------- section screen ---------- */
 .screen{position:fixed;inset:0;z-index:30;display:none;background:#eef3f8}
-.screen.open{display:grid;grid-template-rows:56px 1fr}
+.screen.open{display:grid;grid-template-rows:40px 1fr}
 .head{display:flex;align-items:center;gap:14px;padding:0 18px;background:linear-gradient(90deg,#0b5fe0,#1d8cf0);color:#fff}
-.back{border:0;border-radius:10px;background:#fff;color:var(--ink);font-weight:800;font-size:16px;padding:8px 16px;cursor:pointer}
-.ttl{font-size:21px;font-weight:900}.ttl small{font-size:16px;font-weight:700;opacity:.8;margin-right:8px}
+.back{border:0;border-radius:8px;background:#fff;color:var(--ink);font-weight:800;font-size:15px;padding:4px 12px;cursor:pointer}
+.ttl{font-size:17px;font-weight:900}.ttl small{font-size:14px;font-weight:700;opacity:.8;margin-right:8px}
 .ws iframe{width:100%;height:100%;border:0;display:block}
 
 /* ---------- access gate ---------- */
@@ -157,7 +157,7 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
 
 (()=>{
   const $=id=>document.getElementById(id);
-  const V='20261021';
+  const V='20261022';
   const oge=s=>'../timofey-oge/?v='+V+'&teacher=1#'+encodeURIComponent(s);
   const I={
     book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/>',

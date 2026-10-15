@@ -75,13 +75,13 @@ button{font:inherit;color:inherit}
 
 /* Lesson / exam screen */
 .screen{position:fixed;inset:0;z-index:30;display:none;background:var(--bg)}
-.screen.open{display:grid;grid-template-rows:56px 1fr}
+.screen.open{display:grid;grid-template-rows:40px 1fr}
 .head{display:flex;align-items:center;gap:14px;padding:0 18px;background:var(--steel);color:#fff}
 .back{
   border:1px solid var(--line);border-radius:6px;background:var(--card2);
-  font-size:17px;font-weight:700;padding:8px 16px;cursor:pointer;color:var(--ink)
+  font-size:15px;font-weight:700;padding:4px 12px;cursor:pointer;color:var(--ink)
 }
-.title{font-size:23px;font-weight:800}
+.title{font-size:18px;font-weight:800}
 .title small{font-size:17px;font-weight:400;color:#c9d6df;margin-right:8px}
 .workspace{min-height:0;display:grid;place-items:center;padding:24px}
 .workspace p{margin:0;font-size:20px;color:var(--muted)}
@@ -143,7 +143,7 @@ button{font:inherit;color:inherit}
   const screen=$('screen');
 
   /* On Screen: только то, что уже загружено */
-  const onscreen=[['Homework','../timofey-homework/?v=20261021','homework']];
+  const onscreen=[['Homework','../timofey-homework/?v=20261022','homework']];
   onscreen.forEach(([name,url,hash])=>{
     const b=document.createElement('button');
     b.type='button'; b.className='sec'; b.innerHTML=name+'<span>›</span>';
@@ -154,7 +154,7 @@ button{font:inherit;color:inherit}
   sections.forEach(s=>{
     const b=document.createElement('button');
     b.type='button'; b.className='sec'; b.innerHTML=s+'<span>›</span>';
-    b.addEventListener('click',()=>openFrame('ОГЭ · ',s,'../timofey-oge/?v=20261021#'+encodeURIComponent(s.toLowerCase()),'oge-'+s.toLowerCase().replace(/ /g,'-')));
+    b.addEventListener('click',()=>openFrame('ОГЭ · ',s,'../timofey-oge/?v=20261022#'+encodeURIComponent(s.toLowerCase()),'oge-'+s.toLowerCase().replace(/ /g,'-')));
     $('oge').appendChild(b);
   });
 
@@ -182,7 +182,7 @@ button{font:inherit;color:inherit}
 
   const h=location.hash.slice(1);
   const mo=h.match(/^oge-([\w-]+)$/);
-  if(mo){const nm=sections.find(x=>x.toLowerCase().replace(/ /g,'-')===mo[1]);if(nm)openFrame('ОГЭ · ',nm,'../timofey-oge/?v=20261021#'+encodeURIComponent(nm.toLowerCase()),h);}
+  if(mo){const nm=sections.find(x=>x.toLowerCase().replace(/ /g,'-')===mo[1]);if(nm)openFrame('ОГЭ · ',nm,'../timofey-oge/?v=20261022#'+encodeURIComponent(nm.toLowerCase()),h);}
   const os=onscreen.find(x=>x[2]===h);if(os)openFrame('On Screen · ',os[0],os[1],h);
 })();
 </script>
