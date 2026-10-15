@@ -143,7 +143,7 @@ button{font:inherit;color:inherit}
   const screen=$('screen');
 
   /* On Screen: только то, что уже загружено */
-  const onscreen=[['Homework','../timofey-homework/?v=20261022','homework']];
+  const onscreen=[['Homework','../timofey-homework/?v=20261023','homework']];
   onscreen.forEach(([name,url,hash])=>{
     const b=document.createElement('button');
     b.type='button'; b.className='sec'; b.innerHTML=name+'<span>›</span>';
@@ -154,7 +154,7 @@ button{font:inherit;color:inherit}
   sections.forEach(s=>{
     const b=document.createElement('button');
     b.type='button'; b.className='sec'; b.innerHTML=s+'<span>›</span>';
-    b.addEventListener('click',()=>openFrame('ОГЭ · ',s,'../timofey-oge/?v=20261022#'+encodeURIComponent(s.toLowerCase()),'oge-'+s.toLowerCase().replace(/ /g,'-')));
+    b.addEventListener('click',()=>openFrame('ОГЭ · ',s,'../timofey-oge/?v=20261023#'+encodeURIComponent(s.toLowerCase()),'oge-'+s.toLowerCase().replace(/ /g,'-')));
     $('oge').appendChild(b);
   });
 
@@ -182,7 +182,7 @@ button{font:inherit;color:inherit}
 
   const h=location.hash.slice(1);
   const mo=h.match(/^oge-([\w-]+)$/);
-  if(mo){const nm=sections.find(x=>x.toLowerCase().replace(/ /g,'-')===mo[1]);if(nm)openFrame('ОГЭ · ',nm,'../timofey-oge/?v=20261022#'+encodeURIComponent(nm.toLowerCase()),h);}
+  if(mo){const nm=sections.find(x=>x.toLowerCase().replace(/ /g,'-')===mo[1]);if(nm)openFrame('ОГЭ · ',nm,'../timofey-oge/?v=20261023#'+encodeURIComponent(nm.toLowerCase()),h);}
   const os=onscreen.find(x=>x[2]===h);if(os)openFrame('On Screen · ',os[0],os[1],h);
 })();
 </script>

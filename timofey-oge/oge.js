@@ -178,8 +178,9 @@ function listPage(p){
   main.append(box);
 }
 function head(p,it,extra){
-  const h=el("div","ihead");if(p.id!=="wr")setTimeout(()=>{const hint=el("div","hint",INSTR[p.id]||"");h.after(hint);},0);
+  const h=el("div","ihead");
   h.append(button("← Список",()=>open(p.id)),el("span","ttl",String(it.n).padStart(2,"0")+" · "+it.title));
+  if(p.id!=="wr"&&INSTR[p.id]){const hint=el("span","hint-in",INSTR[p.id]);hint.title=INSTR[p.id];h.append(hint);}
   if(extra)h.append(extra);
   main.append(h);return h;
 }
