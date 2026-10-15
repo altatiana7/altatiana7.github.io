@@ -1,163 +1,133 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <title>Teacher's Hub · Timofey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#cdd6dc; --card:#edf1f3; --card2:#dde4e8; --ink:#1d2932; --muted:#566673; --line:#b3c0c9; --steel:#44637d;
-  --accent:#41705f; --accent-dark:#335a4c; --str:#3a6a96;
-  --mono:"JetBrains Mono","Cascadia Code",Consolas,"SF Mono",Menlo,"DejaVu Sans Mono",monospace;
+  --ink:#0e1a33; --muted:#4d5b73; --blue:#1d8cf0; --blue2:#0a5fd6; --teal:#2bc4a4; --line:#d7e3f2;
+  --sky1:#eaf4ff; --sky2:#f7fbff; --card:#ffffff; --note:#fff6c7;
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;color:var(--ink);font-family:var(--mono);
-  background:var(--bg);
-  background-image:linear-gradient(rgba(40,60,75,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(40,60,75,.07) 1px,transparent 1px);
-  background-size:32px 32px}
+html,body{margin:0;height:100%}
+body{font-family:"Nunito",system-ui,sans-serif;color:var(--ink);
+  background:radial-gradient(1200px 600px at 85% -10%,#cfe7ff 0%,transparent 60%),linear-gradient(180deg,var(--sky1),var(--sky2));}
 button{font:inherit;color:inherit}
 
-.hub{
-  height:100vh;display:grid;gap:18px;padding:18px;
-  grid-template-columns:212px minmax(0,1fr) minmax(240px,290px);
-}
-.panel{
-  min-height:0;background:var(--card);border:1px solid var(--line);border-radius:10px;
-  display:flex;flex-direction:column;overflow:hidden
-}
-.tab{
-  flex:0 0 auto;padding:9px 16px;background:var(--steel);
-  font-size:17px;color:#e6edf2
-}
-.tab b{color:#a8d8c2;font-weight:700}
-.body{flex:1;min-height:0;padding:8px 14px 12px;display:flex;flex-direction:column}
+/* ---------- hub ---------- */
+.hub{height:100vh;display:grid;grid-template-columns:minmax(300px,36%) minmax(0,1fr);gap:22px;padding:18px 22px}
+.hub.locked{visibility:hidden}
+.left{position:relative;min-height:0;border-radius:22px;overflow:hidden;box-shadow:0 18px 40px rgba(20,60,120,.18)}
+.left img{width:100%;height:100%;object-fit:cover;object-position:50% 0%;display:block}
+.meet{position:absolute;left:14px;bottom:14px;max-width:62%;background:rgba(235,245,255,.93);backdrop-filter:blur(4px);
+  border:1px solid #bcd7f5;border-radius:14px;padding:10px 14px 10px 12px;transform:rotate(-2deg);box-shadow:0 8px 18px rgba(20,60,120,.15)}
+.meet .tag{display:inline-block;font-family:"Caveat",cursive;font-size:26px;font-weight:700;line-height:1;background:#fff3a6;padding:3px 10px;border-radius:4px;transform:rotate(-3deg);margin:-2px 0 6px -4px}
+.meet ul{margin:0;padding:0;list-style:none;font-family:"Caveat",cursive;font-size:21px;line-height:1.15}
+.meet li::before{content:"✓ ";font-weight:700;color:var(--ink)}
 
-/* Modules: one list, every lesson visible at once */
-.mods{flex:1;min-height:0;display:flex;flex-direction:column;overflow:auto}
-.mod{flex:1;display:flex;align-items:center;gap:10px;padding:5px 0;border-top:1px solid var(--line)}
-.mod:first-child{border-top:0}
-.mod-name{flex:1;font-size:18px;font-weight:700;white-space:nowrap}
-.mod-name i{font-style:normal;color:var(--muted);font-weight:400}
-.chips{display:grid;grid-template-columns:repeat(3,42px);gap:6px}
-.chip{
-  height:40px;border:1px solid var(--line);border-radius:6px;background:var(--card2);
-  font-size:18px;font-weight:700;cursor:pointer
-}
-.chip:hover,.sec:hover,.back:hover{border-color:var(--accent);color:var(--accent)}
-.chip.current{border-color:var(--accent);color:var(--accent);background:#fff;box-shadow:0 0 0 1px var(--accent)}
+.right{min-height:0;display:flex;flex-direction:column;gap:12px}
+.top{display:flex;align-items:center;gap:18px}
+.title{flex:1;min-width:0}
+h1{margin:0;font-size:clamp(34px,4.6vw,64px);font-weight:900;line-height:1;letter-spacing:-.02em}
+h1 em{font-style:normal;background:linear-gradient(90deg,#1aa4ff,#0b5fe0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pill{display:inline-block;margin-top:10px;padding:7px 22px;border-radius:999px;font-weight:900;font-size:clamp(16px,1.6vw,22px);color:#fff;
+  background:linear-gradient(90deg,#2bc4a4,#1fb3c9);box-shadow:0 6px 14px rgba(31,179,201,.3);transform:rotate(-1deg)}
+.badge{flex:0 0 auto;width:clamp(78px,8vw,112px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;font-size:clamp(28px,3vw,42px);
+  background:radial-gradient(circle at 35% 30%,#4fb7ff,#0b5fe0 70%);box-shadow:0 0 0 6px #d6ecff,0 10px 22px rgba(11,95,224,.35)}
+.badge small{display:block;font-size:13px;font-weight:800;text-align:center;line-height:1;margin-top:-6px;opacity:.9}
 
-/* Centre */
-.hero-body{flex:1;min-height:0;display:flex}
-.photo{flex:0 0 40%;min-width:0;height:100%;object-fit:cover;object-position:50% 22%;filter:saturate(.85)}
-.hero-text{flex:1;min-width:0;padding:18px 24px;display:flex;flex-direction:column;justify-content:center;gap:14px}
-.hero-text h1{margin:0;font-size:clamp(26px,2.9vw,42px);font-weight:800;line-height:1.1}
-.hero-text h1::after{content:"_";color:var(--accent);animation:blink 1.1s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
-.code{margin:0;font-size:19px;line-height:1.5;color:var(--ink);white-space:pre}
-.code .k{color:var(--muted)} .code .s{color:var(--str)} .code .n{color:var(--accent)}
-.go{
-  align-self:flex-start;margin-top:4px;border:0;border-radius:6px;background:var(--accent);color:#fff;
-  font-size:20px;font-weight:800;padding:13px 22px;cursor:pointer
-}
-.go:hover{background:var(--accent-dark)}
-.todo{margin:0;padding-left:22px;font-size:16px;line-height:1.55;color:var(--muted)}
-.todo li::marker{color:var(--accent);font-weight:700}
+.grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:12px}
+.card{min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;
+  background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 10px 12px;cursor:pointer;
+  box-shadow:0 8px 20px rgba(20,60,120,.08);transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 26px rgba(20,60,120,.16)}
+.card:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.ic{width:52px;height:52px;border-radius:13px;display:grid;place-items:center}
+.ic svg{width:30px;height:30px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.card b{font-size:18px;font-weight:900;line-height:1.1}
+.card span{font-size:14px;color:var(--muted);line-height:1.2}
+.card i{width:24px;height:24px;border-radius:50%;background:#173a6b;display:grid;place-items:center;margin-top:2px}
+.card i::after{content:"";width:7px;height:7px;border:solid #fff;border-width:2px 2px 0 0;transform:translateX(-1px) rotate(45deg)}
+.card.teach{border:2px solid #b9d8ff;background:linear-gradient(180deg,#fff,#f1f8ff)}
+.foot{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted)}
+.lock{border:1px dashed #a9c3e4;background:transparent;border-radius:10px;padding:6px 12px;cursor:pointer;color:var(--muted)}
+.lock:hover{color:var(--blue2);border-color:var(--blue2)}
 
-/* OGE */
-.secs{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;overflow:auto;padding-top:4px}
-.sec{
-  flex:1;min-height:40px;display:flex;align-items:center;justify-content:space-between;
-  border:1px solid var(--line);border-radius:6px;background:var(--card2);
-  padding:0 14px;font-size:19px;font-weight:700;cursor:pointer;text-align:left
-}
-.sec span{color:var(--muted);font-weight:400}
-.secs.top .sec{flex:0 0 52px}
-
-/* Lesson / exam screen */
-.screen{position:fixed;inset:0;z-index:30;display:none;background:var(--bg)}
+/* ---------- section screen ---------- */
+.screen{position:fixed;inset:0;z-index:30;display:none;background:#eef3f8}
 .screen.open{display:grid;grid-template-rows:56px 1fr}
-.head{display:flex;align-items:center;gap:14px;padding:0 18px;background:var(--steel);color:#fff}
-.back{
-  border:1px solid var(--line);border-radius:6px;background:var(--card2);
-  font-size:17px;font-weight:700;padding:8px 16px;cursor:pointer;color:var(--ink)
-}
-.title{font-size:23px;font-weight:800}
-.title small{font-size:17px;font-weight:400;color:#c9d6df;margin-right:8px}
-.workspace{min-height:0;display:grid;place-items:center;padding:24px}
-.workspace p{margin:0;font-size:20px;color:var(--muted)}
-.workspace.frame{padding:0;display:block}
-.workspace iframe{width:100%;height:100%;border:0;display:block;background:var(--bg)}
-.teach{flex:0 0 auto;margin-top:8px;border:1px dashed var(--line);border-radius:6px;background:transparent;padding:8px 12px;font-size:15px;color:var(--muted);cursor:pointer;text-align:left}
-.teach:hover{border-color:var(--accent);color:var(--accent)}
+.head{display:flex;align-items:center;gap:14px;padding:0 18px;background:linear-gradient(90deg,#0b5fe0,#1d8cf0);color:#fff}
+.back{border:0;border-radius:10px;background:#fff;color:var(--ink);font-weight:800;font-size:16px;padding:8px 16px;cursor:pointer}
+.ttl{font-size:21px;font-weight:900}.ttl small{font-size:16px;font-weight:700;opacity:.8;margin-right:8px}
+.ws iframe{width:100%;height:100%;border:0;display:block}
 
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-@media(prefers-reduced-motion:reduce){.hero-text h1::after{animation:none}}
+/* ---------- access gate ---------- */
+.gate{position:fixed;inset:0;z-index:50;display:grid;place-items:center}
+.gate[hidden]{display:none}
+.gate form{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:12px;width:min(380px,calc(100vw - 32px));box-shadow:0 18px 40px rgba(20,60,120,.15)}
+.gate h2{margin:0;font-size:24px;font-weight:900}.gate h2 em{font-style:normal;color:var(--blue)}
+.gate input{font:inherit;font-size:18px;padding:10px 12px;border:1px solid var(--line);border-radius:10px}
+.gate input:focus{outline:2px solid var(--blue);border-color:var(--blue)}
+.gate .err{color:#b23a3a;font-size:15px;min-height:1.2em;margin:0}
+.gate button{border:0;border-radius:10px;background:var(--blue2);color:#fff;font-weight:900;font-size:18px;padding:11px;cursor:pointer}
 
 @media(max-width:900px){
   html,body{height:auto}
-  .hub{height:auto;grid-template-columns:1fr}
-  .hero{order:-1}
-  .hero-body{min-height:280px}
-  .mods,.secs{overflow:visible}
+  .hub{height:auto;grid-template-columns:1fr;padding:12px 16px}
+  .left{height:380px}
+  .meet{max-width:58%;padding:6px 10px;bottom:10px;left:10px}.meet .tag{font-size:21px}.meet ul{font-size:16px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto}
+  .card{padding:14px 10px}
 }
-
-.row2{display:flex;gap:10px;flex-wrap:wrap}
-.go.alt{background:var(--steel)}
-.gate{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:var(--bg)}
-.gate[hidden]{display:none}
-.gate form{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px;display:flex;flex-direction:column;gap:12px;width:min(380px,calc(100vw - 32px))}
-.gate h2{margin:0;font-size:22px}
-.gate input{font:inherit;font-size:18px;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
-.gate input:focus{outline:2px solid var(--accent);border-color:var(--accent)}
-.gate .err{color:#a4483f;font-size:15px;min-height:1.2em;margin:0}
-.gate .go{align-self:stretch;margin:0}
-.hub.locked{visibility:hidden}
+@media(prefers-reduced-motion:reduce){.card{transition:none}}
 </style>
 </head>
 <body>
 <div class="gate" id="gate">
   <form id="gf">
-    <h2>Teacher's Hub · Тимофей</h2>
+    <h2>Teacher's <em>Hub</em> · Тимофей</h2>
     <label for="code">Код доступа (тот же, что для результатов)</label>
     <input id="code" type="password" autocomplete="current-password" required>
     <p class="err" id="gerr"></p>
-    <button class="go" type="submit">Войти</button>
+    <button type="submit">Войти</button>
   </form>
 </div>
-<main class="hub locked" id="hub">
-  <section class="panel">
-    <div class="tab"><b>//</b> on screen</div>
-    <div class="body"><div class="secs top" id="modules"></div></div>
-  </section>
 
-  <section class="panel hero">
-    <div class="tab"><b>&gt;</b> english_hub</div>
-    <div class="hero-body">
-      <img class="photo" src="../timofey/timofey.jpg?v=20261007" alt="Timofey">
-      <div class="hero-text">
-        <h1>Teacher's Hub</h1>
-<pre class="code"><span class="k">student</span> = <span class="s">"Тимофей"</span>
-<span class="k">grade</span>   = <span class="n">9</span>
-<span class="k">goal</span>    = <span class="s">"ОГЭ"</span></pre>
-        <ol class="todo"><li>Те же задания, что у Тимофея</li><li>Режим учителя: ваши ответы Тимофею в результаты не попадают</li><li>Результаты и проверка домашки — кнопки ниже</li></ol>
-        <div class="row2"><button class="go" id="res" type="button">Результаты Тимофея</button><button class="go alt" id="hwc" type="button">Проверка домашки</button></div>
-      </div>
+<main class="hub locked" id="hub">
+  <section class="left">
+    <img src="./timofey-teacher.jpg?v=20261015b" alt="Timofey">
+    <div class="meet">
+      <div class="tag">Meet Timofey</div>
+      <ul><li>9th grade · ОГЭ 2027</li><li>Tech-addicted</li><li>Curious</li><li>Smart &amp; creative</li><li>Future programmer</li></ul>
     </div>
   </section>
 
-  <section class="panel">
-    <div class="tab"><b>//</b> ОГЭ practice</div>
-    <div class="body"><div class="secs" id="oge"></div><button class="teach" id="lock" type="button">// выйти (закрыть доступ)</button></div>
+  <section class="right">
+    <div class="top">
+      <div class="title">
+        <h1>Teacher's <em>Hub</em></h1>
+        <div class="pill">ESL Interactive Lessons</div>
+      </div>
+      <div class="badge"><div>B2<small>ОГЭ</small></div></div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="foot"><span>Режим учителя: ваши ответы не попадают в результаты Тимофея</span><button class="lock" id="lock" type="button">Выйти</button></div>
   </section>
 </main>
 
 <section class="screen" id="screen" aria-hidden="true">
   <header class="head">
     <button class="back" id="back" type="button">← Hub</button>
-    <div class="title"><small id="kind"></small><span id="title"></span></div>
+    <div class="ttl"><small id="kind"></small><span id="title"></span></div>
   </header>
-  <div class="workspace" id="ws"><p>// Materials for this section will appear here.</p></div>
+  <div class="ws" id="ws"></div>
 </section>
 
 <script>
@@ -168,7 +138,7 @@ async function checkCode(code){
 }
 function unlock(){document.getElementById('gate').hidden=true;document.getElementById('hub').classList.remove('locked');}
 (async()=>{
-  const gate=document.getElementById('gate'),err=document.getElementById('gerr');
+  const err=document.getElementById('gerr');
   let saved="";try{saved=localStorage.getItem(CK)||""}catch(e){}
   if(saved){try{if(await checkCode(saved)){unlock();return;}}catch(e){unlock();return;}}
   document.getElementById('gf').addEventListener('submit',async e=>{
@@ -178,58 +148,56 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
   });
   document.getElementById('code').focus();
 })();
+
 (()=>{
-    const sections=['Reading','Grammar','Word formation','Writing','Speaking','Сборник 2026'];
   const $=id=>document.getElementById(id);
+  const V='20261020';
+  const oge=s=>'../timofey-oge/?v='+V+'&teacher=1#'+encodeURIComponent(s);
+  const I={
+    book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/>',
+    read:'<path d="M2 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2z"/><path d="M22 5h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z"/>',
+    gear:'<circle cx="9" cy="14" r="3.2"/><path d="M9 8v2.5M9 17.5V20M3 14h2.5M12.5 14H15M4.8 9.8l1.8 1.8M11.4 16.4l1.8 1.8M4.8 18.2l1.8-1.8M11.4 11.6l1.8-1.8"/><circle cx="17.5" cy="6.5" r="2.4"/><path d="M17.5 2.5v1.6M17.5 8.9v1.6M13.5 6.5h1.6M19.9 6.5h1.6"/>',
+    word:'<path d="M4 20l5-14 5 14M6 15h6"/><path d="M16 9h5M18.5 6.5v5"/>',
+    pen:'<path d="M3 21l3.5-1 11-11-2.5-2.5-11 11z"/><path d="M14 5.5l2.5-2.5 4.5 4.5-2.5 2.5"/>',
+    chat:'<path d="M4 5h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M19 9h1a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1v3l-3-3h-4"/>',
+    stack:'<rect x="4" y="3" width="13" height="17" rx="2"/><path d="M8 7h5M8 11h5M8 15h3"/><path d="M20 6v14a2 2 0 0 1-2 2H8"/>',
+    chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+    check:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12l3 3 5-6"/>'
+  };
+  const C=[
+    ['Homework','On Screen · домашка',I.book,'#2f7cf6,#59a8ff','On Screen · ','../timofey-homework/?v='+V],
+    ['Reading','True/False, matching',I.read,'#22b59a,#46d6b6','ОГЭ · ',oge('reading')],
+    ['Grammar','Задания 20–28',I.gear,'#f2832c,#ffab4a','ОГЭ · ',oge('grammar')],
+    ['Word formation','Задания 29–34',I.word,'#e8a417,#f6c94a','ОГЭ · ',oge('word formation')],
+    ['Writing','Личное письмо',I.pen,'#e25a7a,#ff8aa3','ОГЭ · ',oge('writing')],
+    ['Speaking','Чтение, интервью, монолог',I.chat,'#8e5cf0,#b48cff','ОГЭ · ',oge('speaking')],
+    ['Сборник 2026','Варианты 1–3',I.stack,'#1f9fd0,#4cc6ef','ОГЭ · ',oge('сборник 2026')],
+    ['Результаты','Ответы Тимофея по ОГЭ',I.chart,'#0b5fe0,#1d8cf0','','../timofey-oge/teacher.html',1],
+    ['Проверка домашки','Файлы домашки On Screen',I.check,'#0b5fe0,#1d8cf0','On Screen · ','../timofey-homework/teacher.html',1]
+  ];
+  C.forEach(([name,sub,icon,grad,kind,url,teach])=>{
+    const b=document.createElement('button');b.type='button';b.className='card'+(teach?' teach':'');
+    const [g1,g2]=grad.split(',');
+    b.innerHTML='<div class="ic" style="background:linear-gradient(135deg,'+g1+','+g2+')"><svg viewBox="0 0 24 24">'+icon+'</svg></div><b></b><span></span><i></i>';
+    b.querySelector('b').textContent=name;b.querySelector('span').textContent=sub;
+    b.addEventListener('click',()=>openFrame(kind,name,url));
+    $('grid').appendChild(b);
+  });
+
   const screen=$('screen');
-
-  /* On Screen: только то, что уже загружено */
-  const onscreen=[['Homework','../timofey-homework/?v=20261020','homework']];
-  onscreen.forEach(([name,url,hash])=>{
-    const b=document.createElement('button');
-    b.type='button'; b.className='sec'; b.innerHTML=name+'<span>›</span>';
-    b.addEventListener('click',()=>openFrame('On Screen · ',name,url,hash));
-    $('modules').appendChild(b);
-  });
-
-  sections.forEach(s=>{
-    const b=document.createElement('button');
-    b.type='button'; b.className='sec'; b.innerHTML=s+'<span>›</span>';
-    b.addEventListener('click',()=>openFrame('ОГЭ · ',s,'../timofey-oge/?v=20261020&teacher=1#'+encodeURIComponent(s.toLowerCase()),'oge-'+s.toLowerCase().replace(/ /g,'-')));
-    $('oge').appendChild(b);
-  });
-
-  const WS0=$('ws').innerHTML;
-  function openFrame(type,name,url,hash){
-    openScreen(type,name,hash);
-    const ws=$('ws');ws.className='workspace frame';ws.innerHTML='';
+  function openFrame(kind,name,url){
+    $('kind').textContent=kind;$('title').textContent=name;
+    const ws=$('ws');ws.innerHTML='';
     const f=document.createElement('iframe');f.title=name;f.src=url;
     f.addEventListener('load',()=>{try{const a=f.contentDocument.querySelector('header .btn');if(a)a.style.display='none';}catch(e){}});
     ws.appendChild(f);
+    screen.classList.add('open');screen.setAttribute('aria-hidden','false');
   }
-  $('res').addEventListener('click',()=>openFrame('','Результаты Тимофея','../timofey-oge/teacher.html','oge-teacher'));
-  $('hwc').addEventListener('click',()=>openFrame('On Screen · ','Проверка домашки','../timofey-homework/teacher.html','homework-check'));
-  $('lock').addEventListener('click',()=>{try{localStorage.removeItem(CK)}catch(e){}location.reload();});
-  function openScreen(type,name,hash){
-    const w=$('ws');w.className='workspace';w.innerHTML=WS0;
-    $('kind').textContent=type; $('title').textContent=name;
-    screen.classList.add('open'); screen.setAttribute('aria-hidden','false');
-    history.replaceState(null,'','#'+hash);
-  }
-  function closeScreen(){
-    screen.classList.remove('open'); screen.setAttribute('aria-hidden','true'); $('ws').innerHTML=WS0; $('ws').className='workspace';
-    history.replaceState(null,'',location.pathname+location.search);
-  }
-
+  function closeScreen(){screen.classList.remove('open');screen.setAttribute('aria-hidden','true');$('ws').innerHTML='';}
   $('back').addEventListener('click',closeScreen);
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&screen.classList.contains('open'))closeScreen()});
-
-  const h=location.hash.slice(1);
-  const mo=h.match(/^oge-([\w-]+)$/);
-  if(mo&&mo[1]==='teacher')openFrame('','Результаты ОГЭ','../timofey-oge/teacher.html',h);
-  else if(mo){const nm=sections.find(x=>x.toLowerCase().replace(/ /g,'-')===mo[1]);if(nm)openFrame('ОГЭ · ',nm,'../timofey-oge/?v=20261020&teacher=1#'+encodeURIComponent(nm.toLowerCase()),h);}
-  const os=onscreen.find(x=>x[2]===h);if(os)openFrame('On Screen · ',os[0],os[1],h);
-  if(h==='homework-check')openFrame('On Screen · ','Проверка домашки','../timofey-homework/teacher.html',h);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&screen.classList.contains('open'))closeScreen();});
+  $('lock').addEventListener('click',()=>{try{localStorage.removeItem(CK)}catch(e){}location.reload();});
+  if(location.hash)history.replaceState(null,'',location.pathname); // всегда с главного экрана
 })();
 </script>
 </body>
