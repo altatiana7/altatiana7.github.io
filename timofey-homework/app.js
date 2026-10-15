@@ -1,4 +1,5 @@
-const KEY=SETKEY;
+const TEACHER=/[?&]teacher=1\b/.test(location.search); // режим учителя: ничего не отправляется
+const KEY=TEACHER?SETKEY+".teacher":SETKEY;
 let state={answers:{},lastSubmission:null,feedback:null,audioName:null};
 let storageOK=true;
 try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.answers&&typeof s.answers==="object")state=Object.assign(state,s);}catch(e){storageOK=false;}
@@ -19,9 +20,29 @@ function done(t){
 function count(sec){return TASKS.filter(t=>(!sec||t.section===sec)&&done(t)).length;}
 function save(){
   try{localStorage.setItem(KEY,JSON.stringify(state));storageOK=true;}catch(e){storageOK=false;}
-  $("saveStatus").textContent=storageOK?"Ответы сохраняются на этом устройстве":"Сохранение недоступно: скачай файл ответов";
   updateProgress();
+  clearTimeout(save.t);save.t=setTimeout(sendHW,1500);
 }
+/* ---------- ответы сразу уходят Татьяне (та же база, что у заданий ОГЭ) ---------- */
+const DB_URL="https://lzxcmrlubhjfdhtqvqzt.supabase.co",DB_KEY="sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI";
+let lastSent=state.sentSig||"";
+async function sendHW(){
+  const st=$("saveStatus");
+  if(TEACHER){st.textContent="Режим учителя: ответы не отправляются";return;}
+  const det=TASKS.filter(t=>t.section!=="Speaking"&&typeof state.answers[t.id]==="string"&&state.answers[t.id].trim())
+    .map(t=>({id:t.id,question:t.section+" · "+(t.prompt||"").replace(/___/g,"…")+(t.word?" ["+t.word+"]":""),chosen:state.answers[t.id],correct:"",is_correct:true}));
+  if(!det.length)return;
+  const sig=det.map(d=>d.id+"="+d.chosen).join("~");if(sig===lastSent){st.textContent="Ответы у Татьяны ✓";return;}
+  try{
+    const r=await fetch(DB_URL+"/rest/v1/rpc/submit_arina_homework",{method:"POST",headers:{apikey:DB_KEY,Authorization:"Bearer "+DB_KEY,"Content-Type":"application/json"},
+      body:JSON.stringify({p_test_id:"timofey-oge-hw-"+QUEST,p_test_title:"Тимофей · On Screen · Домашка · "+TITLE,p_score:0,p_max_score:0,p_answers:{student:"Тимофей",heard:Object.fromEntries(Object.entries(state.answers).filter(([k])=>/^sp\d$/.test(k)))},p_details:det})});
+    if(!r.ok)throw Error("send");
+    lastSent=sig;state.sentSig=sig;try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}
+    st.textContent="Ответы у Татьяны ✓";
+  }catch(e){st.textContent="Не удалось отправить Татьяне — повторится позже";}
+}
+window.addEventListener("online",()=>sendHW());
+window.addEventListener("load",()=>setTimeout(sendHW,1200));
 function updateProgress(){
   $("progress").textContent=count()+"/"+TASKS.length+" · "+count()*10+" XP";
   nav.querySelectorAll("button[data-sec]").forEach(b=>{
@@ -231,7 +252,7 @@ function exportAnswers(){
     submissionId:"TH-"+Date.now()+"-"+Math.random().toString(36).slice(2,8),exportedAt:new Date().toISOString(),
     answers:structuredClone(state.answers),audioFile:(state.audioNames||[]).join(", ")||null,completed:count(),total:TASKS.length};
   state.lastSubmission=snap;save();download(snap,"Timofey-Homework-"+snap.submissionId+".json");
-  toast((missing?"Скачан черновик, пустых ответов: "+missing+". ":"Файл ответов скачан. ")+"Пришли его Татьяне: сайт сам ничего не отправляет.");
+  toast((missing?"Скачан черновик, пустых ответов: "+missing+". ":"Файл ответов скачан. ")+"Ответы и так уходят Татьяне автоматически.");
   open("Submit");
 }
 function pickFile(fn){const inp=$("fileInput");inp.value="";inp.onchange=()=>fn(inp.files[0]);inp.click();}
@@ -244,7 +265,7 @@ function submitPage(){
     ?"Последний скачанный файл: "+state.lastSubmission.submissionId+". Если поменяешь ответы, скачай файл заново."
     :"Файл ответов ещё не скачан."));
   const ol=el("ol","steps");
-  ["Отправь скачанный файл .json Татьяне в вашем чате.","Отправь туда же аудиозаписи интервью (Speaking).","Когда придёт файл с проверкой, открой его в разделе «Проверка»."].forEach(s=>ol.append(el("li","",s)));
+  ["Ответы уходят Татьяне сами, как только ты их вписываешь.","Аудиозаписи интервью (Speaking) скачай и отправь Татьяне в вашем чате.","Файл ответов — запасной вариант, если нет интернета."].forEach(s=>ol.append(el("li","",s)));
   main.append(ol);
 }
 async function readFile(file){if(!file)throw Error("Выбери файл.");if(file.size>2000000)throw Error("Файл слишком большой.");return JSON.parse(await file.text());}
