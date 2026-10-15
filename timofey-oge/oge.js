@@ -1,6 +1,7 @@
 "use strict";
 /* ОГЭ practice: задания из открытого банка ФИПИ (материалы Татьяны). Проверка по ключам, прогресс в localStorage. */
-const KEY="timofey-oge.v2";
+const TEACHER=/[?&]teacher=1\b/.test(location.search); // режим учителя: ничего не отправляется, свой прогресс
+const KEY=TEACHER?"timofey-oge.teacher.v1":"timofey-oge.v2";
 let S={res:{},audio:[]};
 let storageOK=true;
 try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.res&&typeof s.res==="object")S=Object.assign(S,s);}catch(e){storageOK=false;}
@@ -97,6 +98,7 @@ function sendOne(p,it){
 }
 let sending=false;
 async function sendDone(manual){
+  if(TEACHER){const st=$("saveStatus");if(st)st.textContent="Режим учителя: результаты не отправляются";if(manual)toast("В режиме учителя результаты не отправляются.");return;}
   if(sending)return;sending=true;let ok=0,fail=0;
   try{
     for(const p of PAGES){if(!p.data||!isStepper(p))continue;
@@ -482,7 +484,7 @@ function wrPage(p,it){
     if(n<30){toast("Сначала напиши письмо.");return;}
     send.disabled=true;
     try{await sendLetter(p,it);send.textContent="Отправлено ✓";toast("Письмо отправлено Татьяне.");}
-    catch(e){toast("Не получилось отправить. Проверь интернет и нажми ещё раз.");}
+    catch(e){toast(TEACHER?"В режиме учителя письмо не отправляется.":"Не получилось отправить. Проверь интернет и нажми ещё раз.");}
     send.disabled=false;
   },"primary");
   const tm=el("span","wtm","30:00"),tb2=button("Старт 30 мин",()=>{clearInterval(tick);let left=1800;tb2.disabled=true;tick=setInterval(()=>{left--;tm.textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0");if(left<=0){clearInterval(tick);tick=null;tb2.disabled=false;toast("Время вышло.");}},1000);});
@@ -492,6 +494,7 @@ function wrPage(p,it){
   split.append(left,right);main.append(split);paint();
 }
 async function sendLetter(p,it){
+  if(TEACHER)throw Error("teacher");
   const r=rec(p,it),text=r.text||"",n=wordCount(text);
   const det=[{kind:"letter",question:"Личное письмо · "+it.friend+": "+it.qs.join(" "),chosen:text,correct:"",is_correct:true,words:n,answered:(r.q||[]).filter(Boolean).length,checks:wrChecks(text).filter(x=>x[1]).length+"/6"}];
   const res=await fetch(DB_URL+"/rest/v1/rpc/submit_arina_homework",{method:"POST",headers:{apikey:DB_KEY,Authorization:"Bearer "+DB_KEY,"Content-Type":"application/json"},
