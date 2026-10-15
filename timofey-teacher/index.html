@@ -40,6 +40,8 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#1aa4ff,#0b5fe0);-webki
 
 .grp{min-height:0;display:flex;flex-direction:column;gap:6px}
 .grp.big{flex:1}
+.row1{display:grid;grid-template-columns:2fr 1fr;gap:12px}
+.g-les{grid-template-columns:1fr!important}
 .grp h3{margin:0;font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:12px}
 .g-os{flex:0 0 auto;grid-auto-rows:auto;grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -88,6 +90,7 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#1aa4ff,#0b5fe0);-webki
   .meet{max-width:58%;padding:6px 10px;bottom:10px;left:10px}.meet .tag{font-size:18px}.meet ul{font-size:14px}
   .grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto}
   .g-os{grid-template-columns:1fr}
+  .row1{grid-template-columns:1fr}
   .card{padding:14px 10px}
 }
 @media(prefers-reduced-motion:reduce){.card{transition:none}}
@@ -122,7 +125,10 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#1aa4ff,#0b5fe0);-webki
       <div class="badge"><div>B2<small>ОГЭ</small></div></div>
     </div>
 
-    <div class="grp"><h3>On Screen</h3><div class="grid g-os" id="g-os"></div></div>
+    <div class="row1">
+      <div class="grp"><h3>On Screen</h3><div class="grid g-os" id="g-os"></div></div>
+      <div class="grp les"><h3>Уроки</h3><div class="grid g-os g-les" id="g-les"></div></div>
+    </div>
     <div class="grp big"><h3>ОГЭ</h3><div class="grid" id="g-oge"></div></div>
 
   </section>
@@ -168,6 +174,7 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
     chat:'<path d="M4 5h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><path d="M19 9h1a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1v3l-3-3h-4"/>',
     stack:'<rect x="4" y="3" width="13" height="17" rx="2"/><path d="M8 7h5M8 11h5M8 15h3"/><path d="M20 6v14a2 2 0 0 1-2 2H8"/>',
     chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+    film:'<rect x="3" y="5" width="14" height="14" rx="2"/><path d="M17 10l4-2.5v9L17 14"/>',
     check:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12l3 3 5-6"/>'
   };
   const OS=[
@@ -191,7 +198,8 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
     b.addEventListener('click',()=>openFrame(kind,name,url));
     $(box).appendChild(b);
   }
-  OS.forEach(c=>add('g-os',c));OGE.forEach(c=>add('g-oge',c));
+  const LES=[['Young Sheldon','Episode 1 · урок',I.film,'#d9632c,#f39a5b','Урок · ','./young-sheldon.html?v=20261015']];
+  OS.forEach(c=>add('g-os',c));LES.forEach(c=>add('g-les',c));OGE.forEach(c=>add('g-oge',c));
 
   const screen=$('screen');
   function openFrame(kind,name,url){
