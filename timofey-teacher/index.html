@@ -115,7 +115,6 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#1aa4ff,#0b5fe0);-webki
 
     <div class="grid" id="grid"></div>
 
-    <div class="foot"><span></span><button class="lock" id="lock" type="button">Выйти</button></div>
   </section>
 </main>
 
@@ -193,7 +192,6 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
   function closeScreen(){screen.classList.remove('open');screen.setAttribute('aria-hidden','true');$('ws').innerHTML='';}
   $('back').addEventListener('click',closeScreen);
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&screen.classList.contains('open'))closeScreen();});
-  $('lock').addEventListener('click',()=>{try{localStorage.removeItem(CK)}catch(e){}location.reload();});
   if(location.hash)history.replaceState(null,'',location.pathname); // всегда с главного экрана
 })();
 </script>
