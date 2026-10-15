@@ -1,7 +1,7 @@
 :root{
   --bg:#cdd6dc; --card:#edf1f3; --card2:#dde4e8; --ink:#1d2932; --muted:#566673; --line:#b3c0c9; --steel:#44637d;
   --accent:#41705f; --accent-dark:#335a4c; --str:#3a6a96; --bad:#a4483f; --okbg:#d5e6dd; --badbg:#f0dcd9;
-  --mono:"JetBrains Mono","Cascadia Code",Consolas,"SF Mono",Menlo,"DejaVu Sans Mono",monospace;
+  --mono:Georgia,"Times New Roman",Times,serif;
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;color:var(--ink);font-family:var(--mono);font-size:18px;

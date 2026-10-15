@@ -8,7 +8,7 @@
 :root{
   --bg:#cdd6dc; --card:#edf1f3; --card2:#dde4e8; --ink:#1d2932; --muted:#566673; --line:#b3c0c9; --steel:#44637d;
   --accent:#41705f; --accent-dark:#335a4c; --str:#3a6a96;
-  --mono:"JetBrains Mono","Cascadia Code",Consolas,"SF Mono",Menlo,"DejaVu Sans Mono",monospace;
+  --mono:Georgia,"Times New Roman",Times,serif;
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;color:var(--ink);font-family:var(--mono);
@@ -53,7 +53,7 @@ button{font:inherit;color:inherit}
 .hero-text h1{margin:0;font-size:clamp(26px,2.9vw,42px);font-weight:800;line-height:1.1}
 .hero-text h1::after{content:"_";color:var(--accent);animation:blink 1.1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
-.code{margin:0;font-size:19px;line-height:1.5;color:var(--ink);white-space:pre}
+.code{margin:0;font-family:inherit;font-size:19px;line-height:1.5;color:var(--ink);white-space:pre}
 .code .k{color:var(--muted)} .code .s{color:var(--str)} .code .n{color:var(--accent)}
 .go{
   align-self:flex-start;margin-top:4px;border:0;border-radius:6px;background:var(--accent);color:#fff;
@@ -117,7 +117,7 @@ button{font:inherit;color:inherit}
         <h1>Timofey's English Hub</h1>
 <pre class="code"><span class="k">grade</span> = <span class="n">9</span>
 <span class="k">goal</span>  = <span class="s">"ОГЭ"</span></pre>
-        <ol class="todo"><li>Слева домашка On Screen, справа разделы ОГЭ</li><li>Сделай задание: ответы проверяются сразу</li><li>В «Результатах» скачай файл и пришли Татьяне</li></ol>
+        <ol class="todo"><li>Слева домашка On Screen, справа разделы ОГЭ</li><li>Сделай задание: ответы проверяются сразу</li><li>Ответы уходят Татьяне сами</li></ol>
       </div>
     </div>
   </section>
@@ -154,7 +154,7 @@ button{font:inherit;color:inherit}
   sections.forEach(s=>{
     const b=document.createElement('button');
     b.type='button'; b.className='sec'; b.innerHTML=s+'<span>›</span>';
-    b.addEventListener('click',()=>openFrame('ОГЭ · ',s,'../timofey-oge/?v=20261020#'+encodeURIComponent(s.toLowerCase()),'oge-'+s.toLowerCase().replace(/ /g,'-')));
+    b.addEventListener('click',()=>openFrame('ОГЭ · ',s,'../timofey-oge/?v=20261021#'+encodeURIComponent(s.toLowerCase()),'oge-'+s.toLowerCase().replace(/ /g,'-')));
     $('oge').appendChild(b);
   });
 
@@ -182,7 +182,7 @@ button{font:inherit;color:inherit}
 
   const h=location.hash.slice(1);
   const mo=h.match(/^oge-([\w-]+)$/);
-  if(mo){const nm=sections.find(x=>x.toLowerCase().replace(/ /g,'-')===mo[1]);if(nm)openFrame('ОГЭ · ',nm,'../timofey-oge/?v=20261020#'+encodeURIComponent(nm.toLowerCase()),h);}
+  if(mo){const nm=sections.find(x=>x.toLowerCase().replace(/ /g,'-')===mo[1]);if(nm)openFrame('ОГЭ · ',nm,'../timofey-oge/?v=20261021#'+encodeURIComponent(nm.toLowerCase()),h);}
   const os=onscreen.find(x=>x[2]===h);if(os)openFrame('On Screen · ',os[0],os[1],h);
 })();
 </script>

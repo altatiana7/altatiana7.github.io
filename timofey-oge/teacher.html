@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex">
 <title>Timofey — ОГЭ: результаты</title>
 <script>try{if(self!==top)document.documentElement.classList.add("embed")}catch(e){document.documentElement.classList.add("embed")}</script>
-<link rel="stylesheet" href="../timofey-homework/hw.css?v=20261010">
+<link rel="stylesheet" href="../timofey-homework/hw.css?v=20261021">
 <link rel="stylesheet" href="../timofey-homework/app.css?v=20261010">
 <link rel="stylesheet" href="./oge.css?v=20261010">
 <style>
@@ -77,12 +77,12 @@ body{grid-template-rows:52px minmax(0,1fr)}
 <body>
 <header class="top">
   <a class="btn" href="../timofey/" id="hubLink">← Hub</a>
-  <div class="grow"><b>&gt;</b> oge / results</div>
+  <div class="grow" id="grow"><b>&gt;</b> oge / results</div>
   <div class="note" id="who"></div>
 </header>
 <div class="shell">
   <main class="panel">
-    <div class="tab">// результаты Тимофея</div>
+    <div class="tab" id="tabt">// результаты Тимофея</div>
     <div class="body" id="main"></div>
   </main>
 </div>
@@ -96,8 +96,10 @@ const $=id=>document.getElementById(id),main=$("main");
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e;}
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let rows=[],filter="all",done={};try{done=JSON.parse(localStorage.getItem(DK)||"{}")}catch(e){}
+const SET=new URLSearchParams(location.search).get("set")==="hw"?"hw":"oge";
 const SEC={hw:"On Screen · Домашка",bkr:"Сборник 2026 · Чтение",bkg:"Сборник 2026 · Грамматика",bkw:"Сборник 2026 · Словообразование",wr:"Writing · Письмо",tf:"Reading · True/False",mt:"Reading · Matching",gr:"Grammar",wf:"Word formation"};
 const secOf=r=>(String(r.test_id).match(/^timofey-oge-(\w+)-/)||[])[1];
+if(SET==="hw"){document.getElementById("tabt").textContent="// домашка On Screen — ответы Тимофея";document.getElementById("grow").innerHTML="<b>&gt;</b> on screen / homework";document.title="Timofey — домашка On Screen";}
 function msg(t,btn,fn){main.replaceChildren();const d=el("div","msg");d.append(el("span","",t));if(btn){const b=el("button","btn primary",btn);b.type="button";b.onclick=fn;d.append(b);}main.append(d);}
 async function load(ask){
   let code="";try{code=localStorage.getItem(CK)||""}catch(e){}
@@ -110,6 +112,7 @@ async function load(ask){
     const all=await r.json();
     const latest={};all.filter(x=>String(x.test_id).startsWith("timofey-oge-")).forEach(x=>{const o=latest[x.test_id];if(!o||new Date(x.created_at)>new Date(o.created_at))latest[x.test_id]=x;});
     rows=Object.values(latest).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+    rows=rows.filter(r=>SET==="hw"?secOf(r)==="hw":secOf(r)!=="hw");
     rows.forEach(r=>{if(secOf(r)!=="hw"||typeof KEYS==="undefined")return;let sc=0,mx=0;
       (Array.isArray(r.details)?r.details:[]).forEach(d=>{const k=KEYS[d.id];if(k===undefined){d.is_correct=true;d.correct="проверить самой";return;}
         mx++;d.is_correct=checkAnswer(d.id,d.chosen)===true;d.correct=k.split("|").join(" / ");if(d.is_correct)sc++;});
