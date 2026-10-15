@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Бомба · ошибки ОГЭ</title>
+<style>
+/* Одна страница: слева бомба (одна ошибка за раз), справа список раунда; классический шрифт как в Teacher's Hub */
+:root{
+  --ink:#0e1a33; --muted:#4d5b73; --line:#d7e3f2; --card:#fff; --sky1:#eaf4ff; --sky2:#f7fbff;
+  --blue:#0b5fe0; --good:#1f8a4c; --good-soft:#dff3e7; --bad:#c0392b; --bad-soft:#fbe3df; --fuse:#e8632c; --gap:#fff3a6;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:Georgia,"Times New Roman",Times,serif;color:var(--ink);background:linear-gradient(180deg,var(--sky1),var(--sky2));font-size:18px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.app{height:100%;display:grid;grid-template-rows:auto 1fr;gap:10px;padding:10px 16px 14px}
+.bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.bar h1{margin:0;font-size:22px}
+.bar .sp{flex:1}
+.cnt{display:flex;gap:8px}
+.cnt span{border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 12px;font-size:16px}
+.cnt .g{color:var(--good);border-color:#b8e0c8}
+.cnt .r{color:var(--bad);border-color:#f0c2bb}
+.btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:6px 14px;font-size:16px}
+.btn.pri{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700}
+.btn.ok{background:var(--good);border-color:var(--good);color:#fff;font-weight:700}
+.btn:disabled{opacity:.45;cursor:default}
+.main{min-height:0;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:14px}
+@media(max-width:860px){.main{grid-template-columns:1fr}html,body{height:auto}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 20px rgba(20,60,120,.08);padding:14px 18px;min-height:0;display:flex;flex-direction:column;gap:10px}
+.lbl{font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.bomb{transition:background .2s}
+.bomb.boom{background:var(--bad-soft);border-color:var(--bad)}
+.bomb.safe{background:var(--good-soft);border-color:var(--good)}
+.toprow{display:flex;align-items:center;gap:16px}
+.ring{position:relative;width:86px;height:86px;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:26px}
+.src{flex:1;min-width:0}
+.src .t{font-size:16px;color:var(--muted)}
+.word{font-size:26px;font-weight:700;letter-spacing:.02em}
+.sent{font-size:22px;line-height:1.5}
+.gapx{background:var(--gap);padding:0 8px;border-radius:4px;font-weight:700}
+.his{font-size:20px}
+.his s{color:var(--bad);text-decoration-thickness:2px}
+.ans{font-size:22px;font-weight:700;color:var(--good)}
+.boomtx{font-size:34px;font-weight:700;color:var(--bad);letter-spacing:.08em}
+.fuse{height:10px;border-radius:5px;background:var(--line);overflow:hidden}
+.fuse i{display:block;height:100%;width:100%;background:var(--fuse)}
+.ctr{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+.list{display:flex;flex-direction:column;gap:6px;overflow:auto;min-height:0}
+.it{display:flex;gap:10px;align-items:baseline;border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:16px}
+.it.cur{border-color:var(--blue);background:#eef5ff}
+.it .st{width:132px;flex:none;font-size:14px;color:var(--muted)}
+.it.g .st{color:var(--good);font-weight:700}
+.it.r .st{color:var(--bad);font-weight:700}
+.it .w{min-width:0}
+.msg{margin:auto;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center;max-width:520px}
+.sum{font-size:22px}
+.rev{display:flex;flex-direction:column;gap:6px;width:100%;text-align:left}
+.rev div{border-bottom:1px solid var(--line);padding:4px 0;font-size:17px}
+.rev s{color:var(--bad)}
+.rev b{color:var(--good)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="bar">
+    <h1>Бомба · ошибки ОГЭ</h1>
+    <div class="cnt"><span class="g" id="cG">Обезврежено 0</span><span class="r" id="cR">Взрывов 0</span></div>
+    <div class="sp"></div>
+    <button class="btn" id="newR" type="button">Новый раунд</button>
+  </div>
+  <div class="main">
+    <section class="panel bomb" id="bomb"></section>
+    <aside class="panel"><div class="lbl" id="listLbl">Раунд</div><div class="list" id="list"></div></aside>
+  </div>
+</div>
+
+<script src="../timofey-oge/oge-data.js?v=20261015"></script>
+<script src="../timofey-oge/oge-book.js?v=20261015"></script>
+<script>
+"use strict";
+const DB_URL="https://lzxcmrlubhjfdhtqvqzt.supabase.co",DB_KEY="sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI",CK="arina-teacher-code";
+const SECN={gr:"Grammar · 20–28",wf:"Word formation · 29–34",bkg:"Сборник 2026 · Grammar",bkw:"Сборник 2026 · Word formation"};
+const ROUND=10,SEC=15;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const secOf=id=>(String(id).match(/^timofey-oge-(\w+)-(\d+)$/)||[]);
+
+let pool=[],round=[],cur=0,res=[],timer=null,G=0,R=0;
+
+/* предложение с пропуском из текста задания */
+function sentenceFor(text,k){
+  const mark="‹"+k+"›";if(!text||text.indexOf(mark)<0)return "";
+  const parts=text.split(/\n+/).flatMap(p=>p.match(/[^.!?]+[.!?]+["”»’)]*|[^.!?]+$/g)||[p]);
+  const s=(parts.find(p=>p.includes(mark))||"").trim();
+  return esc(s).replace(mark,'<span class="gapx">______</span>').replace(/‹\d+›/g,"…");
+}
+function toItem(row,d,i){
+  const [,sec,n]=secOf(row.test_id);if(!SECN[sec])return null;
+  const num=+((String(d.question).match(/^(\d+)\./)||[])[1]||i+1);
+  const it={sec,n:+n,q:d.question,chosen:d.chosen,correct:d.correct,word:"",sent:"",where:""};
+  if(sec==="gr"||sec==="wf"){
+    const data=(typeof OGE!=="undefined"&&OGE[sec==="gr"?"GR":"WF"]||[]).find(x=>+x.n===+n);
+    it.word=(String(d.question).match(/\[(.+)\]/)||[])[1]||"";
+    if(data){it.sent=sentenceFor(data.text,num);if(data.items&&data.items[num-1])it.word=data.items[num-1].w;}
+    it.where=(sec==="gr"?"Grammar":"Word formation")+" · текст "+String(n).padStart(2,"0")+(data&&data.title?" · "+data.title:"")+" · пропуск "+num;
+  }else{
+    const b=typeof BOOK!=="undefined"&&BOOK[n];
+    it.where="Сборник 2026 · вариант "+n+(b&&b.pG?" · с. "+b.pG:"")+" · "+String(d.question).replace(/^Вариант \d+ · /,"задание ");
+  }
+  return it;
+}
+function collect(rows){
+  const latest={};rows.filter(x=>SECN[secOf(x.test_id)[1]]).forEach(x=>{const o=latest[x.test_id];if(!o||new Date(x.created_at)>new Date(o.created_at))latest[x.test_id]=x;});
+  const out=[];Object.values(latest).forEach(r=>(Array.isArray(r.details)?r.details:[]).forEach((d,i)=>{if(d&&d.is_correct===false){const it=toItem(r,d,i);if(it)out.push(it);}}));
+  return out;
+}
+
+function msg(html,btn,fn){stop();const b=$("bomb");b.className="panel bomb";b.innerHTML='<div class="msg">'+html+'</div>';if(btn){const x=document.createElement("button");x.className="btn pri";x.type="button";x.textContent=btn;x.onclick=fn;b.querySelector(".msg").append(x);}}
+
+async function load(ask){
+  let code="";try{code=localStorage.getItem(CK)||""}catch(e){}
+  if(!code&&ask){code=prompt("Код доступа (тот же, что для результатов):")||"";if(code)try{localStorage.setItem(CK,code)}catch(e){}}
+  if(!code)return msg("<p>Нужен код доступа к результатам Тимофея.</p>","Ввести код",()=>load(true));
+  msg("<p>Загружаю ошибки Тимофея…</p>");
+  try{
+    const r=await fetch(DB_URL+"/rest/v1/rpc/get_arina_homework",{method:"POST",headers:{apikey:DB_KEY,Authorization:"Bearer "+DB_KEY,"Content-Type":"application/json"},body:JSON.stringify({p_teacher_code:code})});
+    if(!r.ok){if([400,401,403].includes(r.status)){try{localStorage.removeItem(CK)}catch(e){}return msg("<p>Неверный код доступа.</p>","Ввести ещё раз",()=>load(true));}throw Error("load");}
+    pool=collect((await r.json()).filter(x=>String(x.test_id).startsWith("timofey-oge-")));
+    newRound();
+  }catch(e){msg("<p>Не удалось загрузить. Проверьте интернет.</p>","Повторить",()=>load());}
+}
+
+function newRound(){
+  stop();G=0;R=0;cur=0;res=[];counters();
+  if(!pool.length){$("list").innerHTML="";$("listLbl").textContent="Раунд";
+    return msg("<p class='sum'>Ошибок в грамматике и словообразовании нет.</p><p>Как только Тимофей сдаст задание с ошибками, они появятся здесь.</p>","Обновить",()=>load());}
+  round=shuffle(pool).slice(0,ROUND);
+  $("listLbl").textContent="Раунд · "+round.length+" из "+pool.length+" ошибок";
+  drawList();show();
+}
+function counters(){$("cG").textContent="Обезврежено "+G;$("cR").textContent="Взрывов "+R;}
+function drawList(){
+  $("list").innerHTML=round.map((it,i)=>{const r=res[i],cls=r==="g"?" g":r==="r"?" r":"",st=r==="g"?"обезврежено":r==="r"?"взрыв":i===cur?"сейчас":"";
+    return '<div class="it'+cls+(i===cur&&!r?" cur":"")+'"><span class="st">'+(i+1)+". "+st+'</span><span class="w">'+esc(it.word||it.where)+'</span></div>';}).join("");
+}
+function stop(){if(timer){clearInterval(timer);timer=null}}
+
+function show(){
+  stop();const it=round[cur],b=$("bomb");b.className="panel bomb";const C=2*Math.PI*36;
+  b.innerHTML='<div class="toprow"><div class="ring"><svg width="86" height="86"><circle cx="43" cy="43" r="36" fill="none" stroke="#d7e3f2" stroke-width="7"/><circle id="arc" cx="43" cy="43" r="36" fill="none" stroke="var(--fuse)" stroke-width="7" stroke-linecap="round" stroke-dasharray="'+C+'" stroke-dashoffset="0"/></svg><b id="sec">'+SEC+'</b></div>'+
+   '<div class="src"><div class="lbl">Ошибка '+(cur+1)+' из '+round.length+'</div><div class="t">'+esc(it.where)+'</div></div></div>'+
+   (it.word?'<div class="word">'+esc(it.word)+'</div>':'')+
+   (it.sent?'<div class="sent">'+it.sent+'</div>':'<div class="sent">Открой сборник и найди это задание.</div>')+
+   '<div class="his">Тимофей написал: <s>'+esc(it.chosen||"пропуск")+'</s></div>'+
+   '<div class="fuse"><i id="fz"></i></div><div id="out"></div>'+
+   '<div class="ctr"><button class="btn pri" id="go" type="button">Старт · 15 секунд</button><button class="btn ok" id="ok" type="button" disabled>Обезврежено</button><button class="btn" id="nx" type="button" hidden>'+(cur===round.length-1?"Итог раунда":"Следующая ошибка")+'</button></div>';
+  $("go").onclick=start;$("ok").onclick=()=>finish("g");$("nx").onclick=next;drawList();
+}
+function start(){
+  const C=2*Math.PI*36,t0=Date.now();$("go").disabled=true;$("ok").disabled=false;
+  timer=setInterval(()=>{const left=Math.max(0,SEC-(Date.now()-t0)/1000);$("sec").textContent=Math.ceil(left);$("arc").setAttribute("stroke-dashoffset",String(C*(1-left/SEC)));$("fz").style.width=(left/SEC*100)+"%";if(left<=0)finish("r");},100);
+}
+function finish(kind){
+  stop();res[cur]=kind;const it=round[cur],b=$("bomb");
+  if(kind==="g"){G++;b.classList.add("safe");$("out").innerHTML='<div class="ans">Верно: '+esc(it.correct)+'</div>';}
+  else{R++;b.classList.add("boom");$("sec").textContent="0";$("out").innerHTML='<div class="boomtx">BOOM</div><div class="ans">Правильно: '+esc(it.correct)+'</div>';}
+  $("go").hidden=true;$("ok").hidden=true;$("nx").hidden=false;$("nx").focus();counters();drawList();
+}
+function next(){if(cur<round.length-1){cur++;show();}else summary();}
+function summary(){
+  stop();const b=$("bomb");b.className="panel bomb";const bad=round.filter((_,i)=>res[i]==="r");
+  b.innerHTML='<div class="msg"><p class="sum">Обезврежено '+G+' из '+round.length+'</p>'+
+   (bad.length?'<div class="lbl">Повторить ещё раз</div><div class="rev">'+bad.map(it=>'<div>'+esc(it.word||it.where)+': <s>'+esc(it.chosen||"пропуск")+'</s> → <b>'+esc(it.correct)+'</b></div>').join("")+'</div>':'<p>Ни одного взрыва.</p>')+'</div>';
+  const x=document.createElement("button");x.className="btn pri";x.type="button";x.textContent="Новый раунд";x.onclick=newRound;b.querySelector(".msg").append(x);
+  cur=-1;drawList();
+}
+$("newR").onclick=newRound;
+
+if(/[?&]demo/.test(location.search)){
+  const g=(typeof OGE!=="undefined"&&OGE.GR[0])||{n:1,items:[]},w=(typeof OGE!=="undefined"&&OGE.WF[0])||{n:1,items:[]};
+  const rows=[
+   {test_id:"timofey-oge-gr-"+g.n,created_at:new Date().toISOString(),details:g.items.slice(0,9).map((x,i)=>({question:(i+1)+". ["+x.w+"]",chosen:i%3===1?"wrong":x.d,correct:x.d,is_correct:i%3!==1}))},
+   {test_id:"timofey-oge-wf-"+w.n,created_at:new Date().toISOString(),details:w.items.slice(0,6).map((x,i)=>({question:(i+1)+". ["+x.w+"]",chosen:i%2?"wrongly":x.d,correct:x.d,is_correct:!(i%2)}))},
+   {test_id:"timofey-oge-bkg-2",created_at:new Date().toISOString(),details:[{question:"Вариант 2 · 22",chosen:"thrid",correct:"third",is_correct:false}]}];
+  pool=collect(rows);newRound();
+}else load();
+</script>
+</body>
+</html>
