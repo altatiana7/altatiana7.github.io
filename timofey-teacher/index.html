@@ -163,7 +163,7 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
 
 (()=>{
   const $=id=>document.getElementById(id);
-  const V='20261023';
+  const V='20261024';
   const oge=s=>'../timofey-oge/?v='+V+'&teacher=1#'+encodeURIComponent(s);
   const I={
     book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/>',
@@ -190,7 +190,7 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
     ['Speaking','Чтение, интервью, монолог',I.chat,'#8e5cf0,#b48cff','ОГЭ · ',oge('speaking')],
     ['Сборник 2026','Варианты 1–3',I.stack,'#1f9fd0,#4cc6ef','ОГЭ · ',oge('сборник 2026')],
     ['Результаты ОГЭ','Ответы Тимофея',I.chart,'#0b5fe0,#1d8cf0','ОГЭ · ','../timofey-oge/teacher.html',1],
-    ['Бомба','Ошибки Тимофея',I.bomb,'#d9432c,#f0803c','ОГЭ · ','./oge-bomb.html?v=20261015',1]
+    ['Бомба','Ошибки Тимофея',I.bomb,'#d9432c,#f0803c','ОГЭ · ','./oge-bomb.html?v=20261024',1]
   ];
   function add(box,[name,sub,icon,grad,kind,url,teach]){
     const b=document.createElement('button');b.type='button';b.className='card'+(teach?' teach':'');
