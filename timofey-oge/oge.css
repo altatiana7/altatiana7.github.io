@@ -147,3 +147,8 @@
 .split.wide .opts .opt{font-size:15px;padding:4px 8px}
 .split.wide .strip .num{width:28px;height:28px;font-size:14px}
 .split.wide .strip{gap:3px}
+
+/* gap texts 20–34: source word in capitals at the end of each line, as in the exam */
+.source .ln{display:flex;align-items:baseline;gap:14px;white-space:normal;margin-bottom:6px}
+.source .ln .tx{flex:1;min-width:0}
+.source .ln .kw{flex:0 0 auto;font-weight:700;letter-spacing:.04em;color:var(--accent-dark)}

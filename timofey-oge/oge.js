@@ -199,7 +199,20 @@ function stepperPage(p,it){
   if(p.kind==="mt"){src.classList.add("mini");left.append(qbox);right.append(strip,src,q,foot);q.style.flex="0 0 auto";split.style.gridTemplateColumns="minmax(0,1fr) minmax(0,1fr)";}
   else{left.append(src);right.append(strip,q,foot);split.classList.add("wide");}
   split.append(left,right);main.append(split);
-  const label=k=>p.kind==="mt"?"ABCDEF"[k]:p.kind==="tf"?String(13+k):String(k+1);
+  const gapBase=p.id==="gr"?20:p.id==="wf"?29:1;
+  const label=k=>p.kind==="mt"?"ABCDEF"[k]:p.kind==="tf"?String(13+k):String(gapBase+k);
+  function gapText(box,fill){
+    it.text.split("\n").forEach(line=>{
+      const ln=el("div","ln"),tx=el("span","tx"),kws=[];
+      line.split(/‹(\d+)›/).forEach((part,j)=>{
+        if(j%2===0){tx.append(document.createTextNode(part));return;}
+        const k=Number(part)-1;fill(k,tx);kws.push(it.items[k].w);
+      });
+      ln.append(tx);
+      if(kws.length){const w=el("span","kw",kws.join(" / "));w.lang="en";ln.append(w);}
+      box.append(ln);
+    });
+  }
   function check(v){r.a[i]=v;save();draw();}
   function drawSource(){
     src.replaceChildren();src.scrollTop=0;
@@ -207,14 +220,13 @@ function stepperPage(p,it){
     else if(p.kind==="mt"){
       const k=Math.min(i,N-1);src.append(document.createTextNode(it.texts[k]));
     }else{
-      it.text.split(/‹(\d+)›/).forEach((part,j)=>{
-        if(j%2===0){src.append(document.createTextNode(part));return;}
-        const k=Number(part)-1,v=r.a[k],g=el("span","g");
+      gapText(src,(k,box)=>{
+        const v=r.a[k],g=el("span","g");
         if(v!=null&&v!==""){
           if(okAt(p,it,k,v)){g.className="g ok";g.textContent=v.trim();}
-          else{g.className="g no";g.textContent=v.trim();src.append(g);src.append(" ",el("span","fix",it.items[k].d));return;}
-        }else{g.textContent="("+(k+1)+")";if(k===i)g.className="g cur";}
-        g.id="g"+k;src.append(g);
+          else{g.className="g no";g.textContent=v.trim();box.append(g," ",el("span","fix",it.items[k].d));return;}
+        }else{g.textContent="("+label(k)+")";if(k===i)g.className="g cur";}
+        g.id="g"+k;box.append(g);
       });
       const cur=src.querySelector(".g.cur");if(cur)cur.scrollIntoView({block:"center"});
     }
@@ -283,7 +295,7 @@ function stepperPage(p,it){
     for(let k=0;k<N;k++)if(!okAt(p,it,k,r.a[k])){
       if(p.kind==="tf")wrong.push((13+k)+". "+TFN[it.key[k]-1]+" (у тебя: "+TFN[r.a[k]-1]+")");
       else if(p.kind==="mt")wrong.push("Text "+"ABCDEF"[k]+": вопрос "+it.key[k]+" (у тебя: "+r.a[k]+")");
-      else wrong.push((k+1)+". "+it.items[k].d+" (у тебя: "+r.a[k]+")");
+      else wrong.push(label(k)+". "+it.items[k].d+" (у тебя: "+r.a[k]+")");
     }
     box.append(el("div","",wrong.length?"Ошибки:":"Без ошибок."));
     wrong.forEach(w=>{const d=el("div","",w);d.lang="en";box.append(d);});
@@ -293,10 +305,9 @@ function stepperPage(p,it){
     foot.append(row);
   }
   function drawSourceAll(){
-    it.text.split(/‹(\d+)›/).forEach((part,j)=>{
-      if(j%2===0){src.append(document.createTextNode(part));return;}
-      const k=Number(part)-1,v=r.a[k],g=el("span","g "+(okAt(p,it,k,v)?"ok":"no"),(v||"").trim());src.append(g);
-      if(!okAt(p,it,k,v))src.append(" ",el("span","fix",it.items[k].d));
+    gapText(src,(k,box)=>{
+      const v=r.a[k],g=el("span","g "+(okAt(p,it,k,v)?"ok":"no"),(v||"").trim());box.append(g);
+      if(!okAt(p,it,k,v))box.append(" ",el("span","fix",it.items[k].d));
     });
   }
   draw();
