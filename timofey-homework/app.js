@@ -259,6 +259,12 @@ function pickFile(fn){const inp=$("fileInput");inp.value="";inp.onchange=()=>fn(
 function submitPage(){
   main.append(el("p","prompt",count()+" из "+TASKS.length+" ответов заполнено"));
   const row=el("div","row");
+  if(window.HWSent&&!TEACHER){
+    const ds=el("div","");const drawDone=()=>{ds.innerHTML="";
+      if(HWSent.isSent("timofey",QUEST)){ds.innerHTML=HWSent.badge("timofey",QUEST);return}
+      ds.append(button("Я закончил · отправить Татьяне",async()=>{if(!confirm("Отправить домашку? Отправить можно один раз."))return;
+        await HWSent.submit({student:"timofey",name:"Тимофей",page:QUEST,title:TITLE+" · готово",data:{done:true,answered:count(),total:TASKS.length}});drawDone();},"primary"))};
+    drawDone();main.append(ds);}
   row.append(button("Скачать ответы для Татьяны",exportAnswers,"primary"),button("Восстановить ответы из файла",()=>pickFile(restore)));
   main.append(row);
   main.append(el("div","box",state.lastSubmission
