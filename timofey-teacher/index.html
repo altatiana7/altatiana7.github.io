@@ -146,7 +146,23 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#1aa4ff,#0b5fe0);-webki
 const CK="arina-teacher-code",DB_URL="https://lzxcmrlubhjfdhtqvqzt.supabase.co",DB_KEY="sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI";
 async function checkCode(code){
   const r=await fetch(DB_URL+"/rest/v1/rpc/get_arina_homework",{method:"POST",headers:{apikey:DB_KEY,Authorization:"Bearer "+DB_KEY,"Content-Type":"application/json"},body:JSON.stringify({p_teacher_code:code})});
-  if(r.ok)return true;if([400,401,403].includes(r.status))return false;throw Error("net");
+  if(r.ok){
+    try{
+      const all=await r.json();
+      const rows=(Array.isArray(all)?all:[]).filter(x=>{
+        const id=String(x.test_id||"");
+        return id.startsWith("timofey-oge-")||id.startsWith("timofey:")||id.startsWith("timofey-oge-reading-");
+      }).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+      const unique=new Map();rows.forEach(x=>{if(!unique.has(x.test_id))unique.set(x.test_id,x)});
+      let seen=new Set();try{seen=new Set(JSON.parse(localStorage.getItem("timofey-inbox-reviewed-v1")||"[]"))}catch(e){}
+      const incoming=[...unique.values()],unreviewed=incoming.filter(x=>!seen.has(String(x.id||x.test_id+"|"+x.created_at))).length;
+      const tile=[...document.querySelectorAll("#g-os .card")].find(b=>b.querySelector("b")?.textContent==="Входящие работы");
+      if(tile){tile.querySelector(".tx span").textContent=incoming.length?unreviewed+" не проверено · "+incoming.length+" всего":"Работ пока нет";}
+    }catch(e){}
+    return true;
+  }
+  if([400,401,403].includes(r.status))return false;
+  throw Error("net");
 }
 function unlock(){document.getElementById('gate').hidden=true;document.getElementById('hub').classList.remove('locked');}
 (async()=>{
