@@ -152,7 +152,7 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
 (async()=>{
   const err=document.getElementById('gerr');
   let saved="";try{saved=localStorage.getItem(CK)||""}catch(e){}
-  if(saved){try{if(await checkCode(saved)){unlock();return;}}catch(e){unlock();return;}}
+  if(saved){try{if(await checkCode(saved)){unlock();return;}localStorage.removeItem(CK);}catch(e){err.textContent="Нет связи. Для входа требуется подключение к интернету.";}}
   document.getElementById('gf').addEventListener('submit',async e=>{
     e.preventDefault();const code=document.getElementById('code').value.trim();err.textContent="Проверяю…";
     try{if(await checkCode(code)){try{localStorage.setItem(CK,code)}catch(x){}unlock();}else err.textContent="Неверный код.";}
@@ -163,7 +163,7 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
 
 (()=>{
   const $=id=>document.getElementById(id);
-  const V='20261024';
+  const V='20261107';
   const oge=s=>'../timofey-oge/?v='+V+'&teacher=1#'+encodeURIComponent(s);
   const I={
     book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/>',
@@ -180,7 +180,7 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
   };
   const OS=[
     ['Homework','Домашка On Screen',I.book,'#2f7cf6,#59a8ff','On Screen · ','../timofey-homework/?v='+V+'&teacher=1'],
-    ['Ответы домашки','Что прислал Тимофей',I.check,'#0b5fe0,#1d8cf0','On Screen · ','../timofey-oge/teacher.html?set=hw',1]
+    ['Входящие работы','Домашка, ответы и сдачи',I.check,'#0b5fe0,#1d8cf0','On Screen · ','./submissions.html?v=20261107',1]
   ];
   const OGE=[
     ['Reading','True/False, matching',I.read,'#22b59a,#46d6b6','ОГЭ · ',oge('reading')],
@@ -189,7 +189,7 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
     ['Writing','Личное письмо',I.pen,'#e25a7a,#ff8aa3','ОГЭ · ',oge('writing')],
     ['Speaking','Чтение, интервью, монолог',I.chat,'#8e5cf0,#b48cff','ОГЭ · ',oge('speaking')],
     ['Сборник 2026','Варианты 1–3',I.stack,'#1f9fd0,#4cc6ef','ОГЭ · ',oge('сборник 2026')],
-    ['Результаты ОГЭ','Ответы Тимофея',I.chart,'#0b5fe0,#1d8cf0','ОГЭ · ','../timofey-oge/teacher.html',1],
+    ['Результаты ОГЭ','Проверить работы',I.chart,'#0b5fe0,#1d8cf0','ОГЭ · ','./submissions.html?kind=oge&v=20261107',1],
     ['Бомба','Ошибки Тимофея',I.bomb,'#d9432c,#f0803c','ОГЭ · ','./oge-bomb.html?v=20261024',1]
   ];
   function add(box,[name,sub,icon,grad,kind,url,teach]){
