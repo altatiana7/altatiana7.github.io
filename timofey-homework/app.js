@@ -67,7 +67,7 @@ function open(page){
   const i=SECTIONS.indexOf(page);
   $("tab").replaceChildren(el("b","","// "),document.createTextNode(
     i>=0?String(i+1).padStart(2,"0")+" "+page.toLowerCase()+" — "+META[page]:page==="Submit"?"сдать работу":"проверка учителя"));
-  if(page==="Submit")submitPage();else if(page==="Feedback")feedbackPage();else if(page==="Writing")writingPage();else if(page==="Speaking")speakingPage();else sectionPage(page);
+  if(page==="Submit")submitPage();else if(page==="Feedback")feedbackPage();else if(page==="Writing")writingPage();else if(page==="Speaking")speakingPage();else if(page===OGE_SEC)ogeReadingPage();else sectionPage(page);
   updateProgress();
 }
 function nextLabel(sec){const n=SECTIONS[SECTIONS.indexOf(sec)+1];return n?"Дальше: "+n:"К сдаче";}
@@ -126,6 +126,83 @@ function sectionPage(sec){
     const fwd=button(last?nextLabel(sec):"Вперёд →",()=>last?goNext(sec):go(i+1),"primary");
     foot.replaceChildren(back);
     foot.append(fwd);
+  }
+  draw();
+}
+
+/* ---------- ОГЭ Reading: два текста по 8 вопросов, проверка и подсветка ошибок ---------- */
+const RD_OPTS=["True","False","Not stated"];
+function ogeKey(it){try{return atob(it.key)}catch(e){return ""}}
+function ogeTotals(){
+  let ok=0,filled=0,total=0;
+  OGE_READING.sets.forEach(s=>s.items.forEach(it=>{total++;const a=state.answers[it.id];
+    if(a){filled++;if(a===ogeKey(it))ok++;}}));
+  return {ok:ok,filled:filled,total:total};
+}
+function ogeReadingPage(){
+  const checked=()=>!!state.readChecked;
+  let si=Math.min(pos.ogeSet||0,OGE_READING.sets.length-1);
+  const bar=el("div","ogebar"), tabs=el("div","ogetabs"), tools=el("div","ogetools");
+  const scoreEl=el("b","ogescore","");
+  const split=el("div","split"), left=el("div","col"), right=el("div","col");
+  const src=el("div","source scroll"), list=el("div","qlist");
+  const foot=el("div","foot");
+  left.append(src); right.append(list); split.append(left,right);
+
+  const checkBtn=button("Проверить ответы",()=>{
+    const t=ogeTotals();
+    if(!t.filled){toast("Сначала ответь хотя бы на один вопрос.");return;}
+    state.readChecked=true; save(); draw();
+    const n=ogeTotals();
+    toast("Верно "+n.ok+" из "+n.total+". Баллов: "+n.ok+" из "+n.total+"."+(n.ok===n.total?" Отлично!":" Ошибки подсвечены."));
+  },"primary");
+  const resetBtn=button("Сбросить проверку",()=>{state.readChecked=false;save();draw();});
+  tools.append(checkBtn,resetBtn,scoreEl);
+  bar.append(tabs,tools);
+  main.append(bar,split,foot);
+
+  function drawTabs(){
+    tabs.replaceChildren(...OGE_READING.sets.map((s,k)=>{
+      const all=s.items.filter(it=>state.answers[it.id]).length;
+      const b=button("",()=>{si=k;pos.ogeSet=k;draw();});
+      b.type="button"; b.className="btn tab"+(k===si?" active":"");
+      b.replaceChildren(el("b","",s.label+" · "+s.title),el("span","",all+" / "+s.items.length));
+      return b;
+    }));
+  }
+  function drawList(){
+    const s=OGE_READING.sets[si];
+    list.replaceChildren(...s.items.map((it,i)=>{
+      const row=el("div","rq"), num=el("span","rqn",String(i+1).padStart(2,"0"));
+      const tx=el("div","rqt"); const p=el("p"); p.lang="en"; p.textContent=it.prompt; tx.append(p);
+      const btns=el("div","rbtns"), a=state.answers[it.id];
+      (it.options||RD_OPTS).forEach(o=>{
+        const b=button(o,()=>{state.answers[it.id]=o;save();draw();},"rbtn");
+        if(a===o)b.classList.add("sel");
+        if(checked()){
+          if(o===ogeKey(it))b.classList.add("ok");
+          else if(a===o)b.classList.add("bad");
+        }
+        btns.append(b);
+      });
+      if(checked()&&!a)tx.append(el("span","rmiss","нет ответа · ключ: "+ogeKey(it)));
+      else if(checked()&&a!==ogeKey(it))tx.append(el("span","rmiss","верный ответ: "+ogeKey(it)));
+      tx.append(btns); row.append(num,tx); return row;
+    }));
+  }
+  function draw(){
+    pos.ogeSet=si;
+    drawTabs(); src.textContent=OGE_READING.sets[si].text; src.scrollTop=0; drawList();
+    const t=ogeTotals();
+    scoreEl.textContent=checked()
+      ? "Результат: "+t.ok+" из "+t.total+" баллов"
+      : "Заполнено "+t.filled+" из "+t.total;
+    scoreEl.className="ogescore"+(checked()?(t.ok===t.total?" full":t.ok*2>=t.total?" half":" low"):"");
+    checkBtn.textContent=checked()?"Проверить снова":"Проверить ответы";
+    resetBtn.classList.toggle("hidden",!checked());
+    const back=button("← "+SECTIONS[SECTIONS.indexOf(OGE_SEC)-1],()=>open(SECTIONS[SECTIONS.indexOf(OGE_SEC)-1]));
+    const next=button("Дальше: "+SECTIONS[SECTIONS.indexOf(OGE_SEC)+1]+" →",()=>goNext(OGE_SEC),"primary");
+    foot.replaceChildren(back,next);
   }
   draw();
 }

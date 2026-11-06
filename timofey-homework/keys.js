@@ -10,3 +10,6 @@ g12:"haven't seen|have not seen",g13:"knew",g14:"playing",g15:"hers",
 f1:"competition",f2:"useful",f3:"dangerous",f4:"designer",f5:"carefully",f6:"communication",
 r1:"False",r2:"False",r3:"Not stated",r4:"True",r5:"True",r6:"Not stated",r7:"False"
 };
+
+/* ОГЭ Reading · задание от 6 ноября (должно совпадать с tasks.js) */
+Object.assign(KEYS,{"rd1":"True","rd2":"False","rd3":"True","rd4":"False","rd5":"Not stated","rd6":"True","rd7":"True","rd8":"False","rd9":"True","rd10":"False","rd11":"True","rd12":"Not stated","rd13":"False","rd14":"False","rd15":"Not stated","rd16":"True"});

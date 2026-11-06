@@ -16,4 +16,46 @@ const META={
 "Reading":"Прочитай текст. Выбери True, False или Not stated.",
 "Writing":"Ответь на все три вопроса Бена. Напиши 100–120 слов.",
 "Speaking":"Интервью: 4 карточки по 6 вопросов, на каждый ответ 40 секунд."};
+/* ---------- ОГЭ · чтение · домашнее задание от 6 ноября ----------
+   Два текста по 8 вопросов (True / False / Not stated).
+   Вопросы добавляются в TASKS, поэтому ответы считаются в прогрессе,
+   уходят Татьяне вместе с остальной домашкой и проверяются на странице учителя.
+   Ключи лежат в base64, чтобы они не бросались в глаза на странице ученика;
+   на странице учителя те же ключи открыто повторены в keys.js. */
+const OGE_SEC="ОГЭ Reading";
+const OGE_READING={
+  title:"ОГЭ · чтение · задание от 6 ноября",
+  sets:[
+    {id:"smart-glasses",label:"Task 1",title:"The Smart Glasses Scandal",
+     text:"The Smart Glasses Scandal\n\nWhen a small company in California presented its new smart glasses in March, the video looked perfect: the glasses could translate a menu, show a map and even remind you of a friend's name. Thousands of people ordered a pair before a single one had been produced.\n\nSix months later the story looked very different. Several users noticed that the glasses recorded short videos without any light or sound. The company explained that the camera started only when the owner touched the frame. However, a journalist proved that one small update could switch the camera on from a phone in another room. The company stopped the update immediately and apologised.\n\nThe most serious problem appeared at school. In one town a teacher discovered that a student had filmed a whole lesson through his glasses. The head teacher banned smart glasses in every classroom, and the parents supported her. The company offered to add a special school mode, but the school refused. \"We cannot check what a student is really doing in class,\" the head teacher said.\n\nNot everyone is against the glasses. Doctors who work with deaf people say that the glasses help their patients to read speech and to see warning sounds as words on the screen. Engineers point out that the first mobile phones were heavy and strange, too.\n\nThe company has not stopped working. Its next plan is a pair of glasses without a camera. \"Perhaps the best technology,\" one newspaper wrote, \"is the technology that does less.\"",
+     items:[
+       {id:"rd1",key:"VHJ1ZQ==",prompt:"People could order the glasses before a single pair had been produced."},
+       {id:"rd2",key:"RmFsc2U=",prompt:"The glasses recorded video with a warning light."},
+       {id:"rd3",key:"VHJ1ZQ==",prompt:"A journalist showed that the camera could be switched on from another room."},
+       {id:"rd4",key:"RmFsc2U=",prompt:"The company ignored the journalist's discovery."},
+       {id:"rd5",key:"Tm90IHN0YXRlZA==",prompt:"The student who filmed the lesson at school was punished."},
+       {id:"rd6",key:"VHJ1ZQ==",prompt:"The head teacher did not believe that the school could control how the glasses were used."},
+       {id:"rd7",key:"VHJ1ZQ==",prompt:"Doctors say the glasses can help people who cannot hear."},
+       {id:"rd8",key:"RmFsc2U=",prompt:"The company has decided to stop making glasses completely."},
+     ]},
+    {id:"space-out",label:"Task 2",title:"The Competition Where Nobody Does Anything",
+     text:"The Competition Where Nobody Does Anything\n\nMost competitions ask you to run faster, jump higher or answer quicker. The \"space-out\" competition in Seoul asks you to do the opposite: for ninety minutes you must sit still, look at nothing and think about nothing. The winner is the person whose heart beats most calmly.\n\nThe idea came from the artist Woops Yang, who organised the first event in a park in 2014. She was very tired after a busy month and wanted one hour when nobody expected anything from her. Only twenty people came. Today the competition receives hundreds of applications, and similar events take place in other countries.\n\nThe rules are simple. You may not speak, laugh, check your phone or fall asleep. Judges walk between the participants and watch their faces. Anyone who laughs out loud is asked to leave. The winner, however, is chosen by the audience, who vote after watching the contestants' heart rates on a big screen.\n\nSome people think the whole competition is a joke. The participants disagree. \"My job is to answer messages all day,\" says a 29-year-old designer. \"Here I have to do the only thing I have forgotten how to do — nothing.\" Doctors add that such a rest is not the same as healthy sleep or sport, but a short break without a screen can help the brain.\n\nThe prize is unusual too: a golden trophy in the shape of a face that is looking at the sky. The winners say they keep it on their desks to remember that everybody needs to stop sometimes.",
+     items:[
+       {id:"rd9",key:"VHJ1ZQ==",prompt:"The winner of the competition is the person whose heart beats most calmly."},
+       {id:"rd10",key:"RmFsc2U=",prompt:"The first space-out competition was organised by a big company."},
+       {id:"rd11",key:"VHJ1ZQ==",prompt:"The artist organised the event because she wanted a rest from her busy life."},
+       {id:"rd12",key:"Tm90IHN0YXRlZA==",prompt:"The space-out competition in Seoul takes place every year."},
+       {id:"rd13",key:"RmFsc2U=",prompt:"Participants are allowed to fall asleep during the competition."},
+       {id:"rd14",key:"RmFsc2U=",prompt:"The judges choose the winner of the competition."},
+       {id:"rd15",key:"Tm90IHN0YXRlZA==",prompt:"The designer has taken part in the competition more than once."},
+       {id:"rd16",key:"VHJ1ZQ==",prompt:"Doctors believe a short break without a screen can be good for the brain."},
+     ]},
+  ]
+};
+SECTIONS.splice(SECTIONS.indexOf("Reading")+1,0,OGE_SEC);
+META[OGE_SEC]="Домашка от 6 ноября: два текста ОГЭ, к каждому 8 вопросов True / False / Not stated. Всего 16 баллов.";
+OGE_READING.sets.forEach(function(s){s.items.forEach(function(it){
+  TASKS.push({id:it.id,section:OGE_SEC,prompt:it.prompt,type:"choice",options:["True","False","Not stated"],max:1,src:s.text,set:s.title});
+});});
+
 const MAX_TOTAL=TASKS.reduce((n,t)=>n+t.max,0);
