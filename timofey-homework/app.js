@@ -28,18 +28,18 @@ const DB_URL="https://lzxcmrlubhjfdhtqvqzt.supabase.co",DB_KEY="sb_publishable_P
 let lastSent=state.sentSig||"";
 async function sendHW(){
   const st=$("saveStatus");
-  if(TEACHER){st.textContent="Режим учителя: ответы не отправляются";return;}
+  if(TEACHER){st.textContent="Режим учителя: ответы не отправляются";return false;}
   const det=TASKS.filter(t=>t.section!=="Speaking"&&typeof state.answers[t.id]==="string"&&state.answers[t.id].trim())
     .map(t=>({id:t.id,question:t.section+" · "+(t.prompt||"").replace(/___/g,"…")+(t.word?" ["+t.word+"]":""),chosen:state.answers[t.id],correct:"",is_correct:true}));
-  if(!det.length)return;
-  const sig=det.map(d=>d.id+"="+d.chosen).join("~");if(sig===lastSent){st.textContent="Ответы у Татьяны ✓";return;}
+  if(!det.length){st.textContent="Сначала выполни хотя бы одно задание";return false;}
+  const sig=det.map(d=>d.id+"="+d.chosen).join("~");if(sig===lastSent){st.textContent="Ответы у Татьяны ✓";return true;}
   try{
     const r=await fetch(DB_URL+"/rest/v1/rpc/submit_arina_homework",{method:"POST",headers:{apikey:DB_KEY,Authorization:"Bearer "+DB_KEY,"Content-Type":"application/json"},
       body:JSON.stringify({p_test_id:"timofey-oge-hw-"+QUEST,p_test_title:"Тимофей · On Screen · Домашка · "+TITLE,p_score:0,p_max_score:0,p_answers:{student:"Тимофей",heard:Object.fromEntries(Object.entries(state.answers).filter(([k])=>/^sp\d$/.test(k)))},p_details:det})});
     if(!r.ok)throw Error("send");
     lastSent=sig;state.sentSig=sig;try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}
-    st.textContent="Ответы у Татьяны ✓";
-  }catch(e){st.textContent="Не удалось отправить Татьяне — повторится позже";}
+    st.textContent="Ответы у Татьяны ✓";return true;
+  }catch(e){st.textContent="Не удалось отправить Татьяне — повторится позже";return false;}
 }
 window.addEventListener("online",()=>sendHW());
 window.addEventListener("load",()=>setTimeout(sendHW,1200));
@@ -342,13 +342,19 @@ function submitPage(){
       ds.append(button("Я закончил · отправить Татьяне",async()=>{if(!confirm("Отправить домашку? Отправить можно один раз."))return;
         await HWSent.submit({student:"timofey",name:"Тимофей",page:QUEST,title:TITLE+" · готово",data:{done:true,answered:count(),total:TASKS.length}});drawDone();},"primary"))};
     drawDone();main.append(ds);}
-  row.append(button("Скачать ответы для Татьяны",exportAnswers,"primary"),button("Восстановить ответы из файла",()=>pickFile(restore)));
+  const sendNow=button("Отправить мои ответы учителю",async()=>{
+     sendNow.disabled=true;
+     const sent=await sendHW();
+     toast(sent?"Ответы получены учителем. Можно продолжать домашку.":"Не удалось отправить. Проверь подключение и повтори.");
+     sendNow.disabled=false;
+   },"primary");
+   row.append(sendNow,button("Скачать резервную копию ответов",exportAnswers),button("Восстановить ответы из файла",()=>pickFile(restore)));
   main.append(row);
   main.append(el("div","box",state.lastSubmission
     ?"Последний скачанный файл: "+state.lastSubmission.submissionId+". Если поменяешь ответы, скачай файл заново."
     :"Файл ответов ещё не скачан."));
   const ol=el("ol","steps");
-  ["Ответы уходят Татьяне сами, как только ты их вписываешь.","Аудиозаписи интервью (Speaking) скачай и отправь Татьяне в вашем чате.","Файл ответов — запасной вариант, если нет интернета."].forEach(s=>ol.append(el("li","",s)));
+  ["Ответы сохраняются и автоматически передаются Татьяне через интернет. Статус передачи показан сверху.","Аудиозаписи интервью (Speaking) скачай и отправь Татьяне в вашем чате.","Скачать резервную копию нужно только при проблемах с отправкой."].forEach(s=>ol.append(el("li","",s)));
   main.append(ol);
 }
 async function readFile(file){if(!file)throw Error("Выбери файл.");if(file.size>2000000)throw Error("Файл слишком большой.");return JSON.parse(await file.text());}
