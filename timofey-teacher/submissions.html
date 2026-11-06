@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Тимофей — входящие домашние работы</title>
+<style>
+:root{--ink:#14263e;--muted:#5a6980;--blue:#1869c5;--teal:#127e75;--line:#dbe5f1;--bg:#edf4fb;--warn:#9b4c28}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:var(--bg)}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.wrap{max-width:1200px;margin:0 auto;padding:20px 18px 36px}
+h1{font-size:clamp(23px,3vw,32px);margin:0}
+p{line-height:1.45}
+.head{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.sub{font-size:15px;color:var(--muted);margin:5px 0 0}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{background:var(--blue);border:1px solid var(--blue);color:#fff;border-radius:9px;padding:10px 17px;font-weight:bold}
+.btn:disabled{opacity:.55;cursor:wait}
+.btn.alt{background:white;color:var(--ink);border-color:var(--line)}
+.btn:focus-visible,.search:focus-visible{outline:3px solid #5ba9ef;outline-offset:2px}
+.panel{background:white;border:1px solid var(--line);border-radius:13px;padding:16px;margin-bottom:12px;box-shadow:0 5px 20px #152d4910}
+.notice{border-left:4px solid var(--blue);background:#f7fbff;padding:14px;border-radius:7px;margin:0 0 12px}
+.error{border-left-color:#af3d3d;background:#fff5f4}
+.gate{max-width:530px;margin:8vh auto}
+.gate label{display:block;font-weight:bold;margin-bottom:8px}
+.gate input{width:100%;padding:12px;border:1px solid #b4c7da;border-radius:8px;margin-bottom:12px;font-size:18px}
+.gate .btn{width:100%}
+.gate .error-text{color:#ac3535}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.stat b{display:block;font-size:26px;color:var(--blue)}
+.stat span{font-size:13px;color:var(--muted)}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.toolbar select,.toolbar input{border:1px solid #cbd9e6;background:#fff;padding:10px 12px;border-radius:8px;min-height:42px}
+.toolbar input{flex:1;min-width:180px}
+.checkbox{display:flex;gap:7px;align-items:center;cursor:pointer;font-size:14px}
+.list{display:grid;gap:10px}
+.item{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.item.unseen{border-left:4px solid var(--blue)}
+.item-head{display:flex;align-items:center;gap:12px;padding:13px 15px}
+.item-name{flex:1;min-width:0}
+.item-name strong{display:block;font-size:17px;overflow-wrap:anywhere}
+.meta{font-size:14px;color:var(--muted);margin-top:4px}
+.tag{display:inline-block;font-size:12px;padding:3px 8px;border-radius:30px;background:#e6f3ff;color:#164e89;font-weight:bold;margin-right:5px}
+.tag.manual{background:#fff2dc;color:#8b4d16}
+.tag.done{background:#e8f6ed;color:#186b48}
+.score{font-size:18px;font-weight:bold;white-space:nowrap;color:var(--teal)}
+.score.pending{font-size:14px;color:var(--warn)}
+.open{background:#f3f7fc;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+.content{display:none;border-top:1px solid var(--line);padding:14px}
+.item.expanded .content{display:block}
+.item.expanded .open{background:#e2edfb}
+.grid-answers{display:grid;grid-template-columns:1fr;gap:7px}
+.answer{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:start;padding:9px 11px;background:#f8fafc;border:1px solid #e4edf5;border-radius:8px}
+.answer.bad{background:#fff7f5;border-color:#f0d5cd}
+.answer.good{background:#f2fbf5;border-color:#d1eddb}
+.answer.manual{background:#fffaf0;border-color:#f2e4bf}
+.answer .q{font-weight:bold}
+.answer .v{white-space:pre-wrap;overflow-wrap:anywhere}
+.answer small{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}
+.review{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap}
+.review label{display:flex;align-items:center;gap:7px;cursor:pointer}
+.review .hint{color:var(--muted);font-size:13px}
+.raw{white-space:pre-wrap;overflow-wrap:anywhere;background:#f7fafc;border-radius:8px;padding:12px}
+.empty{text-align:center;color:var(--muted);padding:26px}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.answer{grid-template-columns:1fr}.item-head{flex-wrap:wrap}.score{margin-left:auto}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="head">
+    <div><h1>Тимофей · входящие работы</h1><p class="sub">Teacher's Hub · ОГЭ, On Screen и домашние задания</p></div>
+    <div class="actions"><button id="refresh" class="btn" type="button">Обновить из базы</button><button id="logout" class="btn alt" type="button">Сменить код</button></div>
+  </div>
+  <section id="gate" class="panel gate" hidden>
+    <form id="login">
+      <h2>Доступ учителя</h2>
+      <p>Введите тот же код, который используется для получения работ Арины и Кати.</p>
+      <label for="code">Код учителя</label>
+      <input type="password" id="code" autocomplete="current-password" required>
+      <button class="btn" type="submit">Открыть работы</button>
+      <p id="loginError" class="error-text" role="alert"></p>
+    </form>
+  </section>
+  <section id="board" hidden>
+    <div id="info" class="notice" role="status">Загрузка работ…</div>
+    <div class="stats" id="stats"></div>
+    <div class="panel toolbar">
+      <select id="kind" aria-label="Фильтр работ">
+        <option value="all">Все работы</option>
+        <option value="homework">Домашние задания</option>
+        <option value="oge">ОГЭ</option>
+        <option value="receipt">Подтверждения сдачи</option>
+      </select>
+      <input id="search" type="search" placeholder="Найти задание или ответ" aria-label="Поиск">
+      <label class="checkbox"><input id="history" type="checkbox"> История пересдач</label>
+    </div>
+    <div id="list" class="list" aria-live="polite"></div>
+  </section>
+</main>
+<script src="../timofey-homework/keys.js?v=20261107"></script>
+<script src="../timofey-homework/common.js?v=20261107"></script>
+<script>
+"use strict";
+(function(){
+const DB="https://lzxcmrlubhjfdhtqvqzt.supabase.co";
+const API_KEY="sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI";
+const CK="arina-teacher-code";
+const SEEN="timofey-inbox-reviewed-v1";
+const $=id=>document.getElementById(id);
+const state={rows:[],busy:false,expanded:new Set(),seen:new Set()};
+try{state.seen=new Set(JSON.parse(localStorage.getItem(SEEN)||"[]"))}catch(e){}
+const own=id=>id.startsWith("timofey-oge-")||id.startsWith("timofey:")||id.startsWith("timofey-oge-reading-");
+const kindOf=id=>id.startsWith("timofey:")?"receipt":id.startsWith("timofey-oge-hw-")||id.startsWith("timofey-oge-reading-")?"homework":"oge";
+const descOf=k=>k==="receipt"?"Сдано":k==="homework"?"Домашка":"ОГЭ";
+const dt=x=>{const d=new Date(x);return isNaN(+d)?"Дата не указана":d.toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})};
+const safe=(x)=>String(x===null||x===undefined?"":x);
+function node(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=safe(txt);return e}
+function msg(t,error){$("info").className="notice"+(error?" error":"");$("info").textContent=t;}
+function uniqueKey(r){return safe(r.id||r.test_id+"|"+r.created_at)}
+function details(r){return Array.isArray(r.details)?r.details:[]}
+function calc(r){
+ const ds=details(r), hw=kindOf(safe(r.test_id))==="homework", keyed=hw&&safe(r.test_id).startsWith("timofey-oge-hw-");
+ let correct=0,max=0,manual=0;
+ if(keyed){for(const d of ds){if(d.id&&Object.prototype.hasOwnProperty.call(KEYS,d.id)){max++;if(checkAnswer(d.id,safe(d.chosen)))correct++}else manual++}
+  return {correct,max,manual};}
+ for(const d of ds){if(d.kind==="letter"||d.is_correct===null||d.is_correct===undefined){manual++;continue;} }
+ return {correct:Number(r.score)||0,max:Number(r.max_score)||0,manual};
+}
+function recordKind(r){return kindOf(safe(r.test_id))}
+function showGate(error){
+ $("gate").hidden=false;$("board").hidden=true;$("loginError").textContent=error||"";
+}
+function showBoard(){
+ $("gate").hidden=true;$("board").hidden=false;
+}
+async function fetchAll(code){
+ const r=await fetch(DB+"/rest/v1/rpc/get_arina_homework",{method:"POST",headers:{"apikey":API_KEY,"Authorization":"Bearer "+API_KEY,"Content-Type":"application/json"},body:JSON.stringify({p_teacher_code:code})});
+ if([400,401,403].includes(r.status)){const e=new Error("Неверный код учителя");e.auth=true;throw e}
+ if(!r.ok)throw new Error("Сервер не ответил ("+r.status+").");
+ const raw=await r.json();if(!Array.isArray(raw))throw new Error("Неожиданный формат ответа сервера.");
+ return raw.filter(r=>own(safe(r.test_id))).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+}
+async function load(provided){
+ if(state.busy)return;
+ const code=provided||localStorage.getItem(CK)||"";
+ if(!code){showGate("");return}
+ state.busy=true;$("refresh").disabled=true;
+ showBoard();msg("Загружаю ответы Тимофея…");
+ try{
+   state.rows=await fetchAll(code);
+   localStorage.setItem(CK,code);
+   msg(state.rows.length?"Данные получены "+dt(new Date().toISOString())+". Ответы загружаются только для Тимофея.":"Работ Тимофея в базе пока нет. Проверьте, что ученик нажал «Отправить» или закончил задание.");
+   draw();
+ }catch(e){
+   if(e.auth){localStorage.removeItem(CK);showGate("Код не подошёл. Введите действующий код учителя.");}
+   else{msg("Не удалось получить работы: "+safe(e.message)+". Проверьте интернет и нажмите «Обновить».",true);draw();}
+ }finally{state.busy=false;$("refresh").disabled=false}
+}
+function answerRow(d,r){
+ const id=safe(r.test_id), key=d.id&&KEYS[d.id],isHW=id.startsWith("timofey-oge-hw-"),isLetter=d.kind==="letter"||d.id==="email";
+ let ok=null,correct=d.correct||"";
+ if(isHW&&key){ok=checkAnswer(d.id,safe(d.chosen));correct=key.split("|").join(" / ")}
+ else if(isLetter){correct="Проверяется учителем";}
+ else if(typeof d.is_correct==="boolean"&&!isHW)ok=d.is_correct;
+ else if(isHW){correct="Проверяется учителем";}
+ const row=node("div","answer "+(ok===true?"good":ok===false?"bad":"manual"));
+ const q=node("div","q",d.question||d.id||"Ответ");
+ const a=node("div","v");a.append(node("small","","Ответ Тимофея"),node("div","v",d.chosen||"—"));
+ const b=node("div","v");b.append(node("small","",ok===true?"Верно":ok===false?"Ошибка":"Проверка"));
+ b.append(node("div","v",correct||"Проверяется учителем"));
+ row.append(q,a,b);return row;
+}
+function bodyFor(r){
+ const wrap=node("div","content"),ds=details(r);
+ if(ds.length){const grid=node("div","grid-answers");ds.forEach(d=>grid.append(answerRow(d,r)));wrap.append(grid)}
+ else{
+   const data=r.answers===undefined?r.p_answers:r.answers;
+   if(data&&typeof data==="object")wrap.append(node("pre","raw",JSON.stringify(data,null,2)));
+   else wrap.append(node("p","","Отмечена сдача задания. Подробные ответы не прикреплены."));
+ }
+ const review=node("div","review"),label=node("label");
+ const check=document.createElement("input");check.type="checkbox";check.checked=state.seen.has(uniqueKey(r));
+ check.onchange=()=>{const k=uniqueKey(r);check.checked?state.seen.add(k):state.seen.delete(k);try{localStorage.setItem(SEEN,JSON.stringify([...state.seen].slice(-1000)))}catch(e){};draw();};
+ label.append(check,document.createTextNode(" Проверено мной"));review.append(label,node("span","hint","Отметка хранится только в этом браузере учителя."));
+ wrap.append(review);return wrap;
+}
+function item(r){
+ const kind=recordKind(r),key=uniqueKey(r),sc=calc(r),flag=state.seen.has(key),e=node("article","item"+(!flag?" unseen":"")+(state.expanded.has(key)?" expanded":""));
+ const h=node("div","item-head"),name=node("div","item-name");
+ const tags=node("div");
+ tags.append(node("span","tag",descOf(kind)));
+ if(sc.manual)tags.append(node("span","tag manual","Ручная проверка"));
+ if(flag)tags.append(node("span","tag done","Проверено"));
+ name.append(tags,node("strong","",r.test_title||r.test_id),node("div","meta",dt(r.created_at)));
+ const score=node("div","score"+(!sc.max?" pending":"",sc.max?sc.correct+" / "+sc.max:sc.manual?"Нужна проверка":"Принято");
+ const btn=node("button","open",state.expanded.has(key)?"Свернуть":"Ответы");
+ btn.type="button";btn.setAttribute("aria-expanded",String(state.expanded.has(key)));
+ btn.onclick=()=>{state.expanded.has(key)?state.expanded.delete(key):state.expanded.add(key);draw()};
+ h.append(name,score,btn);e.append(h,bodyFor(r));return e;
+}
+function draw(){
+ const all=state.rows;
+ const latest=new Map();all.forEach(r=>{if(!latest.has(r.test_id))latest.set(r.test_id,r)});
+ const shown=$("history").checked?all:[...latest.values()];
+ const kind=$("kind").value,query=$("search").value.toLocaleLowerCase("ru");
+ const filtered=shown.filter(r=>(kind==="all"||recordKind(r)===kind)&&(!query||(safe(r.test_title)+" "+safe(r.test_id)+" "+details(r).map(d=>safe(d.chosen)+" "+safe(d.question)).join(" ")).toLocaleLowerCase("ru").includes(query)));
+ const stats=$("stats");stats.replaceChildren();
+ [
+ ["Получено",latest.size],
+ ["Домашка",[...latest.values()].filter(r=>recordKind(r)==="homework").length],
+ ["ОГЭ",[...latest.values()].filter(r=>recordKind(r)==="oge").length],
+ ["Не проверено",[...latest.values()].filter(r=>!state.seen.has(uniqueKey(r))).length]
+ ].forEach(([t,n])=>{const d=node("div","stat");d.append(node("b","",n),node("span","",t));stats.append(d)});
+ const list=$("list");list.replaceChildren();
+ if(!filtered.length){list.append(node("div","panel empty",all.length?"По фильтру ничего не найдено.":"Нет отправленных работ Тимофея."));return;}
+ filtered.forEach(r=>list.append(item(r)));
+}
+$("login").addEventListener("submit",e=>{e.preventDefault();const code=$("code").value.trim();if(code)load(code)});
+$("refresh").onclick=()=>load();
+$("logout").onclick=()=>{localStorage.removeItem(CK);$("code").value="";showGate("")};
+$("kind").onchange=draw;$("search").oninput=draw;$("history").onchange=draw;
+load();
+})();
+</script>
+</body>
+</html>
