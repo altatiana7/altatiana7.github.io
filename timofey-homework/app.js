@@ -79,7 +79,60 @@ function promptNode(t){
   t.prompt.split("___").forEach((part,k,a)=>{p.append(part);if(k<a.length-1)p.append(el("span","gap"," "));});
   return p;
 }
+function clozePage(sec){
+  const tasks=TASKS.filter(t=>t.section===sec);
+  const container=el("div","cloze-work");
+  const heading=el("h2","",sec==="Grammar"?"Grammar · Connected text":"Word Formation · Connected text");
+  const intro=el("p","", "Read the complete text. Transform each word in CAPITALS to complete the gaps.");
+  const text=el("div","cloze-text");text.lang="en";
+  const results=el("div","cloze-results");
+  const controls=el("div","cloze-controls");
+  const check=button("Проверить ответы",()=>{
+    let good=0;
+    tasks.forEach(t=>{
+      const field=text.querySelector('[data-answer="'+t.id+'"]');
+      const expected=CLOZE_KEYS[t.id];
+      const correct=String(state.answers[t.id]||"").trim().toLowerCase().replace(/[’]/g,"'")===expected.toLowerCase();
+      if(correct)good++;
+      field.classList.toggle("cloze-good",correct);
+      field.classList.toggle("cloze-bad",!correct);
+      const hint=field.nextElementSibling;
+      if(hint&&hint.classList.contains("cloze-hint"))hint.textContent=correct?"✓":"→ "+expected;
+    });
+    results.textContent="Верно: "+good+" из "+tasks.length+".";
+  },"primary");
+  const forward=button(nextLabel(sec),()=>goNext(sec));
+  controls.append(check,forward);
+  const labelMap=Object.fromEntries(tasks.map((t,i)=>[t.id,{t,n:i+1}]));
+  CLOZE_TEXTS[sec].forEach(par=>{
+    const p=el("p");
+    par.split(/\{([gf]\d+)\}/).forEach((part,j)=>{
+      if(j%2===0){p.append(document.createTextNode(part));return;}
+      const x=labelMap[part];if(!x){p.append(part);return;}
+      const wrap=el("span","cloze-slot");
+      const num=el("span","cloze-number",String(x.n)+".");
+      const input=el("input","cloze-input");
+      input.type="text";input.dataset.answer=part;input.autocomplete="off";input.spellcheck=false;
+      input.value=state.answers[part]||"";
+      input.setAttribute("aria-label","Задание "+x.n+"; исходное слово "+x.t.word);
+      input.oninput=()=>{state.answers[part]=input.value;save();input.classList.remove("cloze-good","cloze-bad");input.nextElementSibling.textContent="";results.textContent="";};
+      const hint=el("span","cloze-hint");
+      const word=el("span","cloze-word",x.t.word);
+      wrap.append(num,input,hint,word);p.append(wrap);
+    });
+    text.append(p);
+  });
+  container.append(heading,intro,text,results,controls);
+  main.append(container);
+  if(!document.getElementById("cloze-style")){
+    const st=el("style");st.id="cloze-style";
+    st.textContent=".cloze-work{width:100%;height:100%;overflow:auto;padding:18px 28px}.cloze-work h2{margin:0 0 8px;font-size:24px}.cloze-work>p{font-size:17px;color:#526272}.cloze-text{font-size:clamp(19px,1.8vw,25px);line-height:2.55;max-width:1250px}.cloze-text p{margin:12px 0 25px}.cloze-slot{white-space:nowrap;display:inline-flex;align-items:center;gap:5px;vertical-align:baseline}.cloze-number{font-weight:700;color:#53677a}.cloze-input{width:125px;max-width:21vw;font:inherit;font-size:19px;padding:5px 7px;border:1px solid #8c9ba9;border-radius:5px;background:#fff}.cloze-word{font:bold 13px Arial,sans-serif;color:#356b59;letter-spacing:.04em}.cloze-hint{font:14px Arial,sans-serif;color:#b13e3e}.cloze-good{border-color:#287c4b;background:#ebf9f0}.cloze-bad{border-color:#b13e3e;background:#fff0ee}.cloze-controls{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}.cloze-results{font-size:17px;font-weight:bold}@media(max-width:700px){.cloze-work{padding:12px}.cloze-text{line-height:2.8}.cloze-input{width:95px;font-size:17px}.cloze-word{font-size:11px}}";
+    document.head.append(st);
+  }
+  updateProgress();
+}
 function sectionPage(sec){
+  if(CLOZE_TEXTS[sec]){clozePage(sec);return;}
   const tasks=TASKS.filter(t=>t.section===sec);
   let i=Math.min(pos[sec]??Math.max(0,tasks.findIndex(t=>!done(t))),tasks.length-1), flipped=false;
   const strip=el("div","strip"), q=el("div","q"), foot=el("div","foot");
