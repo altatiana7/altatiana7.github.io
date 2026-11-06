@@ -223,6 +223,8 @@ $("login").addEventListener("submit",e=>{e.preventDefault();const code=$("code")
 $("refresh").onclick=()=>load();
 $("logout").onclick=()=>{localStorage.removeItem(CK);$("code").value="";showGate("")};
 $("kind").onchange=draw;$("search").oninput=draw;$("history").onchange=draw;
+const requestedKind=new URLSearchParams(location.search).get("kind");
+if(["homework","oge","receipt"].includes(requestedKind))$("kind").value=requestedKind;
 load();
 })();
 </script>
