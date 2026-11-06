@@ -196,7 +196,7 @@ function item(r){
  if(sc.manual)tags.append(node("span","tag manual","Ручная проверка"));
  if(flag)tags.append(node("span","tag done","Проверено"));
  name.append(tags,node("strong","",r.test_title||r.test_id),node("div","meta",dt(r.created_at)));
- const score=node("div","score"+(!sc.max?" pending":"",sc.max?sc.correct+" / "+sc.max:sc.manual?"Нужна проверка":"Принято");
+ const score=node("div","score"+(!sc.max?" pending":""),sc.max?sc.correct+" / "+sc.max:sc.manual?"Нужна проверка":"Принято");
  const btn=node("button","open",state.expanded.has(key)?"Свернуть":"Ответы");
  btn.type="button";btn.setAttribute("aria-expanded",String(state.expanded.has(key)));
  btn.onclick=()=>{state.expanded.has(key)?state.expanded.delete(key):state.expanded.add(key);draw()};
