@@ -313,7 +313,7 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
   <!-- 6 REVIEW -->
   <section class="stage g2" data-stage="6">
     <div class="panel"><div class="ph"><h2>Jeopardy</h2><span class="score" id="jScore">0</span></div><div class="jp" id="jp"></div></div>
-    <div class="panel"><div class="ph"><h2>Quick fire</h2><span class="tag">Bomb · 15 sec</span></div><p class="hint">Explain the word or use it in a sentence before the bomb goes off.</p><div id="bomb"></div></div>
+    <div class="panel"><div class="ph"><h2>Quick fire</h2><span class="tag">Speed Game · 15 sec</span></div><p class="hint">Explain the word or use it in a sentence before time runs out.</p><div id="bomb"></div></div>
   </section>
 </main>
 
@@ -603,7 +603,7 @@ function bomb(root){
   const T=b.querySelector("#bT"),W=b.querySelector("#bW"),F=b.querySelector("#bF");
   function stop(){if(t){clearInterval(t);t=null}}
   function next(){stop();b.classList.remove("boom");k=(k+1)%order.length;if(k==0)order=shuffle(ALL);W.textContent=order[k].w;const t0=Date.now();
-    t=setInterval(()=>{const left=Math.max(0,15-(Date.now()-t0)/1000);T.textContent=Math.ceil(left);F.style.width=(left/15*100)+"%";if(left<=0){stop();b.classList.add("boom");T.textContent="BOOM";}},100);go.textContent="Restart"}
+    t=setInterval(()=>{const left=Math.max(0,15-(Date.now()-t0)/1000);T.textContent=Math.ceil(left);F.style.width=(left/15*100)+"%";if(left<=0){stop();b.classList.add("boom");T.textContent="Time's up";}},100);go.textContent="Restart"}
   go.onclick=next;ok.onclick=next;
   stopHooks.push(()=>{stop();b.classList.remove("boom");W.textContent="Ready?";T.textContent="15";F.style.width="100%";go.textContent="Start"});
 }
@@ -660,7 +660,7 @@ $("#tBody").innerHTML=`
 <tr><td>3 Growing up</td><td>9</td><td>Карточки → устные 1–4 → floor is lava (определения) → wrong word hunter (предложения 1, 6, 9, 11).</td></tr>
 <tr><td>4 The episode</td><td>10</td><td>Recap: сначала озвучка, текст по кнопке. Затем T/F, вопросы 1–5, цитаты 1–6.</td></tr>
 <tr><td>5 Interview</td><td>10</td><td>4 вопроса, вариант A или B. Вопрос только звучит, 40 секунд на ответ, на обороте — вопрос и образец от лица Тимофея.</td></tr>
-<tr><td>6 Review</td><td>8</td><td>Jeopardy (12 клеток) и «бомба» на 15 секунд.</td></tr></table>
+<tr><td>6 Review</td><td>8</td><td>Jeopardy (12 клеток) и Speed Game на 15 секунд.</td></tr></table>
 <p>Серию лучше посмотреть дома до урока или фрагментами после этапа 3. Удобные фрагменты: 09:07–12:50 (дорога в школу, первый урок) и 17:27–20:20 (разговор с папой, ужин). В серии есть грубые слова и шутки про взросление (сцена в церкви 04:00–05:05) — решите сами, показывать ли целиком.</p>
 <h3>Ключи</h3>
 <p><b>Gap fill (ваш лист):</b> 1 bowtie · 2 homeroom teacher · 3 credentials · 4 quit · 5 violation · 6 puberty · 7 intimidated · 8 harass · 9 gullible · 10 torment · 11 say grace · 12 fad.</p>

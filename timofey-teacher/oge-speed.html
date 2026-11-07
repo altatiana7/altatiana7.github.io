@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<title>Бомба · ошибки ОГЭ</title>
+<title>Speed Game · ошибки ОГЭ</title>
 <style>
-/* Одна страница: слева бомба (одна ошибка за раз), справа список раунда; классический шрифт как в Teacher's Hub */
+/* Одна страница: слева карточка (одна ошибка за раз), справа список раунда; классический шрифт как в Teacher's Hub */
 :root{
   --ink:#0e1a33; --muted:#4d5b73; --line:#d7e3f2; --card:#fff; --sky1:#eaf4ff; --sky2:#f7fbff;
   --blue:#0b5fe0; --good:#1f8a4c; --good-soft:#dff3e7; --bad:#c0392b; --bad-soft:#fbe3df; --fuse:#e8632c; --gap:#fff3a6;
@@ -70,8 +70,8 @@ button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 <body>
 <div class="app">
   <div class="bar">
-    <h1>Бомба · ошибки ОГЭ</h1>
-    <div class="cnt"><span class="g" id="cG">Обезврежено 0</span><span class="r" id="cR">Взрывов 0</span></div>
+    <h1>Speed Game · ошибки ОГЭ</h1>
+    <div class="cnt"><span class="g" id="cG">Верно 0</span><span class="r" id="cR">Не успел 0</span></div>
     <div class="sp"></div>
     <button class="btn" id="newR" type="button">Новый раунд</button>
   </div>
@@ -146,9 +146,9 @@ function newRound(){
   $("listLbl").textContent="Раунд · "+round.length+" из "+pool.length+" ошибок";
   drawList();show();
 }
-function counters(){$("cG").textContent="Обезврежено "+G;$("cR").textContent="Взрывов "+R;}
+function counters(){$("cG").textContent="Верно "+G;$("cR").textContent="Не успел "+R;}
 function drawList(){
-  $("list").innerHTML=round.map((it,i)=>{const r=res[i],cls=r==="g"?" g":r==="r"?" r":"",st=r==="g"?"обезврежено":r==="r"?"взрыв":i===cur?"сейчас":"";
+  $("list").innerHTML=round.map((it,i)=>{const r=res[i],cls=r==="g"?" g":r==="r"?" r":"",st=r==="g"?"верно":r==="r"?"не успел":i===cur?"сейчас":"";
     return '<div class="it'+cls+(i===cur&&!r?" cur":"")+'"><span class="st">'+(i+1)+". "+st+'</span><span class="w">'+esc(it.word||it.where)+'</span></div>';}).join("");
 }
 function stop(){if(timer){clearInterval(timer);timer=null}}
@@ -161,7 +161,7 @@ function show(){
    (it.sent?'<div class="sent">'+it.sent+'</div>':'<div class="sent">Открой сборник и найди это задание.</div>')+
    '<div class="his">Тимофей написал: <s>'+esc(it.chosen||"пропуск")+'</s></div>'+
    '<div class="fuse"><i id="fz"></i></div><div id="out"></div>'+
-   '<div class="ctr"><button class="btn pri" id="go" type="button">Старт · 15 секунд</button><button class="btn ok" id="ok" type="button" disabled>Обезврежено</button><button class="btn" id="nx" type="button" hidden>'+(cur===round.length-1?"Итог раунда":"Следующая ошибка")+'</button></div>';
+   '<div class="ctr"><button class="btn pri" id="go" type="button">Старт · 15 секунд</button><button class="btn ok" id="ok" type="button" disabled>Верно</button><button class="btn" id="nx" type="button" hidden>'+(cur===round.length-1?"Итог раунда":"Следующая ошибка")+'</button></div>';
   $("go").onclick=start;$("ok").onclick=()=>finish("g");$("nx").onclick=next;drawList();
 }
 function start(){
@@ -171,14 +171,14 @@ function start(){
 function finish(kind){
   stop();res[cur]=kind;const it=round[cur],b=$("bomb");
   if(kind==="g"){G++;b.classList.add("safe");$("out").innerHTML='<div class="ans">Верно: '+esc(it.correct)+'</div>';}
-  else{R++;b.classList.add("boom");$("sec").textContent="0";$("out").innerHTML='<div class="boomtx">BOOM</div><div class="ans">Правильно: '+esc(it.correct)+'</div>';}
+  else{R++;b.classList.add("boom");$("sec").textContent="0";$("out").innerHTML='<div class="boomtx">Время вышло</div><div class="ans">Правильно: '+esc(it.correct)+'</div>';}
   $("go").hidden=true;$("ok").hidden=true;$("nx").hidden=false;$("nx").focus();counters();drawList();
 }
 function next(){if(cur<round.length-1){cur++;show();}else summary();}
 function summary(){
   stop();const b=$("bomb");b.className="panel bomb";const bad=round.filter((_,i)=>res[i]==="r");
-  b.innerHTML='<div class="msg"><p class="sum">Обезврежено '+G+' из '+round.length+'</p>'+
-   (bad.length?'<div class="lbl">Повторить ещё раз</div><div class="rev">'+bad.map(it=>'<div>'+esc(it.word||it.where)+': <s>'+esc(it.chosen||"пропуск")+'</s> → <b>'+esc(it.correct)+'</b></div>').join("")+'</div>':'<p>Ни одного взрыва.</p>')+'</div>';
+  b.innerHTML='<div class="msg"><p class="sum">Верно '+G+' из '+round.length+'</p>'+
+   (bad.length?'<div class="lbl">Повторить ещё раз</div><div class="rev">'+bad.map(it=>'<div>'+esc(it.word||it.where)+': <s>'+esc(it.chosen||"пропуск")+'</s> → <b>'+esc(it.correct)+'</b></div>').join("")+'</div>':'<p>Не успел ни разу.</p>')+'</div>';
   const x=document.createElement("button");x.className="btn pri";x.type="button";x.textContent="Новый раунд";x.onclick=newRound;b.querySelector(".msg").append(x);
   cur=-1;drawList();
 }
