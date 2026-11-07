@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Teacher · Выдача домашки · Тимофей</title>
+<style>
+:root{--ink:#14263e;--muted:#5a6980;--blue:#1869c5;--green:#1e6b4a;--line:#dbe5f1;--bg:#edf4fb;--bad:#a63d2f}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:var(--bg)}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:860px;margin:0 auto;padding:16px 18px 28px}
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.pill{font-weight:bold;font-size:14px;letter-spacing:.4px;color:#fff;background:#173a6b;border-radius:999px;padding:4px 12px}
+h1{margin:0;font-size:clamp(22px,3vw,28px)}
+.hint{margin:0 0 14px;color:var(--muted);font-size:16px;line-height:1.4}
+.row{display:flex;align-items:center;gap:16px;justify-content:space-between;background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px 18px;margin-bottom:10px;box-shadow:0 5px 20px #152d4910}
+.row.on{border-color:#b9dcc9;background:linear-gradient(180deg,#fff,#f4fbf7)}
+.info{min-width:0}
+.info b{display:block;font-size:20px;line-height:1.2}
+.info span{display:block;font-size:15px;color:var(--muted);margin-top:3px;line-height:1.3}
+.tag{display:inline-block;margin-top:6px;font-size:13px;font-weight:bold;color:var(--green);background:#e8f5ef;border:1px solid #b9dcc9;border-radius:999px;padding:2px 9px}
+.btn{flex:none;min-width:130px;border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:10px;padding:10px 16px;font-weight:bold;font-size:16px}
+.btn.off{background:#fff;color:var(--bad);border-color:#e1b9b2}
+.btn.sure{background:var(--bad);color:#fff;border-color:var(--bad)}
+.btn:disabled{opacity:.55;cursor:wait}
+.btn:focus-visible{outline:3px solid #5ba9ef;outline-offset:2px}
+.msg{margin:0 0 12px;padding:10px 14px;border-radius:9px;font-size:15px;display:none}
+.msg.err{display:block;background:#fff5f4;border:1px solid #efc3bd;color:var(--bad)}
+.msg.ok{display:block;background:#f1faf5;border:1px solid #b9dcc9;color:var(--green)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span class="pill">Teacher</span><h1>Выдача домашки · Тимофей</h1></div>
+  <p class="hint">Выданное сразу появляется на сайте Тимофея. Отозванное исчезает. Уже сданные работы остаются у вас во входящих.</p>
+  <div class="msg" id="msg" role="status"></div>
+  <div id="list"></div>
+</div>
+<script>
+const DB="https://lzxcmrlubhjfdhtqvqzt.supabase.co",KEY="sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI",CK="arina-teacher-code",STUDENT="timofey";
+/* Что можно выдать. Новый блок: добавить строку сюда и научить сайт Тимофея показывать его (id совпадает с базой). */
+const CATALOG=[
+  {id:"digital-life",title:"On Screen: Digital Life",sub:"Лексика, грамматика, словообразование, чтение, письмо, устная часть"},
+  {id:"oge-reading-2026-11-06",title:"ОГЭ Reading, 6 ноября",sub:"2 текста, 16 вопросов True / False / Not stated"}
+];
+const $=id=>document.getElementById(id);
+const code=()=>{try{return localStorage.getItem(CK)||""}catch(e){return ""}};
+let given=new Map(),busy=false;
+
+function say(text,kind){const m=$("msg");m.className="msg "+(kind||"");m.textContent=text||"";if(!text)m.className="msg";}
+async function rpc(name,body){
+  const r=await fetch(DB+"/rest/v1/rpc/"+name,{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify(body)});
+  const t=await r.text();let j=null;try{j=JSON.parse(t)}catch(e){}
+  if(!r.ok){const e=new Error((j&&(j.message||j.hint))||("http "+r.status));e.status=r.status;throw e;}
+  return j;
+}
+function dateText(v){if(!v)return"";try{return new Date(v).toLocaleDateString("ru-RU",{day:"numeric",month:"long"});}catch(e){return"";}}
+
+function draw(){
+  const box=$("list");box.replaceChildren();
+  CATALOG.forEach(it=>{
+    const g=given.get(it.id),row=document.createElement("div");row.className="row"+(g?" on":"");
+    const info=document.createElement("div");info.className="info";
+    const b=document.createElement("b");b.textContent=it.title;
+    const s=document.createElement("span");s.textContent=it.sub;
+    info.append(b,s);
+    if(g){const t=document.createElement("em");t.className="tag";t.style.fontStyle="normal";
+      t.textContent="✓ В ДЗ"+(g.given_at?" · "+dateText(g.given_at):"");info.append(t);}
+    const btn=document.createElement("button");btn.type="button";
+    if(g){
+      btn.className="btn off";btn.textContent="Отозвать";
+      let armed=null;
+      btn.addEventListener("click",()=>{
+        if(!btn.classList.contains("sure")){btn.classList.add("sure");btn.textContent="Точно отозвать?";
+          armed=setTimeout(()=>{btn.classList.remove("sure");btn.textContent="Отозвать";},4000);return;}
+        clearTimeout(armed);act("revoke_homework",{p_teacher_code:code(),p_student:STUDENT,p_item_id:it.id},"Отозвано: "+it.title);
+      });
+    }else{
+      btn.className="btn";btn.textContent="Выдать";
+      btn.addEventListener("click",()=>act("give_homework",{p_teacher_code:code(),p_student:STUDENT,p_item_id:it.id,p_title:it.title},"Выдано: "+it.title));
+    }
+    row.append(info,btn);box.append(row);
+  });
+}
+async function load(){
+  try{
+    const rows=await rpc("get_given_homework",{p_student:STUDENT});
+    given=new Map((Array.isArray(rows)?rows:[]).map(x=>[x.item_id,x]));
+    draw();return true;
+  }catch(e){say("Не удалось загрузить список. Проверьте интернет и обновите страницу.","err");draw();return false;}
+}
+async function act(fn,body,okText){
+  if(busy)return;
+  if(!code()){say("Нет кода учителя. Откройте Teacher-хаб и войдите по коду.","err");return;}
+  busy=true;document.querySelectorAll(".btn").forEach(b=>b.disabled=true);say("Сохраняю…");
+  try{
+    await rpc(fn,body);
+    if(await load())say(okText,"ok");
+  }catch(e){
+    say(/invalid_teacher_code/.test(e.message)?"Код учителя не подошёл. Войдите в хаб заново.":"Не получилось сохранить. Ничего не изменилось, попробуйте ещё раз.","err");
+    draw();
+  }finally{busy=false;document.querySelectorAll(".btn").forEach(b=>b.disabled=false);}
+}
+if(!code())say("Нет кода учителя. Откройте Teacher-хаб и войдите по коду.","err");
+load();
+</script>
+</body>
+</html>

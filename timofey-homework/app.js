@@ -253,9 +253,10 @@ function ogeReadingPage(){
     scoreEl.className="ogescore"+(checked()?(t.ok===t.total?" full":t.ok*2>=t.total?" half":" low"):"");
     checkBtn.textContent=checked()?"Проверить снова":"Проверить ответы";
     resetBtn.classList.toggle("hidden",!checked());
-    const back=button("← "+SECTIONS[SECTIONS.indexOf(OGE_SEC)-1],()=>open(SECTIONS[SECTIONS.indexOf(OGE_SEC)-1]));
-    const next=button("Дальше: "+SECTIONS[SECTIONS.indexOf(OGE_SEC)+1]+" →",()=>goNext(OGE_SEC),"primary");
-    foot.replaceChildren(back,next);
+    const bi=SECTIONS.indexOf(OGE_SEC)-1;
+    const back=bi>=0?button("← "+SECTIONS[bi],()=>open(SECTIONS[bi])):null;
+    const next=button(nextLabel(OGE_SEC)+" →",()=>goNext(OGE_SEC),"primary");
+    foot.replaceChildren(...[back,next].filter(Boolean));
   }
   draw();
 }

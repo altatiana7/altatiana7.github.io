@@ -40,11 +40,11 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#1aa4ff,#0b5fe0);-webki
 
 .grp{min-height:0;display:flex;flex-direction:column;gap:6px}
 .grp.big{flex:1}
-.row1{display:grid;grid-template-columns:2fr 1fr;gap:12px}
+.row1{display:grid;grid-template-columns:3fr 1fr;gap:12px}
 .g-les{grid-template-columns:1fr!important}
 .grp h3{margin:0;font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:12px}
-.g-os{flex:0 0 auto;grid-auto-rows:auto;grid-template-columns:repeat(2,minmax(0,1fr))}
+.g-os{flex:0 0 auto;grid-auto-rows:auto;grid-template-columns:repeat(3,minmax(0,1fr))}
 .g-os .card{flex-direction:row;justify-content:flex-start;text-align:left;gap:12px;padding:10px 14px}
 .g-os .card .tx{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
 .g-os .card i{margin:0}
@@ -196,6 +196,7 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
   };
   const OS=[
     ['Homework','Домашка On Screen',I.book,'#2f7cf6,#59a8ff','On Screen · ','../timofey-homework/?v='+V+'&teacher=1'],
+    ['Выдача домашки','Выдать / отозвать',I.stack,'#127e75,#2fb5a8','On Screen · ','./assign.html?v=20261107b',1],
     ['Входящие работы','Домашка, ответы и сдачи',I.check,'#0b5fe0,#1d8cf0','On Screen · ','./submissions.html?v=20261107',1]
   ];
   const OGE=[
@@ -208,11 +209,6 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
     ['Результаты ОГЭ','Проверить работы',I.chart,'#0b5fe0,#1d8cf0','ОГЭ · ','./submissions.html?kind=oge&v=20261107',1],
     ['Бомба','Ошибки Тимофея',I.bomb,'#d9432c,#f0803c','ОГЭ · ','./oge-bomb.html?v=20261024',1]
   ];
-  /* Что уже отправлено Тимофею в домашку: зелёная метка «В ДЗ» на карточке, чтобы не давать дважды.
-     Добавляя новое: имя карточки → что и когда ушло. */
-  const GIVEN={
-    'Homework':'Digital Life (лексика, грамматика, словообразование, чтение, письмо, устная часть) · ОГЭ Reading, 6 ноября (2 текста, 16 вопросов)'
-  };
   const gst=document.createElement('style');
   gst.textContent='.card{position:relative}.hwg{position:absolute;top:-9px;right:12px;font:700 11px/1 Georgia,serif;font-style:normal;color:#1e6b4a;background:#e8f5ef;border:1px solid #b9dcc9;border-radius:999px;padding:3px 8px;box-shadow:0 1px 3px rgba(30,107,74,.18)}';
   document.head.appendChild(gst);
@@ -221,12 +217,24 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
     const [g1,g2]=grad.split(',');
     b.innerHTML='<div class="ic" style="background:linear-gradient(135deg,'+g1+','+g2+')"><svg viewBox="0 0 24 24">'+icon+'</svg></div><div class="tx"><b></b><span></span></div><i></i>';
     b.querySelector('b').textContent=name;b.querySelector('span').textContent=sub;
-    if(GIVEN[name]){const g=document.createElement('em');g.className='hwg';g.textContent='✓ В ДЗ';g.title='Отправлено в домашку: '+GIVEN[name];b.appendChild(g);}
     b.addEventListener('click',()=>openFrame(kind,name,url));
     $(box).appendChild(b);
   }
   const LES=[['Young Sheldon','Episode 1 · урок',I.film,'#d9632c,#f39a5b','Урок · ','./young-sheldon.html?v=20261015']];
   OS.forEach(c=>add('g-os',c));LES.forEach(c=>add('g-les',c));OGE.forEach(c=>add('g-oge',c));
+  /* Метка «✓ В ДЗ» на карточке Homework: что выдано Тимофею сейчас (из базы) */
+  (async()=>{
+    try{
+      const r=await fetch('https://lzxcmrlubhjfdhtqvqzt.supabase.co/rest/v1/rpc/get_given_homework',{method:'POST',
+        headers:{apikey:'sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI',Authorization:'Bearer sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI','Content-Type':'application/json'},
+        body:JSON.stringify({p_student:'timofey'})});
+      if(!r.ok)return;const rows=await r.json();if(!Array.isArray(rows)||!rows.length)return;
+      const card=[...document.querySelectorAll('#g-os .card')].find(c=>c.querySelector('b')?.textContent==='Homework');
+      if(!card||card.querySelector('.hwg'))return;
+      const g=document.createElement('em');g.className='hwg';g.textContent='✓ В ДЗ';
+      g.title='Отправлено в домашку: '+rows.map(x=>x.title).join(' · ');card.appendChild(g);
+    }catch(e){}
+  })();
 
   const screen=$('screen');
   function openFrame(kind,name,url){

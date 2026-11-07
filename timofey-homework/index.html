@@ -26,7 +26,50 @@
 <script src="/Tatyana-English-Hub/shared/hw-sent.js?v=2"></script>
 <script src="./common.js?v=20261106"></script>
 <script src="./tasks.js?v=20261107b"></script>
-<script src="./app.js?v=20261107b"></script>
-<script src="./fit.js?v=20261023"></script>
+<script>
+/* Выдача домашки: сайт показывает только то, что учитель выдала (таблица выдач в базе).
+   Нет связи -> берём последний сохранённый список; нет и его -> показываем всё, как раньше. */
+(function(){
+  var DB="https://lzxcmrlubhjfdhtqvqzt.supabase.co",KEY="sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI",CK="timofey-given.v1";
+  var ITEM_FULL="digital-life",ITEM_OGE="oge-reading-2026-11-06";
+  function load(src,next){var s=document.createElement("script");s.src=src;s.onload=next;document.body.appendChild(s);}
+  function go(){load("./app.js?v=20261107c",function(){
+    load("./fit.js?v=20261023",function(){window.dispatchEvent(new Event("resize"));});
+    /* «load» мог уже пройти, пока шёл запрос: сдачу и подгонку запускаем сами */
+    if(document.readyState==="complete"&&typeof sendHW==="function")setTimeout(sendHW,1200);
+  });}
+  function cached(){try{var a=JSON.parse(localStorage.getItem(CK)||"null");return Array.isArray(a)?a:null}catch(e){return null}}
+  function apply(ids){
+    var keep={};
+    if(ids.indexOf(ITEM_FULL)>=0)SECTIONS.forEach(function(x){if(x!==OGE_SEC)keep[x]=1;});
+    if(ids.indexOf(ITEM_OGE)>=0)keep[OGE_SEC]=1;
+    var i;for(i=SECTIONS.length-1;i>=0;i--)if(!keep[SECTIONS[i]])SECTIONS.splice(i,1);
+    for(i=TASKS.length-1;i>=0;i--)if(!keep[TASKS[i].section])TASKS.splice(i,1);
+  }
+  function run(ids){
+    if(ids===null){go();return;}
+    if(!ids.length){
+      var nav=document.getElementById("nav");if(nav)nav.hidden=true;
+      var m=document.getElementById("main");if(m)m.textContent="Пока заданий нет.";
+      return;
+    }
+    apply(ids);go();
+  }
+  if(/[?&]teacher=1(&|$)/.test(location.search)){go();return;} /* учитель из своего хаба видит всё */
+  var done=false,ctl=window.AbortController?new AbortController():null;
+  var timer=setTimeout(function(){if(ctl)ctl.abort();},3500);
+  fetch(DB+"/rest/v1/rpc/get_given_homework",{method:"POST",
+    headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json"},
+    body:JSON.stringify({p_student:"timofey"}),signal:ctl?ctl.signal:undefined})
+  .then(function(r){if(!r.ok)throw Error("bad");return r.json();})
+  .then(function(rows){
+    clearTimeout(timer);if(done)return;done=true;
+    var ids=(Array.isArray(rows)?rows:[]).map(function(x){return x.item_id;});
+    try{localStorage.setItem(CK,JSON.stringify(ids));}catch(e){}
+    run(ids);
+  })
+  .catch(function(){clearTimeout(timer);if(done)return;done=true;run(cached());});
+})();
+</script>
 </body>
 </html>
