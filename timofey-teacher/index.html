@@ -208,11 +208,20 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
     ['Результаты ОГЭ','Проверить работы',I.chart,'#0b5fe0,#1d8cf0','ОГЭ · ','./submissions.html?kind=oge&v=20261107',1],
     ['Бомба','Ошибки Тимофея',I.bomb,'#d9432c,#f0803c','ОГЭ · ','./oge-bomb.html?v=20261024',1]
   ];
+  /* Что уже отправлено Тимофею в домашку: зелёная метка «В ДЗ» на карточке, чтобы не давать дважды.
+     Добавляя новое: имя карточки → что и когда ушло. */
+  const GIVEN={
+    'Homework':'Digital Life (лексика, грамматика, словообразование, чтение, письмо, устная часть) · ОГЭ Reading, 6 ноября (2 текста, 16 вопросов)'
+  };
+  const gst=document.createElement('style');
+  gst.textContent='.card{position:relative}.hwg{position:absolute;top:-9px;right:12px;font:700 11px/1 Georgia,serif;font-style:normal;color:#1e6b4a;background:#e8f5ef;border:1px solid #b9dcc9;border-radius:999px;padding:3px 8px;box-shadow:0 1px 3px rgba(30,107,74,.18)}';
+  document.head.appendChild(gst);
   function add(box,[name,sub,icon,grad,kind,url,teach]){
     const b=document.createElement('button');b.type='button';b.className='card'+(teach?' teach':'');
     const [g1,g2]=grad.split(',');
     b.innerHTML='<div class="ic" style="background:linear-gradient(135deg,'+g1+','+g2+')"><svg viewBox="0 0 24 24">'+icon+'</svg></div><div class="tx"><b></b><span></span></div><i></i>';
     b.querySelector('b').textContent=name;b.querySelector('span').textContent=sub;
+    if(GIVEN[name]){const g=document.createElement('em');g.className='hwg';g.textContent='✓ В ДЗ';g.title='Отправлено в домашку: '+GIVEN[name];b.appendChild(g);}
     b.addEventListener('click',()=>openFrame(kind,name,url));
     $(box).appendChild(b);
   }
