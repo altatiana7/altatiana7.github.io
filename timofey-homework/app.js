@@ -87,19 +87,11 @@ function clozePage(sec){
   const text=el("div","cloze-text");text.lang="en";
   const results=el("div","cloze-results");
   const controls=el("div","cloze-controls");
-  const check=button("Проверить ответы",()=>{
-    let good=0;
-    tasks.forEach(t=>{
-      const field=text.querySelector('[data-answer="'+t.id+'"]');
-      const expected=CLOZE_KEYS[t.id];
-      const correct=String(state.answers[t.id]||"").trim().toLowerCase().replace(/[’]/g,"'")===expected.toLowerCase();
-      if(correct)good++;
-      field.classList.toggle("cloze-good",correct);
-      field.classList.toggle("cloze-bad",!correct);
-      const hint=field.nextElementSibling;
-      if(hint&&hint.classList.contains("cloze-hint"))hint.textContent=correct?"✓":"→ "+expected;
-    });
-    results.textContent="Верно: "+good+" из "+tasks.length+".";
+  const check=button("Отправить Татьяне",async()=>{
+    check.disabled=true;
+    const ok=await sendHW();
+    toast(ok?"Ответы отправлены Татьяне.":"Не удалось отправить. Проверь подключение и повтори.");
+    check.disabled=false;
   },"primary");
   const forward=button(nextLabel(sec),()=>goNext(sec));
   controls.append(check,forward);
@@ -193,7 +185,7 @@ function ogeTotals(){
   return {ok:ok,filled:filled,total:total};
 }
 function ogeReadingPage(){
-  const checked=()=>!!state.readChecked;
+  const checked=()=>false; /* самопроверки нет: ответы проверяет учитель */
   let si=Math.min(pos.ogeSet||0,OGE_READING.sets.length-1);
   const bar=el("div","ogebar"), tabs=el("div","ogetabs"), tools=el("div","ogetools");
   const scoreEl=el("b","ogescore","");
@@ -202,14 +194,13 @@ function ogeReadingPage(){
   const foot=el("div","foot");
   left.append(src); right.append(list); split.append(left,right);
 
-  const checkBtn=button("Проверить ответы",()=>{
-    const t=ogeTotals();
-    if(!t.filled){toast("Сначала ответь хотя бы на один вопрос.");return;}
-    state.readChecked=true; save(); draw();
-    const n=ogeTotals();
-    toast("Верно "+n.ok+" из "+n.total+". Баллов: "+n.ok+" из "+n.total+"."+(n.ok===n.total?" Отлично!":" Ошибки подсвечены."));
+  const checkBtn=button("Отправить Татьяне",async()=>{
+    checkBtn.disabled=true;
+    const ok=await sendHW();
+    toast(ok?"Ответы отправлены Татьяне.":"Не удалось отправить. Проверь подключение и повтори.");
+    checkBtn.disabled=false;
   },"primary");
-  const resetBtn=button("Сбросить проверку",()=>{state.readChecked=false;save();draw();});
+  const resetBtn=el("span");resetBtn.className="hidden";
   tools.append(checkBtn,resetBtn,scoreEl);
   bar.append(tabs,tools);
   main.append(bar,split,foot);
@@ -251,7 +242,6 @@ function ogeReadingPage(){
       ? "Результат: "+t.ok+" из "+t.total+" баллов"
       : "Заполнено "+t.filled+" из "+t.total;
     scoreEl.className="ogescore"+(checked()?(t.ok===t.total?" full":t.ok*2>=t.total?" half":" low"):"");
-    checkBtn.textContent=checked()?"Проверить снова":"Проверить ответы";
     resetBtn.classList.toggle("hidden",!checked());
     const bi=SECTIONS.indexOf(OGE_SEC)-1;
     const back=bi>=0?button("← "+SECTIONS[bi],()=>open(SECTIONS[bi])):null;
