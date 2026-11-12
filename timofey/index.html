@@ -63,6 +63,13 @@ h1 .cur{display:inline-block;width:.55em;height:.08em;margin-left:.1em;backgroun
   .go{gap:14px;padding:10px 16px}
 }
 @media(prefers-reduced-motion:reduce){.go{transition:none}}
+
+/* Compact hub overlay; all linked sections get their own matching compact styles. */
+.screen.open{grid-template-rows:32px minmax(0,1fr)}
+.head{gap:8px;padding:0 10px}
+.head .back{font-size:12px;padding:3px 9px;border-radius:5px}
+.head .ttl{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:800px){.screen.open{grid-template-rows:34px minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -102,7 +109,7 @@ h1 .cur{display:inline-block;width:.55em;height:.08em;margin-left:.1em;backgroun
 <script>
 (()=>{
   const $=id=>document.getElementById(id);
-  const V='20261112e';
+  const V='20261113compact';
   const PAGES={
     oge:['OGE Homework','../timofey-oge-homework/?v='+V],
     homework:['ON SCREEN Homework','../timofey-homework/?v='+V],
