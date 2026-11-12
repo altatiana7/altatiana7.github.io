@@ -101,6 +101,9 @@ a{color:inherit;text-decoration:none}
   var PR=read("timofey.oge.practice.2026-11-09")||{};
   var PRS=(read("timofey.oge.practice.2026-11-09.sent")||{}).ids||[];
 
+  /* Работы, которые уже пришли Татьяне во «Входящие» (сверено 12.11.2026). Пополнять при следующей сверке. */
+  var RECEIVED=["tf:1","tf:2","tf:3","tf:4","tf:5","tf:6","mt:1","mt:2","mt:3","mt:4","mt:5","mt:6","gr:1","gr:2","gr:3","gr:4","wf:1","wf:2","wf:3"];
+
   var DATA={tf:OGE.TF,mt:OGE.MATCH,gr:OGE.GR,wf:OGE.WF,s1:OGE.SP1,s2:OGE.SP2,s3:OGE.SP3,wr:OGE.WR};
   function size(id,n){
     var it=(DATA[id]||[]).filter(function(x){return x.n===n;})[0];if(!it)return 1;
@@ -110,7 +113,7 @@ a{color:inherit;text-decoration:none}
   function filled(a){return (a||[]).filter(function(v){return v!=null&&v!=="";}).length;}
   /* trainer item: "sent" / "done" / "" */
   function trainer(id,n){
-    var k=id+":"+n,r=S.res[k];if(!r)return "";
+    var k=id+":"+n;if(RECEIVED.indexOf(k)>=0)return "sent";var r=S.res[k];if(!r)return "";
     if(S.sent[k]||r.sent)return "sent";
     var stepper=/^(tf|mt|gr|wf)$/.test(id);
     if(stepper?filled(r.a)>=size(id,n):id==="s2"?filled(r.a)>=size(id,n):r.done)return "done";
