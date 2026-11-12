@@ -71,3 +71,45 @@
 .rbtn.bad::after{content:" \2717"}
 .rmiss{font-size:13.5px;color:var(--bad);font-weight:700}
 @media(max-width:820px){.ogebar{flex-direction:column;align-items:stretch}.ogetools{flex-wrap:wrap}}
+
+/* TIMOFEY COMPACT ACTIVITY COMPONENTS */
+.q{gap:8px}
+.prompt{font-size:18px;line-height:1.28}
+.word{font-size:15px;padding:2px 7px}
+.opts{gap:6px}
+.opt{min-width:110px;padding:7px 10px;font-size:16px}
+.short{font-size:16px!important}
+.split{gap:8px;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
+.split>.col{gap:6px}
+.split .prompt{font-size:17px}
+.split .opt{padding:6px 9px}
+.source{font-size:15px;line-height:1.38;padding:8px 10px}
+.card{gap:12px;padding:9px 12px}
+.ring{width:78px;height:78px}
+.card .side{gap:6px}
+.card h3{font-size:17px}
+.card .back-text{font-size:17px}
+.card textarea{height:62px;font-size:15px}
+.rec{gap:6px}
+.rec audio{height:32px;max-width:230px}
+.rec .muted{font-size:13px}
+.steps{padding-left:20px;line-height:1.4}
+.row{gap:6px}
+.box{padding:7px 10px}
+.fb{padding:6px 0}
+.opts.many{gap:5px}
+.split .opts.many .opt{font-size:14px;padding:5px 8px}
+.ogebar{gap:6px}
+.ogetabs{gap:4px}
+.ogetabs .tab{padding:4px 7px}
+.ogetabs .tab b{font-size:13px}
+.ogetabs .tab span{font-size:12px}
+.ogetools{gap:5px}
+.ogescore{font-size:14px}
+.qlist{padding:3px 8px}
+.rq{padding:5px 0;gap:5px}
+.rqt{gap:3px}
+.rqt p{font-size:14px;line-height:1.25}
+.rbtn{font-size:12px;padding:3px 7px}
+@media(max-width:820px){.split{grid-template-columns:minmax(0,1fr)}.card{flex-direction:column;align-items:stretch}}
+
