@@ -63,61 +63,37 @@ a{color:inherit;text-decoration:none}
   .hw .list{overflow:visible}
 }
 
-/* TIMOFEY COMPACT HOMEWORK INDEX */
-.page{gap:6px;padding:7px 10px}
-.top{gap:8px;flex-wrap:wrap}
-.top h1{font-size:17px}
-.top .btn{font-size:12px;padding:3px 8px}
-.legend{font-size:12px;gap:5px}
-.tab{font-size:13px;padding:4px 9px}
-.practice .row{grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;padding:6px}
-.sec{font-size:13px;min-height:32px;padding:3px 6px;gap:3px}
-.hw .list{gap:6px;padding:6px}
-.day-h{padding:5px 9px;gap:6px}
-.day-h h2{font-size:16px}
-.day-h .cnt{font-size:12px}
-.rows{gap:3px 10px;padding:5px 9px}
-.r{min-height:31px;gap:6px}
-.r .lab{flex-basis:115px;font-size:13px}
-.chips{gap:4px}
-.chip{font-size:12px;height:29px;padding:0 7px;gap:4px}
-.chip i{font-size:11px}
-@media(max-width:1050px){.practice .row{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:600px){.practice .row{grid-template-columns:repeat(2,minmax(0,1fr))}.r{flex-wrap:wrap}.r .lab{flex-basis:100%}}
-
-
-/* FINAL compact layout: designed for 1280×540 classroom viewport */
-html,body{height:100%!important;overflow:hidden!important;font:13px/1.25 Arial,"Segoe UI",sans-serif!important}
-.page{height:100dvh!important;padding:4px 6px!important;gap:4px!important;overflow:hidden!important}
-.top{min-height:0!important;height:26px!important;gap:6px!important;flex-wrap:nowrap!important}
-.top h1{font:600 14px/1.1 Arial,sans-serif!important}
-.top .btn{font:600 11px Arial,sans-serif!important;padding:3px 7px!important}
-.legend{gap:3px!important}
-.legend .chip{font:600 10px Arial,sans-serif!important;height:21px!important;padding:0 6px!important}
-.panel{border-radius:5px!important;min-width:0!important}
-.tab{height:20px!important;padding:2px 7px!important;display:flex!important;align-items:center!important;font:12px/1.1 Arial,sans-serif!important}
-.practice{flex:0 0 auto!important}
-.practice .row{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:4px!important;padding:4px!important}
-.sec{min-height:26px!important;height:26px!important;font:600 12px Arial,sans-serif!important;padding:2px 7px!important;gap:3px!important;white-space:nowrap!important}
-.hw{flex:1!important;min-height:0!important}
-.hw .list{flex:1!important;min-height:0!important;overflow-y:auto!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px!important;padding:4px!important;align-content:start!important;scrollbar-width:thin}
-.day{min-width:0!important;align-self:start!important;border-radius:5px!important}
-.day:first-child{grid-column:1/-1!important}
-.day-h{min-height:26px!important;padding:4px 7px!important;align-items:center!important;cursor:pointer!important}
-.day-h h2{font:600 13px Arial,sans-serif!important}
-.day-h .cnt{font:11px Arial,sans-serif!important}
-.day-h::after{content:"▾";font:12px Arial,sans-serif;color:var(--muted);margin-left:5px}
+/* Balanced classroom layout: comfortable, readable, space-efficient */
+html,body{height:100%;overflow:hidden;font-family:"Segoe UI",Arial,sans-serif;font-size:15px;line-height:1.35}
+.page{height:100dvh;min-height:0;gap:8px;padding:8px 12px}
+.top{flex:0 0 auto;gap:10px;min-height:34px}
+.top h1{font-size:19px;line-height:1.2;font-weight:650}
+.top .btn{font-size:14px;padding:5px 10px}
+.legend{gap:6px;font-size:13px}
+.legend .chip{height:28px;font-size:13px;padding:0 9px}
+.panel{border-radius:8px}
+.tab{font-size:14px;padding:6px 12px;line-height:1.15}
+.practice{flex:0 0 auto}
+.practice .row{grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;padding:8px}
+.sec{font-size:15px;font-weight:600;min-height:40px;padding:6px 10px;white-space:nowrap}
+.hw{flex:1;min-height:0}
+.hw .list{display:flex;flex-direction:column;gap:8px;padding:8px;overflow:auto;scrollbar-width:thin}
+.day{flex:0 0 auto;border-radius:7px}
+.day-h{min-height:36px;align-items:center;gap:8px;padding:7px 12px;cursor:pointer}
+.day-h h2{font-size:17px;font-weight:650}
+.day-h .cnt{font-size:13px}
+.day-h::after{content:"▾";font:17px Arial,sans-serif;color:var(--muted);margin-left:6px}
 .day.collapsed .day-h::after{content:"▸"}
-.day.collapsed .rows{display:none!important}
-.rows,.rows.one{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:4px!important;padding:5px 7px!important}
-.r{min-width:0!important;min-height:0!important;display:flex!important;align-items:flex-start!important;flex-direction:column!important;gap:3px!important}
-.r .lab{flex:none!important;font:600 11px Arial,sans-serif!important}
-.chips{display:flex!important;gap:3px!important;flex-wrap:wrap!important}
-.chip{height:23px!important;padding:0 7px!important;gap:3px!important;border-radius:4px!important;font:600 11px Arial,sans-serif!important}
-.chip i{font:10px Arial,sans-serif!important}
-.embed .top{display:none!important}
-@media(max-width:840px){.hw .list{grid-template-columns:minmax(0,1fr)!important}.practice .row{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
-@media(max-width:580px){.rows,.rows.one{grid-template-columns:1fr!important}.practice .row{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+.day.collapsed .rows{display:none}
+.rows,.rows.one{grid-template-columns:1fr;gap:4px;padding:8px 12px}
+.r{min-height:34px;gap:10px}
+.r .lab{flex:0 0 125px;font-size:15px}
+.chips{gap:6px}
+.chip{height:31px;font-size:14px;padding:0 10px;gap:5px}
+.chip i{font-size:12px}
+.embed .top{display:none}
+@media(max-width:1000px){.practice .row{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:650px){.page{padding:6px}.practice .row{grid-template-columns:repeat(2,minmax(0,1fr))}.r{flex-wrap:wrap;gap:4px}.r .lab{flex:0 0 100%}.chips{width:100%}}
 
 </style>
 </head>
