@@ -109,7 +109,7 @@ h1 .cur{display:inline-block;width:.55em;height:.08em;margin-left:.1em;backgroun
 <script>
 (()=>{
   const $=id=>document.getElementById(id);
-  const V='20261113compact2';
+  const V='20261113compact3';
   const PAGES={
     oge:['OGE Homework','../timofey-oge-homework/?v='+V],
     homework:['ON SCREEN Homework','../timofey-homework/?v='+V],
@@ -122,7 +122,47 @@ h1 .cur{display:inline-block;width:.55em;height:.08em;margin-left:.1em;backgroun
     const ws=$('ws');ws.innerHTML='';
     const f=document.createElement('iframe');f.title=p[0];f.src=p[1];
     /* inner pages have their own "← Hub" link; the bar above already has one */
-    f.addEventListener('load',()=>{try{f.contentDocument.querySelectorAll('a[href="../timofey/"]').forEach(a=>a.style.display='none');}catch(e){}});
+    f.addEventListener('load',()=>{try{
+      const doc=f.contentDocument;
+      doc.querySelectorAll('a[href="../timofey/"]').forEach(a=>a.style.display='none');
+      if(key==='oge'){
+        doc.body.classList.add('embed');
+        const css=doc.createElement('style');
+        css.textContent=`
+          html,body{font-family:Arial,sans-serif!important;font-size:13px!important;overflow:hidden!important}
+          .page{height:100dvh!important;gap:4px!important;padding:4px 6px!important}
+          .top{display:none!important}
+          .tab{height:20px!important;padding:2px 7px!important;font-size:12px!important}
+          .practice .row{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:4px!important;padding:4px!important}
+          .sec{height:26px!important;min-height:26px!important;font-size:12px!important;padding:2px 7px!important}
+          .hw .list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-content:start!important;gap:4px!important;padding:4px!important;overflow:auto!important}
+          .day:first-child{grid-column:1/-1!important}
+          .day-h{min-height:26px!important;padding:4px 7px!important;cursor:pointer!important}
+          .day-h h2{font-size:13px!important}
+          .day-h .cnt{font-size:11px!important}
+          .rows,.rows.one{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:4px!important;padding:5px 7px!important}
+          .r{min-height:0!important;display:flex!important;align-items:flex-start!important;flex-direction:column!important;gap:3px!important}
+          .r .lab{flex:none!important;font-size:11px!important}
+          .chips{gap:3px!important}
+          .chip{font-size:11px!important;height:23px!important;padding:0 7px!important}
+          @media(max-width:840px){.hw .list{grid-template-columns:1fr!important}.practice .row{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+        `;
+        doc.head.appendChild(css);
+        doc.querySelectorAll('.day').forEach((day,i)=>{
+          if(i>0)day.classList.add('collapsed');
+          const rows=day.querySelector('.rows'),head=day.querySelector('.day-h');
+          if(i>0&&rows)rows.style.display='none';
+          if(head&&!head.dataset.hubCompact){
+            head.dataset.hubCompact='1';
+            head.style.cursor='pointer';
+            head.addEventListener('click',()=>{
+              const collapsed=day.classList.toggle('collapsed');
+              if(rows)rows.style.display=collapsed?'none':'grid';
+            });
+          }
+        });
+      }
+    }catch(e){}});
     ws.appendChild(f);
     screen.classList.add('open');screen.setAttribute('aria-hidden','false');
   }
