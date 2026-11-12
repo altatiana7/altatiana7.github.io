@@ -24,38 +24,44 @@
 <div class="toast hidden" id="toast" role="status"></div>
 <input type="file" id="fileInput" class="hidden" accept=".json,application/json">
 <script src="/Tatyana-English-Hub/shared/hw-sent.js?v=2"></script>
-<script src="./common.js?v=20261112b"></script>
-<script src="./tasks.js?v=20261112b"></script>
+<script src="./common.js?v=20261113separate"></script>
+<script src="./tasks.js?v=20261113separate"></script>
 <script>
 /* Выдача домашки: сайт показывает только то, что учитель выдала (таблица выдач в базе).
    Нет связи -> берём последний сохранённый список; нет и его -> показываем всё, как раньше. */
 (function(){
   var DB="https://lzxcmrlubhjfdhtqvqzt.supabase.co",KEY="sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI",CK="timofey-given.v1";
-  var ITEM_FULL="digital-life",ITEM_OGE="oge-reading-2026-11-06";
+  var ITEM_FULL="digital-life";
+  /* OGE is available only in ../timofey-oge-homework/ and ../timofey-oge/. */
   function load(src,next){var s=document.createElement("script");s.src=src;s.onload=next;document.body.appendChild(s);}
-  function go(){load("./app.js?v=20261112b",function(){
+  function go(){removeOGE();load("./app.js?v=20261113separate",function(){
     load("./fit.js?v=20261023",function(){window.dispatchEvent(new Event("resize"));});
     /* «load» мог уже пройти, пока шёл запрос: сдачу и подгонку запускаем сами */
     if(document.readyState==="complete"&&typeof sendHW==="function")setTimeout(sendHW,1200);
   });}
   function cached(){try{var a=JSON.parse(localStorage.getItem(CK)||"null");return Array.isArray(a)?a:null}catch(e){return null}}
+  function removeOGE(){
+    /* Remove from this screen only. Keep stored answers intact and all OGE pages unchanged. */
+    if(typeof OGE_SEC==="undefined")return;
+    for(var i=SECTIONS.length-1;i>=0;i--)if(SECTIONS[i]===OGE_SEC)SECTIONS.splice(i,1);
+    for(var j=TASKS.length-1;j>=0;j--)if(TASKS[j].section===OGE_SEC)TASKS.splice(j,1);
+  }
   function apply(ids){
-    var keep={};
-    if(ids.indexOf(ITEM_FULL)>=0)SECTIONS.forEach(function(x){if(x!==OGE_SEC)keep[x]=1;});
-    if(ids.indexOf(ITEM_OGE)>=0)keep[OGE_SEC]=1;
-    var i;for(i=SECTIONS.length-1;i>=0;i--)if(!keep[SECTIONS[i]])SECTIONS.splice(i,1);
-    for(i=TASKS.length-1;i>=0;i--)if(!keep[TASKS[i].section])TASKS.splice(i,1);
+    removeOGE();
+    if(ids.indexOf(ITEM_FULL)>=0)return;
+    SECTIONS.splice(0,SECTIONS.length);
+    TASKS.splice(0,TASKS.length);
   }
   function run(ids){
     if(ids===null){go();return;}
-    if(!ids.length){
+    if(!ids.includes(ITEM_FULL)){
       var nav=document.getElementById("nav");if(nav)nav.hidden=true;
       var m=document.getElementById("main");if(m)m.textContent="No homework yet.";
       return;
     }
     apply(ids);go();
   }
-  if(/[?&]teacher=1(&|$)/.test(location.search)){go();return;} /* учитель из своего хаба видит всё */
+  if(/[?&]teacher=1(&|$)/.test(location.search)){go();return;} /* teacher view keeps general lesson only */
   var done=false,ctl=window.AbortController?new AbortController():null;
   var timer=setTimeout(function(){if(ctl)ctl.abort();},3500);
   fetch(DB+"/rest/v1/rpc/get_given_homework",{method:"POST",
