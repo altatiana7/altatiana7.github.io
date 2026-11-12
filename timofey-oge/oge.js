@@ -48,6 +48,9 @@ const INSTR={
 };
 const ALIAS={"сборник 2026":"bks",book:"bks",reading:"tf",grammar:"gr","word formation":"wf",vocabulary:"wf",speaking:"s2",writing:"wr"};
 const byId=id=>PAGES.find(p=>p.id===id);
+/* В разделах-тренажёрах ученик видит по два примера; остальные задания выданы как домашка по датам (../timofey-oge-homework/) и открываются по прямой ссылке #id/n. */
+const PRACTICE_N=2;
+const practice=p=>TEACHER?p.data:p.data.filter(it=>it.n<=PRACTICE_N);
 const rk=(p,it)=>p.id+":"+it.n;
 const rec=(p,it)=>S.res[rk(p,it)]||(S.res[rk(p,it)]={a:[]});
 function size(p,it){return p.kind==="bk"?it.slots.length:p.kind==="tf"?it.stmts.length:p.kind==="mt"?it.texts.length:p.kind==="gap"?it.items.length:p.kind==="s2"?it.qa.length:1;}
@@ -121,7 +124,7 @@ function prog(){
   let d=0;PAGES.forEach(p=>{if(p.data)d+=p.data.filter(it=>itemDone(p,it)).length;});
   $("progress").textContent=d+" выполнено";
   nav.querySelectorAll("button[data-page]").forEach(b=>{
-    const p=byId(b.dataset.page);if(p&&p.data)b.lastChild.textContent=p.data.filter(it=>itemDone(p,it)).length+"/"+p.data.length;
+    const p=byId(b.dataset.page);if(p&&p.data){const sh=practice(p);b.lastChild.textContent=sh.filter(it=>itemDone(p,it)).length+"/"+sh.length;}
   });
 }
 
@@ -158,13 +161,14 @@ function open(id,n){
 /* ---------- list ---------- */
 function listPage(p){
   const box=el("div","list");let cards=null,lastTopic=null;
-  const todo=p.data.find(it=>!itemDone(p,it));
+  const shown=practice(p);
+  const todo=shown.find(it=>!itemDone(p,it));
   const intro=el("div","intro");
   intro.append(el("div","",INSTR[p.id]||""));
   if(todo){const b=button("Начать: "+String(todo.n).padStart(2,"0")+" · "+todo.title,()=>open(p.id,todo.n),"primary");intro.append(b);}
   else{intro.append(el("div","verdict ok","✓ Все задания этого раздела сделаны."),button("Скачать результаты для Татьяны →",()=>open("results"),"primary"));}
   box.append(intro);
-  p.data.forEach(it=>{
+  shown.forEach(it=>{
     if(it.topic!==undefined&&it.topic!==lastTopic){box.append(el("h4","",it.topic));cards=null;lastTopic=it.topic;}
     if(!cards){cards=el("div","cards");box.append(cards);}
     const a=answered(p,it),d=itemDone(p,it);

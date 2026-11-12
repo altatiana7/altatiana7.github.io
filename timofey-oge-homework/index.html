@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Timofey — OGE Homework</title>
+<style>
+:root{
+  --bg:#cdd6dc; --card:#edf1f3; --card2:#dde4e8; --ink:#1d2932; --muted:#566673; --line:#b3c0c9; --steel:#44637d;
+  --accent:#41705f; --ok:#2f6f54; --okbg:#e3f1ea;
+  --serif:Georgia,"Times New Roman",Times,serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;color:var(--ink);font-family:var(--serif);background:var(--bg);
+  background-image:linear-gradient(rgba(40,60,75,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(40,60,75,.07) 1px,transparent 1px);
+  background-size:32px 32px}
+a{color:inherit;text-decoration:none}
+.page{height:100%;display:flex;flex-direction:column;gap:12px;padding:14px 18px}
+.top{flex:0 0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);border-radius:6px;background:var(--card2);font-size:15px;font-weight:700;padding:5px 12px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.top h1{margin:0;font-size:22px;flex:1}
+.legend{display:flex;gap:8px;font-size:14px;color:var(--muted);align-items:center}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.tab{padding:7px 16px;background:var(--steel);color:#e6edf2;font-size:16px}
+.tab b{color:#a8d8c2}
+
+.practice .row{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;padding:10px 12px}
+.sec{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:46px;padding:0 12px;
+  border:1px solid var(--line);border-radius:6px;background:var(--card2);font-size:18px;font-weight:700}
+.sec span{color:var(--muted);font-weight:400}
+.sec:hover{border-color:var(--accent);color:var(--accent)}
+
+.hw{flex:1;min-height:0;display:flex;flex-direction:column}
+.hw .list{flex:1;min-height:0;overflow:auto;padding:10px 12px;display:flex;flex-direction:column;gap:12px}
+.day{border:1px solid var(--line);border-radius:8px;background:#f6f8f9}
+.day-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:8px 14px;border-bottom:1px solid var(--line)}
+.day-h h2{margin:0;font-size:20px}
+.day-h .cnt{font-size:16px;color:var(--muted)}
+.day-h .cnt.all{color:var(--ok);font-weight:700}
+.rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 22px;padding:8px 14px 10px}
+.rows.one{grid-template-columns:1fr}
+.embed .top h1{visibility:hidden}
+.r{display:flex;align-items:center;gap:10px;min-height:42px}
+.r .lab{flex:0 0 150px;font-size:17px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 11px;border:1px solid var(--line);border-radius:6px;
+  background:var(--card2);font-size:16px;font-weight:700;white-space:nowrap}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip i{font-style:normal;font-weight:400;font-size:13px;color:var(--muted)}
+.chip.done{border-color:var(--ok);color:var(--ok);background:#fff}
+.chip.done i{color:var(--ok)}
+.chip.sent{border-color:var(--ok);background:var(--ok);color:#fff}
+.chip.sent i{color:#d6efe3}
+
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(max-width:900px){
+  html,body{height:auto}
+  .practice .row{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .rows{grid-template-columns:1fr}
+  .hw .list{overflow:visible}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <a class="btn" href="../timofey/">← Hub</a>
+    <h1>OGE Homework</h1>
+    <div class="legend">
+      <span class="chip">To do</span><span class="chip done">Done <i>✓</i></span><span class="chip sent">Sent <i>✓</i></span>
+    </div>
+  </header>
+
+  <section class="panel practice">
+    <div class="tab"><b>//</b> practice · 2 examples in each section</div>
+    <div class="row" id="practice"></div>
+  </section>
+
+  <section class="panel hw">
+    <div class="tab"><b>//</b> homework</div>
+    <div class="list" id="list"></div>
+  </section>
+</div>
+
+<script src="../timofey-oge/oge-data.js?v=20261024"></script>
+<script src="../timofey-oge/oge-book.js?v=20261024"></script>
+<script>
+(function(){
+  "use strict";
+  var $=function(id){return document.getElementById(id);};
+  try{if(self!==top)document.body.classList.add("embed");}catch(e){}
+  var T="../timofey-oge/?from=hw&v=20261112#";
+  var P="../timofey-homework/oge-practice.html?v=20261112#";
+
+  /* ---- what Timofey has done: read from this device ---- */
+  function read(k){try{return JSON.parse(localStorage.getItem(k)||"null")||null;}catch(e){return null;}}
+  var S=read("timofey-oge.v2")||{res:{}};S.res=S.res||{};S.sent=S.sent||{};
+  var PR=read("timofey.oge.practice.2026-11-09")||{};
+  var PRS=(read("timofey.oge.practice.2026-11-09.sent")||{}).ids||[];
+
+  var DATA={tf:OGE.TF,mt:OGE.MATCH,gr:OGE.GR,wf:OGE.WF,s1:OGE.SP1,s2:OGE.SP2,s3:OGE.SP3,wr:OGE.WR};
+  function size(id,n){
+    var it=(DATA[id]||[]).filter(function(x){return x.n===n;})[0];if(!it)return 1;
+    if(id==="tf")return it.stmts.length;if(id==="mt")return it.texts.length;
+    if(id==="gr"||id==="wf")return it.items.length;if(id==="s2")return it.qa.length;return 1;
+  }
+  function filled(a){return (a||[]).filter(function(v){return v!=null&&v!=="";}).length;}
+  /* trainer item: "sent" / "done" / "" */
+  function trainer(id,n){
+    var k=id+":"+n,r=S.res[k];if(!r)return "";
+    if(S.sent[k]||r.sent)return "sent";
+    var stepper=/^(tf|mt|gr|wf)$/.test(id);
+    if(stepper?filled(r.a)>=size(id,n):id==="s2"?filled(r.a)>=size(id,n):r.done)return "done";
+    return "";
+  }
+  function words(t){return ((t||"").match(/[A-Za-z0-9'’-]+/g)||[]).length;}
+  function practiceLetter(i){
+    if(PRS.indexOf("letter"+i)>=0)return "sent";
+    return words(PR["letter"+i])>=50?"done":"";
+  }
+  function practiceReading(s){
+    var pre=s===0?"r":"r"+(s+1)+"_",n=0,sent=false;
+    for(var i=0;i<8;i++){if(PR[pre+i])n++;if(PRS.indexOf(pre+i)>=0)sent=true;}
+    return sent?"sent":n>=8?"done":"";
+  }
+
+  /* ---- practice: 2 examples per section ---- */
+  [["Reading","tf"],["Grammar","gr"],["Word formation","wf"],["Writing","wr"],["Speaking","s2"],["Book 2026","bks"]].forEach(function(s){
+    var a=document.createElement("a");a.className="sec";a.href=T+s[1];a.innerHTML=s[0]+"<span>›</span>";$("practice").appendChild(a);
+  });
+
+  /* ---- homework by date (newest first) ---- */
+  function items(n){
+    return [
+      ["Reading",[["T/F","tf",n],["Matching","mt",n]]],
+      ["Grammar",[["Task","gr",n]]],
+      ["Word formation",[["Task","wf",n]]],
+      ["Writing",[["Email","wr",n]]],
+      ["Speaking",[["Aloud","s1",n],["Interview","s2",n],["Talk","s3",n]]]
+    ];
+  }
+  function trainerRows(ns){
+    return items(0).map(function(row){
+      var chips=[];
+      row[1].forEach(function(c){ns.forEach(function(n){
+        chips.push({label:c[0]+" "+String(n).padStart(2,"0"),href:T+c[1]+"/"+n,st:trainer(c[1],n)});
+      });});
+      return [row[0],chips];
+    });
+  }
+  var DAYS=[
+    {date:"9 November",rows:[
+      ["Writing",[0,1,2].map(function(i){return {label:"Email "+(i+1),href:P+i,st:practiceLetter(i)};})],
+      ["Reading",[0,1,2,3].map(function(i){return {label:"Text "+(i+1),href:P+(i+3),st:practiceReading(i)};})],
+      ["Speaking",[["Reading aloud","s1"],["Interview","s2"],["Talk","s3"]].map(function(c){return {label:c[0],href:T+c[1],st:null};})]
+    ]},
+    {date:"17 October",one:true,rows:trainerRows([4,5,6])},
+    {date:"8 October",one:true,rows:trainerRows([3]).concat([["Book 2026",[{label:"Variant 3",href:T+"bks/3",st:trainer("bks",3)}]]])}
+  ];
+
+  DAYS.forEach(function(d){
+    var day=document.createElement("article");day.className="day";
+    var all=0,ok=0;
+    var rows=document.createElement("div");rows.className="rows"+(d.one?" one":"");
+    d.rows.forEach(function(r){
+      var row=document.createElement("div");row.className="r";
+      var lab=document.createElement("div");lab.className="lab";lab.textContent=r[0];
+      var chips=document.createElement("div");chips.className="chips";
+      r[1].forEach(function(c){
+        var a=document.createElement("a");a.href=c.href;a.className="chip"+(c.st?" "+c.st:"");
+        a.textContent=c.label;
+        if(c.st){var i=document.createElement("i");i.textContent=c.st==="sent"?"sent ✓":"done ✓";a.appendChild(i);}
+        if(c.st!==null){all++;if(c.st)ok++;}
+        chips.appendChild(a);
+      });
+      row.append(lab,chips);rows.appendChild(row);
+    });
+    var h=document.createElement("div");h.className="day-h";
+    var h2=document.createElement("h2");h2.textContent=d.date;
+    var cnt=document.createElement("div");cnt.className="cnt"+(ok===all?" all":"");cnt.textContent=ok===all?"all done ✓":ok+" / "+all+" done";
+    h.append(h2,cnt);day.append(h,rows);$("list").appendChild(day);
+  });
+})();
+</script>
+</body>
+</html>
