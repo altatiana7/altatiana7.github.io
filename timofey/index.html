@@ -8,34 +8,35 @@
 /* Design: Tatyana's "OGE interactive" cover (cover-oge.webp). The photo is the left part of that picture;
    title and buttons are real HTML on the right. */
 :root{
-  --bg:#ecebf3; --ink:#0f1230; --muted:#5a5c78; --violet:#4b2fc4; --violet2:#3a22a3; --lav:#b9a3f7; --line:#d9d2f3;
+  --bg:#dff3f1; --ink:#10282b; --muted:#4f6b6e; --violet:#16808a; --violet2:#0f6670; --lav:#a9dfdb; --line:#bfe2de;
   --sans:"Segoe UI","Inter","Helvetica Neue",Arial,sans-serif;
   --mono:"Cascadia Code","JetBrains Mono",Consolas,"Courier New",monospace;
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
-body{font-family:var(--sans);color:var(--ink);background:linear-gradient(110deg,#f1f0f6 0%,var(--bg) 60%,#e6e3f2 100%)}
+body{font-family:var(--sans);color:var(--ink);background:linear-gradient(110deg,#e9f7f5 0%,var(--bg) 55%,#cfebe8 100%)}
 button{font:inherit;color:inherit}
 
 .hub{height:100vh;display:grid;grid-template-columns:auto minmax(0,1fr);overflow:hidden}
-.photo{height:100%;aspect-ratio:700/941;max-width:52vw;
-  background:url("./cover-oge.webp?v=20261112") left center/auto 100% no-repeat;
-  -webkit-mask-image:linear-gradient(90deg,#000 62%,transparent 98%);mask-image:linear-gradient(90deg,#000 62%,transparent 98%)}
-.right{min-width:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;gap:clamp(16px,3.5vh,28px);padding:24px clamp(24px,5vw,80px) 24px 0}
+.photo{height:100%;width:46vw;
+  background:url("./cover-oge.webp?v=20261112") 0 38%/239% auto no-repeat;
+  -webkit-mask-image:linear-gradient(90deg,#000 70%,transparent 99%);mask-image:linear-gradient(90deg,#000 70%,transparent 99%)}
+.right{min-width:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:clamp(16px,3.5vh,28px);padding:24px clamp(20px,4vw,60px)}
 
 /* calm, "developer" look: monospace title, thin narrow buttons */
 h1{margin:0;font-family:var(--mono);font-size:clamp(28px,3.4vw,44px);font-weight:600;line-height:1.1;letter-spacing:-.01em;color:var(--ink)}
-h1 em{font-style:normal;font-weight:400;color:var(--violet);background:#e4def8;border-radius:6px;padding:.02em .3em .06em}
+h1 em{font-style:normal;font-weight:400;color:var(--violet);background:#c7ebe7;border-radius:6px;padding:.02em .3em .06em}
 h1 .cur{display:inline-block;width:.55em;height:.08em;margin-left:.1em;background:var(--violet);vertical-align:baseline;animation:blink 1.2s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 .sub{margin:-8px 0 0;font-family:var(--mono);font-size:15px;color:var(--muted)}
 .sub b{font-weight:400;color:var(--violet)}
 
-.btns{display:flex;flex-direction:column;gap:12px;width:min(420px,100%)}
+.btns{display:flex;flex-direction:column;gap:12px}
+.right>*{width:min(460px,100%)}
 .go{display:flex;align-items:center;gap:16px;min-height:62px;padding:8px 18px;
   border:1px solid var(--line);border-radius:12px;cursor:pointer;text-align:left;
-  background:rgba(255,255,255,.78);transition:background .12s,border-color .12s}
-.go:hover{background:#fff;border-color:#a99be6}
+  background:rgba(255,255,255,.85);transition:background .12s,border-color .12s}
+.go:hover{background:#fff;border-color:#7cc7c0}
 .go:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
 .go svg.ic{flex:0 0 auto;width:30px;height:30px;fill:none;stroke:var(--violet);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .go svg.ic .f{fill:none}
@@ -47,7 +48,7 @@ h1 .cur{display:inline-block;width:.55em;height:.08em;margin-left:.1em;backgroun
 /* screen with the chosen section */
 .screen{position:fixed;inset:0;z-index:30;display:none;background:#eef0f6}
 .screen.open{display:grid;grid-template-rows:42px 1fr}
-.head{display:flex;align-items:center;gap:14px;padding:0 18px;background:#2f2c48;color:#fff}
+.head{display:flex;align-items:center;gap:14px;padding:0 18px;background:#1f4f55;color:#fff}
 .back{border:0;border-radius:8px;background:#fff;color:var(--ink);font-weight:600;font-size:15px;padding:5px 12px;cursor:pointer}
 .ttl{font-family:var(--mono);font-size:16px;font-weight:400}
 .ws{min-height:0}
