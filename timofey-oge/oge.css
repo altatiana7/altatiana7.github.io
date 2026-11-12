@@ -152,3 +152,59 @@
 .source .ln{display:flex;align-items:baseline;gap:14px;white-space:normal;margin-bottom:6px}
 .source .ln .tx{flex:1;min-width:0}
 .source .ln .kw{flex:0 0 auto;font-weight:700;letter-spacing:.04em;color:var(--accent-dark)}
+
+/* TIMOFEY COMPACT OGE OVERRIDES — all task types */
+.shell{grid-template-columns:175px minmax(0,1fr)}
+.nav{padding:5px;gap:2px}
+.nav button{font-size:13px;padding:5px 7px}
+.nav .grp{font-size:11px;padding:5px 7px 1px}
+.list{gap:5px}
+.list h4{font-size:12px;margin:3px 0 0}
+.cards{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:5px}
+.itm{padding:5px 7px;font-size:13px;gap:5px}
+.itm em{font-size:12px}
+.ihead{gap:6px;min-height:27px}
+.ihead .btn{padding:3px 8px;font-size:12px}
+.ihead .ttl{font-size:14px}
+.ihead .sc{font-size:13px}
+.source.read{font-size:15px;line-height:1.37}
+.sample{font-size:14px;line-height:1.35;padding:7px 9px}
+.sum{padding:8px 10px;gap:5px}
+.sum .big{font-size:21px}
+.bul{font-size:15px;line-height:1.35}
+.res{font-size:13px}
+.res td,.res th{padding:4px 6px}
+.intro{font-size:14px;padding:7px 9px;gap:5px;line-height:1.32}
+.hint{font-size:12px}
+.wrta{font-size:14px;line-height:1.35;padding:6px 8px}
+.qrow{font-size:13px;gap:7px}
+.chk{font-size:12px;gap:2px 8px}
+.wtm{font-size:16px}
+.bkinfo{font-size:13px;padding:5px 9px;gap:4px 10px}
+.sheet{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:5px}
+.sheet.rd{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.cell{padding:5px 7px;gap:6px;font-size:13px}
+.cell .lab{min-width:40px}
+.cell input{padding:4px 6px;font-size:14px}
+.cell .bnum{width:38px;font-size:15px}
+.cell .fix{padding-left:46px;font-size:12px}
+.cell .tfb .opt{font-size:12px;padding:4px 0}
+.bktabs{gap:5px}
+.bkbody{gap:6px}
+.bkbody .source.read{font-size:14px;line-height:1.35}
+.split.wide{grid-template-columns:minmax(0,1fr) 215px;gap:8px}
+.split.wide .source{font-size:14px;line-height:1.34;padding:7px 9px}
+.split.wide .prompt{font-size:14px;line-height:1.25}
+.split.wide .word{font-size:14px}
+.split.wide .opts .opt{font-size:13px;padding:4px 6px}
+.split.wide .strip .num{width:27px;height:27px;font-size:12px}
+.split.wide .q{gap:5px}
+.split.wide .foot .btn{font-size:13px;padding:4px 8px}
+.split.wide .tm .ring{width:66px;height:66px}
+.source.mini{font-size:13px;line-height:1.3}
+.qr{font-size:13px;line-height:1.25}
+.hint-in{font-size:12px}
+.embed .shell{padding:4px 6px}
+.source .ln{gap:8px;margin-bottom:3px}
+@media(max-width:820px){.shell{grid-template-columns:minmax(0,1fr)}.split.wide{grid-template-columns:minmax(0,1fr)}}
+
