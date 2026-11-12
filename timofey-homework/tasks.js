@@ -12,21 +12,21 @@ const WORDS=[100,120];
 const SOURCES={"Reading":READING};
 const EMAIL=["From: Ben","Subject: Computer games","I've joined a school gaming club, and we are planning a tournament. What do you enjoy doing in your free time? How often do you play computer games? What would you recommend to a friend who spends too much time online?"];
 const META={
-"Vocabulary":"Выбери слово, которое подходит по смыслу.",
-"Grammar":"Поставь слово в скобках в нужную форму. Вводи ответ полностью.",
-"Word formation":"Образуй новое слово от слова в скобках.",
-"Reading":"Прочитай текст. Выбери True, False или Not stated.",
-"Writing":"Ответь на все три вопроса Бена. Напиши 100–120 слов.",
-"Speaking":"Интервью: 4 карточки по 6 вопросов, на каждый ответ 40 секунд."};
+"Vocabulary":"Choose the word that fits.",
+"Grammar":"Put the word in brackets into the correct form. Type the full answer.",
+"Word formation":"Form a new word from the word in brackets.",
+"Reading":"Read the text. Choose True, False or Not stated.",
+"Writing":"Answer all three of Ben's questions. Write 100–120 words.",
+"Speaking":"Interview: 4 cards, 6 questions each, 40 seconds for each answer."};
 /* ---------- ОГЭ · чтение · домашнее задание от 6 ноября ----------
    Два текста по 8 вопросов (True / False / Not stated).
    Вопросы добавляются в TASKS, поэтому ответы считаются в прогрессе,
    уходят Татьяне вместе с остальной домашкой и проверяются на странице учителя.
    Ключи лежат в base64, чтобы они не бросались в глаза на странице ученика;
    на странице учителя те же ключи открыто повторены в keys.js. */
-const OGE_SEC="ОГЭ Reading";
+const OGE_SEC="OGE Reading";
 const OGE_READING={
-  title:"ОГЭ · чтение · задание от 6 ноября",
+  title:"OGE · Reading · 6 November",
   sets:[
     {id:"smart-glasses",label:"Task 1",title:"The Smart Glasses Scandal",
      text:"The Smart Glasses Scandal\n\nWhen a small company in California presented its new smart glasses in March, the video looked perfect: the glasses could translate a menu, show a map and even remind you of a friend's name. Thousands of people ordered a pair before a single one had been produced.\n\nSix months later the story looked very different. Several users noticed that the glasses recorded short videos without any light or sound. The company explained that the camera started only when the owner touched the frame. However, a journalist proved that one small update could switch the camera on from a phone in another room. The company stopped the update immediately and apologised.\n\nThe most serious problem appeared at school. In one town a teacher discovered that a student had filmed a whole lesson through his glasses. The head teacher banned smart glasses in every classroom, and the parents supported her. The company offered to add a special school mode, but the school refused. \"We cannot check what a student is really doing in class,\" the head teacher said.\n\nNot everyone is against the glasses. Doctors who work with deaf people say that the glasses help their patients to read speech and to see warning sounds as words on the screen. Engineers point out that the first mobile phones were heavy and strange, too.\n\nThe company has not stopped working. Its next plan is a pair of glasses without a camera. \"Perhaps the best technology,\" one newspaper wrote, \"is the technology that does less.\"",
@@ -55,7 +55,7 @@ const OGE_READING={
   ]
 };
 SECTIONS.splice(SECTIONS.indexOf("Reading")+1,0,OGE_SEC);
-META[OGE_SEC]="Домашка от 6 ноября: два текста ОГЭ, к каждому 8 вопросов True / False / Not stated. Всего 16 баллов.";
+META[OGE_SEC]="Homework 6 November: two OGE texts, 8 True / False / Not stated questions each. 16 points in total.";
 OGE_READING.sets.forEach(function(s){s.items.forEach(function(it){
   TASKS.push({id:it.id,section:OGE_SEC,prompt:it.prompt,type:"choice",options:["True","False","Not stated"],max:1,src:s.text,set:s.title});
 });});

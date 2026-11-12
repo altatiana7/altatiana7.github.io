@@ -19,34 +19,34 @@ function stopAll(){speakToken++;if(window.speechSynthesis)speechSynthesis.cancel
 const TF3=["True","False","Not stated"];
 const BOOK_OPEN=3; // сколько вариантов сборника открыто Тимофею (всего 20)
 function BK(){
-  return Object.keys(BOOK).map(Number).filter(n=>n<=BOOK_OPEN&&typeof ORAL!=="undefined"&&ORAL[n]).sort((a,b)=>a-b).map(n=>({n,title:"Вариант "+n}));
+  return Object.keys(BOOK).map(Number).filter(n=>n<=BOOK_OPEN&&typeof ORAL!=="undefined"&&ORAL[n]).sort((a,b)=>a-b).map(n=>({n,title:"Variant "+n}));
 }
-const BKG="Сборник 2026";
+const BKG="Book 2026";
 
 /* ---------- pages ---------- */
 const PAGES=[
-  {id:"bks",grp:BKG,label:"Устная часть",data:BK(),kind:"bks"},
+  {id:"bks",grp:BKG,label:"Speaking",data:BK(),kind:"bks"},
   {id:"tf",grp:"Reading",label:"True/False/NS",data:OGE.TF,kind:"tf"},
   {id:"mt",grp:"Reading",label:"Matching",data:OGE.MATCH,kind:"mt"},
-  {id:"gr",grp:"Grammar",label:"Задания 20–28",data:OGE.GR,kind:"gap"},
-  {id:"wf",grp:"Word formation",label:"Задания 29–34",data:OGE.WF,kind:"gap"},
-  {id:"s1",grp:"Speaking",label:"1 · Чтение вслух",data:OGE.SP1,kind:"s1"},
-  {id:"s2",grp:"Speaking",label:"2 · Интервью",data:OGE.SP2,kind:"s2"},
-  {id:"s3",grp:"Speaking",label:"3 · Монолог",data:OGE.SP3,kind:"s3"},
-  {id:"wr",grp:"Writing",label:"Личное письмо (38)",data:OGE.WR,kind:"wr"}
+  {id:"gr",grp:"Grammar",label:"Tasks 20–28",data:OGE.GR,kind:"gap"},
+  {id:"wf",grp:"Word formation",label:"Tasks 29–34",data:OGE.WF,kind:"gap"},
+  {id:"s1",grp:"Speaking",label:"1 · Reading aloud",data:OGE.SP1,kind:"s1"},
+  {id:"s2",grp:"Speaking",label:"2 · Interview",data:OGE.SP2,kind:"s2"},
+  {id:"s3",grp:"Speaking",label:"3 · Talk",data:OGE.SP3,kind:"s3"},
+  {id:"wr",grp:"Writing",label:"Email (38)",data:OGE.WR,kind:"wr"}
 ];
 const INSTR={
-  bks:"Устная часть: 1 — чтение вслух, 2 — интервью (вопрос звучит, 40 секунд на ответ), 3 — монолог. Ответ можно записать.",
-  tf:"Прочитай текст. Для каждого утверждения выбери: True (верно), False (неверно) или Not stated (в тексте об этом не сказано).",
-  mt:"К каждому из 6 текстов A–F выбери вопрос 1–7, на который в нём есть ответ. Один вопрос лишний.",
-  gr:"Поставь слово справа в нужную грамматическую форму. Пиши в окошко полностью, например: was snowing.",
-  wf:"Образуй от слова справа однокоренное слово, которое подходит по смыслу. Пиши в окошко.",
-  s1:"Прочитай текст про себя 1,5 минуты, потом прочитай вслух. Можно записать себя.",
-  s2:"Слушай вопрос и отвечай вслух за 40 секунд. Текст вопроса и образец ответа открываются на обороте карточки.",
-  wr:"Прочитай письмо друга и напиши ответ: 100–120 слов, ответь на все 3 вопроса. Шаблон письма справа. Письмо можно отправить Татьяне.",
-  s3:"Подготовься 1,5 минуты и расскажи по плану до 2 минут. Образец ответа смотри после своего."
+  bks:"Speaking: 1 — read aloud, 2 — interview (listen to a question, 40 seconds to answer), 3 — talk. You can record your answer.",
+  tf:"Read the text. For each statement choose True, False or Not stated (the text does not say).",
+  mt:"Match texts A–F with questions 1–7. There is one extra question.",
+  gr:"Put the word on the right into the correct form. Type the full answer, e.g. was snowing.",
+  wf:"Form a word from the word on the right so that it fits the gap.",
+  s1:"Read the text silently for 1.5 minutes, then read it aloud. You can record yourself.",
+  s2:"Listen to the question and answer aloud in 40 seconds. Flip the card to see the question and a sample answer.",
+  wr:"Read your friend's email and write a reply: 100–120 words, answer all 3 questions. The template is on the right. Send your email to Tatyana.",
+  s3:"Prepare for 1.5 minutes, then speak for up to 2 minutes using the plan. Look at the sample after your answer."
 };
-const ALIAS={"сборник 2026":"bks",book:"bks",reading:"tf",grammar:"gr","word formation":"wf",vocabulary:"wf",speaking:"s2",writing:"wr"};
+const ALIAS={"сборник 2026":"bks","book 2026":"bks",book:"bks",reading:"tf",grammar:"gr","word formation":"wf",vocabulary:"wf",speaking:"s2",writing:"wr"};
 const byId=id=>PAGES.find(p=>p.id===id);
 /* В разделах-тренажёрах ученик видит по два примера; остальные задания выданы как домашка по датам (../timofey-oge-homework/) и открываются по прямой ссылке #id/n. */
 const PRACTICE_N=2;
@@ -101,7 +101,7 @@ function sendOne(p,it){
 }
 let sending=false;
 async function sendDone(manual){
-  if(TEACHER){const st=$("saveStatus");if(st)st.textContent="Режим учителя: результаты не отправляются";if(manual)toast("В режиме учителя результаты не отправляются.");return;}
+  if(TEACHER){const st=$("saveStatus");if(st)st.textContent="Teacher mode: results are not sent";if(manual)toast("Teacher mode: results are not sent.");return;}
   if(sending)return;sending=true;let ok=0,fail=0;
   try{
     for(const p of PAGES){if(!p.data||!isStepper(p))continue;
@@ -113,16 +113,16 @@ async function sendDone(manual){
       }}
   }finally{sending=false;}
   const st=$("saveStatus");
-  if(fail)st.textContent="Не удалось отправить Татьяне — повторится позже";
-  else if(ok||manual)st.textContent="Результаты отправлены Татьяне ✓";
-  else st.textContent="Результаты уходят Татьяне автоматически";
-  if(manual)toast(fail?"Не получилось отправить. Проверь интернет и нажми ещё раз.":"Отправлено Татьяне.");
+  if(fail)st.textContent="Could not send to Tatyana — will retry later";
+  else if(ok||manual)st.textContent="Results sent to Tatyana ✓";
+  else st.textContent="Results go to Tatyana automatically";
+  if(manual)toast(fail?"Could not send. Check the internet and try again.":"Sent to Tatyana.");
 }
 window.addEventListener("online",()=>sendDone());
 window.addEventListener("load",()=>setTimeout(()=>sendDone(),1500));
 function prog(){
   let d=0;PAGES.forEach(p=>{if(p.data)d+=p.data.filter(it=>itemDone(p,it)).length;});
-  $("progress").textContent=d+" выполнено";
+  $("progress").textContent=d+" done";
   nav.querySelectorAll("button[data-page]").forEach(b=>{
     const p=byId(b.dataset.page);if(p&&p.data){const sh=practice(p);b.lastChild.textContent=sh.filter(it=>itemDone(p,it)).length+"/"+sh.length;}
   });
@@ -137,18 +137,18 @@ PAGES.forEach(p=>{
   b.onclick=()=>open(p.id);nav.append(b);
 });
 nav.append(el("hr"));
-{const b=el("button");b.type="button";b.dataset.page="results";b.append(el("b","","Результаты"),el("span",""));b.onclick=()=>open("results");nav.append(b);}
+{const b=el("button");b.type="button";b.dataset.page="results";b.append(el("b","","Results"),el("span",""));b.onclick=()=>open("results");nav.append(b);}
 
 function open(id,n){
-  if(media&&media.state==="recording"){toast("Сначала останови запись.");return;}
+  if(media&&media.state==="recording"){toast("Stop the recording first.");return;}
   stopAll();view={page:id,item:n==null?null:n};
   document.body.classList.toggle("focus",n!=null&&id!=="results");
   nav.querySelectorAll("button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
   main.replaceChildren();
   try{history.replaceState(null,"","#"+id+(n==null?"":"/"+n));}catch(e){}
   const p=byId(id), i=PAGES.indexOf(p);
-  if(id==="results"){$("tab").replaceChildren(el("b","","// "),document.createTextNode("результаты"));resultsPage();prog();return;}
-  const sub=n==null?(p.soon?"скоро":"выбери задание"):(p.data.find(x=>x.n===n)||{}).title||"";
+  if(id==="results"){$("tab").replaceChildren(el("b","","// "),document.createTextNode("results"));resultsPage();prog();return;}
+  const sub=n==null?(p.soon?"soon":"choose a task"):(p.data.find(x=>x.n===n)||{}).title||"";
   $("tab").replaceChildren(el("b","","// "),document.createTextNode(p.grp.toLowerCase()+" · "+p.label+(p.soon?"":" — "+sub)));
   if(p.soon){main.append(el("div","box",p.soon));prog();return;}
   if(n==null)listPage(p);else{
@@ -165,8 +165,8 @@ function listPage(p){
   const todo=shown.find(it=>!itemDone(p,it));
   const intro=el("div","intro");
   intro.append(el("div","",INSTR[p.id]||""));
-  if(todo){const b=button("Начать: "+String(todo.n).padStart(2,"0")+" · "+todo.title,()=>open(p.id,todo.n),"primary");intro.append(b);}
-  else{intro.append(el("div","verdict ok","✓ Все задания этого раздела сделаны."),button("Скачать результаты для Татьяны →",()=>open("results"),"primary"));}
+  if(todo){const b=button("Start: "+String(todo.n).padStart(2,"0")+" · "+todo.title,()=>open(p.id,todo.n),"primary");intro.append(b);}
+  else{intro.append(el("div","verdict ok","✓ All tasks in this section are done."),button("Download results for Tatyana →",()=>open("results"),"primary"));}
   box.append(intro);
   shown.forEach(it=>{
     if(it.topic!==undefined&&it.topic!==lastTopic){box.append(el("h4","",it.topic));cards=null;lastTopic=it.topic;}
@@ -183,7 +183,7 @@ function listPage(p){
 }
 function head(p,it,extra){
   const h=el("div","ihead");
-  h.append(button("← Список",()=>open(p.id)),el("span","ttl",String(it.n).padStart(2,"0")+" · "+it.title));
+  h.append(button("← List",()=>open(p.id)),el("span","ttl",String(it.n).padStart(2,"0")+" · "+it.title));
   if(p.id!=="wr"&&INSTR[p.id]){const hint=el("span","hint-in",INSTR[p.id]);hint.title=INSTR[p.id];h.append(hint);}
   if(extra)h.append(extra);
   main.append(h);return h;
@@ -269,8 +269,8 @@ function stepperPage(p,it){
         const b=button(String(k+1),()=>check(k+1),"opt");b.title=o;
         if(has){b.disabled=true;if(k+1===it.key[i])b.classList.add("ok");else if(k+1===v)b.classList.add("no");}
         box.append(b);});
-      q.append(el("div","muted","Text "+"ABCDEF"[i]+" → номер вопроса"),box);
-      if(has)q.append(el("div","verdict "+(okAt(p,it,i,v)?"ok":"no"),okAt(p,it,i,v)?"✓ Верно":"✗ Правильно: вопрос "+it.key[i]));
+      q.append(el("div","muted","Text "+"ABCDEF"[i]+" → question number"),box);
+      if(has)q.append(el("div","verdict "+(okAt(p,it,i,v)?"ok":"no"),okAt(p,it,i,v)?"✓ Correct":"✗ Correct answer: question "+it.key[i]));
     }else{
       const row=el("div","row");row.style.alignItems="center";
       const inp=el("input","short");inp.type="text";inp.lang="en";inp.spellcheck=false;inp.autocomplete="off";inp.maxLength=60;
@@ -278,34 +278,34 @@ function stepperPage(p,it){
       row.append(el("span","word",it.items[i].w),inp);q.append(row);
       const go=()=>{if(inp.value.trim())check(inp.value.trim());};
       if(!has){
-        const b=button("Проверить",go,"primary");q.append(b);
+        const b=button("Check",go,"primary");q.append(b);
         inp.onkeydown=e=>{if(e.key==="Enter")go();};setTimeout(()=>inp.focus(),0);
       }else{
-        q.append(el("div","verdict "+(okAt(p,it,i,v)?"ok":"no"),okAt(p,it,i,v)?"✓ Верно":"✗ Правильно: "+it.items[i].d));
+        q.append(el("div","verdict "+(okAt(p,it,i,v)?"ok":"no"),okAt(p,it,i,v)?"✓ Correct":"✗ Correct answer: "+it.items[i].d));
       }
     }
-    const back=button("← Назад",()=>{i--;draw();});back.disabled=i===0;
+    const back=button("← Back",()=>{i--;draw();});back.disabled=i===0;
     const last=i===N-1;
-    foot.append(back,button(last?"Итог →":"Вперёд →",()=>{i=last?N:i+1;draw();},"primary"));
+    foot.append(back,button(last?"Result →":"Next →",()=>{i=last?N:i+1;draw();},"primary"));
   }
   function drawSummary(){
     const s=itemScore(p,it);
     src.replaceChildren();
     if(p.kind==="gap"){i=N;drawSourceAll();}
     else if(p.kind==="tf")src.textContent=it.paras.join("\n\n");
-    else{src.textContent=it.texts.map((t,k)=>"Text "+"ABCDEF"[k]+" → вопрос "+it.key[k]+"\n"+t).join("\n\n");qbox.replaceChildren(...it.qs.map((t,k)=>{const d=el("div","qr");d.append(el("b","",(k+1)+"."),document.createTextNode(" "+t));return d;}));}
+    else{src.textContent=it.texts.map((t,k)=>"Text "+"ABCDEF"[k]+" → question "+it.key[k]+"\n"+t).join("\n\n");qbox.replaceChildren(...it.qs.map((t,k)=>{const d=el("div","qr");d.append(el("b","",(k+1)+"."),document.createTextNode(" "+t));return d;}));}
     const box=el("div","sum");box.append(el("div","big",s+" / "+N));
     const wrong=[];
     for(let k=0;k<N;k++)if(!okAt(p,it,k,r.a[k])){
-      if(p.kind==="tf")wrong.push((13+k)+". "+TFN[it.key[k]-1]+" (у тебя: "+TFN[r.a[k]-1]+")");
-      else if(p.kind==="mt")wrong.push("Text "+"ABCDEF"[k]+": вопрос "+it.key[k]+" (у тебя: "+r.a[k]+")");
-      else wrong.push(label(k)+". "+it.items[k].d+" (у тебя: "+r.a[k]+")");
+      if(p.kind==="tf")wrong.push((13+k)+". "+TFN[it.key[k]-1]+" (yours: "+TFN[r.a[k]-1]+")");
+      else if(p.kind==="mt")wrong.push("Text "+"ABCDEF"[k]+": question "+it.key[k]+" (yours: "+r.a[k]+")");
+      else wrong.push(label(k)+". "+it.items[k].d+" (yours: "+r.a[k]+")");
     }
-    box.append(el("div","",wrong.length?"Ошибки:":"Без ошибок."));
+    box.append(el("div","",wrong.length?"Mistakes:":"No mistakes."));
     wrong.forEach(w=>{const d=el("div","",w);d.lang="en";box.append(d);});
     q.append(box);
     const row=el("div","row");
-    row.append(button("Пройти заново",()=>{S.res[rk(p,it)]={a:[]};save();open(p.id,it.n);}),button("К списку",()=>open(p.id),"primary"));
+    row.append(button("Try again",()=>{S.res[rk(p,it)]={a:[]};save();open(p.id,it.n);}),button("To the list",()=>open(p.id),"primary"));
     foot.append(row);
   }
   function drawSourceAll(){
@@ -323,12 +323,12 @@ function bksPage(p,it){
   head(p,it);
   const tabs=el("div","row bktabs"),body=el("div","bkbody");
   main.append(tabs,body);
-  if(!O){body.append(el("div","box","Для этого варианта задания пока не добавлены."));return;}
+  if(!O){body.append(el("div","box","No tasks for this variant yet."));return;}
   function draw(){
     stopAll();
-    tabs.replaceChildren(...[["1","Чтение вслух"],["2","Интервью"],["3","Монолог"]].map(([k,t])=>
-      button(k+" · "+t,()=>{if(media&&media.state==="recording"){toast("Сначала останови запись.");return;}task=Number(k);draw();},Number(k)===task?"primary":"")));
-    const d=button(itemDone(p,it)?"Вариант выполнен ✓":"Отметить вариант выполненным",()=>{markDone(p,it);d.textContent="Вариант выполнен ✓";});
+    tabs.replaceChildren(...[["1","Reading aloud"],["2","Interview"],["3","Talk"]].map(([k,t])=>
+      button(k+" · "+t,()=>{if(media&&media.state==="recording"){toast("Stop the recording first.");return;}task=Number(k);draw();},Number(k)===task?"primary":"")));
+    const d=button(itemDone(p,it)?"Variant done ✓":"Mark variant as done",()=>{markDone(p,it);d.textContent="Variant done ✓";});
     tabs.append(d);
     body.replaceChildren();
     if(task===1)t1();else if(task===2)t2();else t3();
@@ -337,8 +337,8 @@ function bksPage(p,it){
     const split=el("div","split wide"),left=el("div","col"),right=el("div","col");
     const src=el("div","source read scroll");src.lang="en";src.style.flex="1";
     src.append(el("b","",O.t1.title),document.createTextNode("\n"+O.t1.text));left.append(src);
-    right.append(el("p","muted","Задание 1. Прочитай текст про себя за 1,5 минуты, потом прочитай вслух (не больше 2 минут)."),
-      phaseTimer([{label:"Подготовка",sec:90},{label:"Читай вслух",sec:120}]),recorder("book"+it.n+"-T1"));
+    right.append(el("p","muted","Task 1. Read the text silently for 1.5 minutes, then read it aloud (up to 2 minutes)."),
+      phaseTimer([{label:"Prepare",sec:90},{label:"Read aloud",sec:120}]),recorder("book"+it.n+"-T1"));
     split.append(left,right);body.append(split);
   }
   function t3(){
@@ -349,9 +349,9 @@ function bksPage(p,it){
     left.append(card);
     const sample=el("div","sample hidden");sample.lang="en";sample.textContent=O.t3.sample.join("\n");
     sample.style.cssText="overflow:auto;flex:1;min-height:0";
-    const show=button("Показать образец",()=>{sample.classList.toggle("hidden");show.textContent=sample.classList.contains("hidden")?"Показать образец":"Скрыть образец";});
-    right.append(el("p","muted","Задание 3. 1,5 минуты на подготовку, монолог до 2 минут по всем пунктам плана. Образец смотри после своего ответа."),
-      phaseTimer([{label:"Подготовка",sec:90},{label:"Говори",sec:120}]),recorder("book"+it.n+"-T3"),show,sample);
+    const show=button("Show sample",()=>{sample.classList.toggle("hidden");show.textContent=sample.classList.contains("hidden")?"Show sample":"Hide sample";});
+    right.append(el("p","muted","Task 3. 1.5 minutes to prepare, then speak for up to 2 minutes covering every point of the plan. Look at the sample after your answer."),
+      phaseTimer([{label:"Prepare",sec:90},{label:"Speak",sec:120}]),recorder("book"+it.n+"-T3"),show,sample);
     split.append(left,right);body.append(split);
   }
   function t2(){
@@ -363,35 +363,35 @@ function bksPage(p,it){
       strip.replaceChildren(el("span","muted",O.t2.title+" ·"),...qa.map((_,k)=>{const b=el("button","num"+(k===qi?" cur":""),String(k+1).padStart(2,"0"));b.type="button";b.onclick=()=>go(k);return b;}));
       card.innerHTML='<svg class="ring" viewBox="0 0 112 112" aria-hidden="true"><circle class="bg" cx="56" cy="56" r="46"/><circle class="fg" cx="56" cy="56" r="46" stroke-dasharray="'+RING+'" stroke-dashoffset="0"/><text x="56" y="56">40</text></svg>';
       const fg=card.querySelector(".fg"),txt=card.querySelector("text"),side=el("div","side");card.append(side);
-      const text=qa[qi].q,status=el("p","muted","Нажми Play, послушай вопрос и отвечай вслух.");
+      const text=qa[qi].q,status=el("p","muted","Press Play, listen to the question and answer aloud.");
       function timer(){
         clearInterval(tick);let left=40;txt.textContent=left;fg.style.strokeDashoffset=0;
         tick=setInterval(()=>{left--;txt.textContent=left;fg.style.strokeDashoffset=RING*(1-left/40);
-          if(left<=0){clearInterval(tick);tick=null;status.textContent="Время вышло. Переходи к следующему вопросу.";}},1000);
+          if(left<=0){clearInterval(tick);tick=null;status.textContent="Time is up. Go to the next question.";}},1000);
       }
       function play(){
         stopAll();txt.textContent="40";fg.style.strokeDashoffset=0;
-        if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){status.textContent="Звук недоступен. Переверни карточку и прочитай вопрос.";timer();return;}
+        if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){status.textContent="No sound. Flip the card and read the question.";timer();return;}
         const my=++speakToken,u=new SpeechSynthesisUtterance(text);u.lang="en-GB";u.rate=.92;
         const vs=speechSynthesis.getVoices(),v=vs.find(v=>/^en[-_]GB/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang));if(v)u.voice=v;
-        u.onend=()=>{if(my===speakToken){status.textContent="Отвечай. У тебя 40 секунд.";timer();}};
-        u.onerror=()=>{if(my===speakToken)status.textContent="Не удалось озвучить. Переверни карточку и прочитай вопрос.";};
-        status.textContent="Слушай вопрос…";speechSynthesis.speak(u);
+        u.onend=()=>{if(my===speakToken){status.textContent="Answer now. You have 40 seconds.";timer();}};
+        u.onerror=()=>{if(my===speakToken)status.textContent="Could not play the question. Flip the card and read it.";};
+        status.textContent="Listen to the question…";speechSynthesis.speak(u);
       }
       if(!flipped){
         side.append(el("h3","","Question "+(qi+1)+" of "+qa.length));
         const row=el("div","row");
-        row.append(button("Play",play,"primary"),button("Replay",play),button("Stop",()=>{stopAll();status.textContent="Остановлено.";}));
+        row.append(button("Play",play,"primary"),button("Replay",play),button("Stop",()=>{stopAll();status.textContent="Stopped.";}));
         side.append(row,status);
       }else{
         const bt=el("div","back-text",text);bt.lang="en";
         const sm=el("div","sample"+(showSample?"":" hidden"),qa[qi].a);sm.lang="en";
-        side.append(bt,button(showSample?"Скрыть образец":"Показать образец",()=>{showSample=!showSample;paint();}),sm);
+        side.append(bt,button(showSample?"Hide sample":"Show sample",()=>{showSample=!showSample;paint();}),sm);
       }
-      const back=button("← Назад",()=>go(qi-1));back.disabled=qi===0;
+      const back=button("← Back",()=>go(qi-1));back.disabled=qi===0;
       const last=qi===qa.length-1;
-      foot.replaceChildren(back,button(flipped?"Скрыть текст":"Перевернуть карточку",()=>{flipped=!flipped;showSample=false;stopAll();paint();}),
-        button(last?"К заданию 3 →":"Вперёд →",()=>{if(last){task=3;draw();}else go(qi+1);},"primary"));
+      foot.replaceChildren(back,button(flipped?"Hide text":"Flip the card",()=>{flipped=!flipped;showSample=false;stopAll();paint();}),
+        button(last?"To task 3 →":"Next →",()=>{if(last){task=3;draw();}else go(qi+1);},"primary"));
     }
     paint();
   }
@@ -400,13 +400,13 @@ function bksPage(p,it){
 
 /* ---------- recorder ---------- */
 function recorder(tag,onDone){
-  const bar=el("div","rec"), status=el("span","muted","Запись по желанию: скачай файл и отправь Татьяне.");
+  const bar=el("div","rec"), status=el("span","muted","Recording is optional: download the file and send it to Tatyana.");
   const player=el("audio","hidden");player.controls=true;
-  const dl=el("a","btn hidden","Скачать аудио");
-  const stop=button("Остановить",()=>{if(media&&media.state==="recording")media.stop();});stop.disabled=true;
-  const start=button("Начать запись",async()=>{
+  const dl=el("a","btn hidden","Download audio");
+  const stop=button("Stop",()=>{if(media&&media.state==="recording")media.stop();});stop.disabled=true;
+  const start=button("Start recording",async()=>{
     try{
-      if(!navigator.mediaDevices||!window.MediaRecorder)throw Error("Запись здесь недоступна. Запиши ответ на диктофон.");
+      if(!navigator.mediaDevices||!window.MediaRecorder)throw Error("Recording does not work here. Use a voice recorder.");
       start.disabled=true;stream=await navigator.mediaDevices.getUserMedia({audio:true});
       media=new MediaRecorder(stream);chunks=[];
       media.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};
@@ -417,10 +417,10 @@ function recorder(tag,onDone){
         const name="Timofey-OGE-"+tag+"-"+Date.now()+"."+ext;
         S.audio=(S.audio||[]).concat(name);save();
         player.src=recordURL;player.classList.remove("hidden");dl.href=recordURL;dl.download=name;dl.classList.remove("hidden");
-        status.textContent="Запись готова. Скачай файл.";start.disabled=false;stop.disabled=true;if(onDone)onDone();
+        status.textContent="Recording ready. Download the file.";start.disabled=false;stop.disabled=true;if(onDone)onDone();
       };
-      media.start();stop.disabled=false;status.textContent="Идёт запись…";
-    }catch(e){start.disabled=false;if(stream)stream.getTracks().forEach(t=>t.stop());toast(e.message||"Нет доступа к микрофону. Используй диктофон.");}
+      media.start();stop.disabled=false;status.textContent="Recording…";
+    }catch(e){start.disabled=false;if(stream)stream.getTracks().forEach(t=>t.stop());toast(e.message||"No access to the microphone. Use a voice recorder.");}
   });
   bar.append(start,stop,player,dl,status);return bar;
 }
@@ -433,12 +433,12 @@ function phaseTimer(phases){
   side.style.cssText="display:flex;flex-direction:column;gap:8px";
   const status=el("div","muted",phases.map(p=>p.label+" "+fmt(p.sec)).join(" → "));
   function fmt(s){return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
-  const go=button("Старт",()=>{
+  const go=button("Start",()=>{
     clearInterval(tick);let k=0,left=phases[0].sec;go.disabled=true;
     const paint=()=>{txt.textContent=fmt(left);fg.style.strokeDashoffset=RING*(1-left/phases[k].sec);status.textContent=phases[k].label;};
     paint();
     tick=setInterval(()=>{left--;
-      if(left<0){k++;if(k>=phases.length){clearInterval(tick);tick=null;txt.textContent="0:00";status.textContent="Время вышло.";go.disabled=false;return;}left=phases[k].sec;}
+      if(left<0){k++;if(k>=phases.length){clearInterval(tick);tick=null;txt.textContent="0:00";status.textContent="Time is up.";go.disabled=false;return;}left=phases[k].sec;}
       paint();},1000);
   },"primary");
   side.append(go,status);box.append(side);return box;
@@ -450,10 +450,10 @@ function s1Page(p,it){
   head(p,it);
   const split=el("div","split wide"),left=el("div","col"),right=el("div","col");
   const src=el("div","source read scroll",it.paras.join("\n\n"));src.lang="en";src.style.flex="1";left.append(src);
-  right.append(el("p","muted","Задание 1: подготовка 1,5 минуты, потом читай текст вслух (до 1,5 минут)."),
-    phaseTimer([{label:"Подготовка",sec:90},{label:"Читай вслух",sec:90}]),
+  right.append(el("p","muted","Task 1: prepare for 1.5 minutes, then read the text aloud (up to 1.5 minutes)."),
+    phaseTimer([{label:"Prepare",sec:90},{label:"Read aloud",sec:90}]),
     recorder("S1-"+it.n,()=>markDone(p,it)));
-  const d=button(itemDone(p,it)?"Отмечено ✓":"Отметить выполненным",()=>{markDone(p,it);d.textContent="Отмечено ✓";});
+  const d=button(itemDone(p,it)?"Done ✓":"Mark as done",()=>{markDone(p,it);d.textContent="Done ✓";});
   right.append(d);split.append(left,right);main.append(split);
 }
 /* ---------- speaking 3: monologue ---------- */
@@ -463,12 +463,12 @@ function wrChecks(t){
   const lines=t.split("\n").map(x=>x.trim()).filter(Boolean),low=t.toLowerCase();
   const last=lines[lines.length-1]||"";
   return [
-    ["Обращение",/^(hello|hi|dear)\b/i.test(lines[0]||"")],
-    ["Благодарность",/thanks?|thank you|glad to (hear|get)|nice to (hear|get)/.test(low)],
-    ["Жду ответа",/write back|looking forward|hope to hear|waiting for your|hear from you/.test(low)],
-    ["Прощание",/(best wishes|with love|all the best|yours|love,|take care)/i.test(t)],
-    ["Подпись",lines.length>=2&&last.split(" ").length<=2&&!/[.?!,]$/.test(last)||/^[A-Z][a-z]+$/.test(last)],
-    ["Абзацы",lines.length>=4]
+    ["Greeting",/^(hello|hi|dear)\b/i.test(lines[0]||"")],
+    ["Thanks",/thanks?|thank you|glad to (hear|get)|nice to (hear|get)/.test(low)],
+    ["Write back",/write back|looking forward|hope to hear|waiting for your|hear from you/.test(low)],
+    ["Closing",/(best wishes|with love|all the best|yours|love,|take care)/i.test(t)],
+    ["Signature",lines.length>=2&&last.split(" ").length<=2&&!/[.?!,]$/.test(last)||/^[A-Z][a-z]+$/.test(last)],
+    ["Paragraphs",lines.length>=4]
   ];
 }
 function wrPage(p,it){
@@ -480,30 +480,30 @@ function wrPage(p,it){
   const ul=el("ol","bul");ul.style.fontSize="16px";it.qs.forEach(q=>ul.append(el("li","",q)));card.append(ul);
   card.append(el("p","muted","Write him/her a letter and answer his/her 3 questions. Write 100–120 words. Remember the rules of letter writing."));
   const tpl=el("div","sample");tpl.lang="en";
-  tpl.textContent="Hello "+it.friend+",\nThanks for your email. I'm glad to hear from you again.\nIn your letter you asked me about… Well, (ответы на 3 вопроса, по 2–3 предложения)\nThat's all for now. Write back soon.\nBest wishes,\n(Name)";
+  tpl.textContent="Hello "+it.friend+",\nThanks for your email. I'm glad to hear from you again.\nIn your letter you asked me about… Well, (answers to the 3 questions, 2–3 sentences each)\nThat's all for now. Write back soon.\nBest wishes,\n(Name)";
   tpl.style.flex="1";tpl.style.minHeight="0";tpl.style.overflow="auto";tpl.style.fontSize="14px";
-  const tb=el("b","","Шаблон ОГЭ");
+  const tb=el("b","","OGE template");
   left.append(card,tb,tpl);
   const ta=el("textarea","wrta");ta.lang="en";ta.spellcheck=false;ta.placeholder="Hello "+it.friend+",\n…";ta.value=r.text;
   const cnt=el("div","cnt"),chk=el("div","chk");
   const qrow=el("div","qrow");
-  it.qs.forEach((q,i)=>{const l=el("label");const c=el("input");c.type="checkbox";c.checked=!!r.q[i];c.onchange=()=>{r.q[i]=c.checked;save();};l.append(c,document.createTextNode(" Вопрос "+(i+1)+" ✓"));qrow.append(l);});
+  it.qs.forEach((q,i)=>{const l=el("label");const c=el("input");c.type="checkbox";c.checked=!!r.q[i];c.onchange=()=>{r.q[i]=c.checked;save();};l.append(c,document.createTextNode(" Question "+(i+1)+" ✓"));qrow.append(l);});
   function paint(){
     const n=wordCount(ta.value);
-    cnt.textContent=n+" слов (нужно 100–120)";
+    cnt.textContent=n+" words (need 100–120)";
     cnt.className="cnt "+(n>=100&&n<=120?"ok":n>=90&&n<=132?"mid":"no");
     chk.replaceChildren(...wrChecks(ta.value).map(([t,ok])=>el("div","c"+(ok?" ok":""),(ok?"✓ ":"○ ")+t)));
   }
   ta.oninput=()=>{r.text=ta.value;paint();clearTimeout(wrPage.t);wrPage.t=setTimeout(save,500);};
-  const send=button(r.sent?"Отправлено ✓":"Отправить Татьяне",async()=>{
+  const send=button(r.sent?"Sent ✓":"Send to Tatyana",async()=>{
     const n=wordCount(ta.value);
-    if(n<30){toast("Сначала напиши письмо.");return;}
+    if(n<30){toast("Write the email first.");return;}
     send.disabled=true;
-    try{await sendLetter(p,it);send.textContent="Отправлено ✓";toast("Письмо отправлено Татьяне.");}
-    catch(e){toast(TEACHER?"В режиме учителя письмо не отправляется.":"Не получилось отправить. Проверь интернет и нажми ещё раз.");}
+    try{await sendLetter(p,it);send.textContent="Sent ✓";toast("Email sent to Tatyana.");}
+    catch(e){toast(TEACHER?"Teacher mode: the email is not sent.":"Could not send. Check the internet and try again.");}
     send.disabled=false;
   },"primary");
-  const tm=el("span","wtm","30:00"),tb2=button("Старт 30 мин",()=>{clearInterval(tick);let left=1800;tb2.disabled=true;tick=setInterval(()=>{left--;tm.textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0");if(left<=0){clearInterval(tick);tick=null;tb2.disabled=false;toast("Время вышло.");}},1000);});
+  const tm=el("span","wtm","30:00"),tb2=button("Start 30 min",()=>{clearInterval(tick);let left=1800;tb2.disabled=true;tick=setInterval(()=>{left--;tm.textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0");if(left<=0){clearInterval(tick);tick=null;tb2.disabled=false;toast("Time is up.");}},1000);});
   const top=el("div","row");top.append(cnt,tm,tb2);cnt.style.flex="1";
   const bot=el("div","row");bot.append(qrow,send);qrow.style.flex="1";
   right.append(top,ta,chk,bot);
@@ -525,12 +525,12 @@ function s3Page(p,it){
   card.append(el("b","",it.prompt));const ul=el("ul","bul");it.bul.forEach(b=>ul.append(el("li","",b)));card.append(ul);
   left.append(card);
   const sample=el("div","sample hidden");sample.lang="en";sample.textContent=it.sample.join("\n\n");
-  const show=button("Показать образец",()=>{sample.classList.toggle("hidden");show.textContent=sample.classList.contains("hidden")?"Показать образец":"Скрыть образец";});
-  right.append(el("p","muted","Задание 3: подготовка 1,5 минуты, монолог до 2 минут (не меньше 10–12 фраз)."),
-    phaseTimer([{label:"Подготовка",sec:90},{label:"Говори",sec:120}]),
+  const show=button("Show sample",()=>{sample.classList.toggle("hidden");show.textContent=sample.classList.contains("hidden")?"Show sample":"Hide sample";});
+  right.append(el("p","muted","Task 3: prepare for 1.5 minutes, then speak for up to 2 minutes (at least 10–12 sentences)."),
+    phaseTimer([{label:"Prepare",sec:90},{label:"Speak",sec:120}]),
     recorder("S3-"+it.n,()=>markDone(p,it)));
   const row=el("div","row");
-  const d=button(itemDone(p,it)?"Отмечено ✓":"Отметить выполненным",()=>{markDone(p,it);d.textContent="Отмечено ✓";});
+  const d=button(itemDone(p,it)?"Done ✓":"Mark as done",()=>{markDone(p,it);d.textContent="Done ✓";});
   row.append(d,show);right.append(row,sample);
   sample.style.overflow="auto";sample.style.flex="1";sample.style.minHeight="0";
   split.append(left,right);main.append(split);
@@ -550,10 +550,10 @@ function s2Page(p,it){
   }
   function draw(){
     paint();q.replaceChildren(card());
-    const back=button("← Назад",()=>go(qi-1));back.disabled=qi===0;
-    const flip=button(flipped?"Скрыть текст":"Перевернуть карточку",()=>{flipped=!flipped;showSample=false;draw();});
+    const back=button("← Back",()=>go(qi-1));back.disabled=qi===0;
+    const flip=button(flipped?"Hide text":"Flip the card",()=>{flipped=!flipped;showSample=false;draw();});
     const last=qi===it.qa.length-1;
-    const fwd=button(last?"К списку":"Вперёд →",()=>last?open(p.id):go(qi+1),"primary");
+    const fwd=button(last?"To the list":"Next →",()=>last?open(p.id):go(qi+1),"primary");
     foot.replaceChildren(back,flip,fwd);
   }
   function card(){
@@ -561,31 +561,31 @@ function s2Page(p,it){
     const c=el("div","card");
     c.innerHTML='<svg class="ring" viewBox="0 0 112 112" aria-hidden="true"><circle class="bg" cx="56" cy="56" r="46"/><circle class="fg" cx="56" cy="56" r="46" stroke-dasharray="'+RING+'" stroke-dashoffset="0"/><text x="56" y="56">40</text></svg>';
     const fg=c.querySelector(".fg"),txt=c.querySelector("text"),side=el("div","side");c.append(side);
-    const status=el("p","muted","Нажми Play, послушай вопрос и отвечай вслух.");
+    const status=el("p","muted","Press Play, listen to the question and answer aloud.");
     function timer(){
       clearInterval(tick);let left=40;txt.textContent=left;fg.style.strokeDashoffset=0;
       tick=setInterval(()=>{left--;txt.textContent=left;fg.style.strokeDashoffset=RING*(1-left/40);
-        if(left<=0){clearInterval(tick);tick=null;status.textContent="Время вышло. Переходи к следующему вопросу.";}},1000);
+        if(left<=0){clearInterval(tick);tick=null;status.textContent="Time is up. Go to the next question.";}},1000);
     }
     function play(){
       stopAll();txt.textContent="40";fg.style.strokeDashoffset=0;heardMark();
-      if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){status.textContent="Звук недоступен. Переверни карточку и прочитай вопрос.";timer();return;}
+      if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){status.textContent="No sound. Flip the card and read the question.";timer();return;}
       const my=++speakToken,u=new SpeechSynthesisUtterance(text);u.lang="en-GB";u.rate=.92;
       const v=speechSynthesis.getVoices().find(v=>/^en[-_]GB/i.test(v.lang))||speechSynthesis.getVoices().find(v=>/^en/i.test(v.lang));if(v)u.voice=v;
-      u.onend=()=>{if(my===speakToken){status.textContent="Отвечай. У тебя 40 секунд.";timer();}};
-      u.onerror=()=>{if(my===speakToken)status.textContent="Не удалось озвучить. Переверни карточку и прочитай вопрос.";};
-      status.textContent="Слушай вопрос…";speechSynthesis.speak(u);
+      u.onend=()=>{if(my===speakToken){status.textContent="Answer now. You have 40 seconds.";timer();}};
+      u.onerror=()=>{if(my===speakToken)status.textContent="Could not play the question. Flip the card and read it.";};
+      status.textContent="Listen to the question…";speechSynthesis.speak(u);
     }
     if(!flipped){
       side.append(el("h3","","Question "+(qi+1)+" of "+it.qa.length));
       const row=el("div","row");
-      row.append(button("Play",play,"primary"),button("Replay",play),button("Stop",()=>{stopAll();status.textContent="Остановлено.";}));
+      row.append(button("Play",play,"primary"),button("Replay",play),button("Stop",()=>{stopAll();status.textContent="Stopped.";}));
       side.append(row,status);
     }else{
       const bt=el("div","back-text",text);bt.lang="en";
       side.append(el("p","muted",it.title),bt);
       const sm=el("div","sample"+(showSample?"":" hidden"),it.qa[qi].a);sm.lang="en";
-      const b=button(showSample?"Скрыть образец":"Показать образец",()=>{showSample=!showSample;draw();});
+      const b=button(showSample?"Hide sample":"Show sample",()=>{showSample=!showSample;draw();});
       side.append(b,sm);
     }
     return c;
@@ -604,23 +604,23 @@ function summary(){
 }
 function resultsPage(){
   const t=el("table","res");
-  t.innerHTML="<tr><th>Раздел</th><th>Выполнено</th><th>Баллы</th></tr>";
-  summary().forEach(s=>{const tr=el("tr");tr.append(el("td","",s.name),el("td","",s.done+" из "+s.total),el("td","",s.max?s.points+" / "+s.max:"—"));t.append(tr);});
+  t.innerHTML="<tr><th>Section</th><th>Done</th><th>Points</th></tr>";
+  summary().forEach(s=>{const tr=el("tr");tr.append(el("td","",s.name),el("td","",s.done+" of "+s.total),el("td","",s.max?s.points+" / "+s.max:"—"));t.append(tr);});
   const wrap=el("div","scroll");wrap.style.flex="1";wrap.append(t);
   const row=el("div","row");
-  row.append(button("Отправить Татьяне сейчас",()=>sendDone(true),"primary"),button("Скачать файл",exportResults),button("Сбросить прогресс",resetAll));
-  main.append(wrap,row,el("p","muted","Каждое выполненное задание уходит Татьяне само. Аудиозаписи присылай отдельно."));
+  row.append(button("Send to Tatyana now",()=>sendDone(true),"primary"),button("Download file",exportResults),button("Reset progress",resetAll));
+  main.append(wrap,row,el("p","muted","Every finished task goes to Tatyana automatically. Send audio recordings separately."));
 }
 function exportResults(){
   const snap={app:"timofey-oge",schema:2,student:"Тимофей",exportedAt:new Date().toISOString(),summary:summary(),details:S.res,audioFiles:S.audio||[]};
   const url=URL.createObjectURL(new Blob([JSON.stringify(snap,null,2)],{type:"application/json"}));
   const a=el("a");a.href=url;a.download="Timofey-OGE-results-"+Date.now()+".json";document.body.append(a);a.click();a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url),30000);toast("Файл результатов скачан.");
+  setTimeout(()=>URL.revokeObjectURL(url),30000);toast("Results file downloaded.");
 }
 function resetAll(){
   const d=el("dialog"),f=el("div","foot");
-  f.append(button("Отмена",()=>{d.close();d.remove();}),button("Сбросить",()=>{S={res:{},audio:[],sent:{}};save();d.close();d.remove();open("results");},"primary"));
-  d.append(el("h2","","Сбросить прогресс?"),el("p","","Все результаты на этом устройстве будут удалены."),f);
+  f.append(button("Cancel",()=>{d.close();d.remove();}),button("Reset",()=>{S={res:{},audio:[],sent:{}};save();d.close();d.remove();open("results");},"primary"));
+  d.append(el("h2","","Reset progress?"),el("p","","All results on this device will be deleted."),f);
   document.body.append(d);d.showModal();
 }
 

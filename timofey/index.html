@@ -7,114 +7,82 @@
 <style>
 :root{
   --bg:#cdd6dc; --card:#edf1f3; --card2:#dde4e8; --ink:#1d2932; --muted:#566673; --line:#b3c0c9; --steel:#44637d;
-  --accent:#41705f; --accent-dark:#335a4c;
+  --accent:#41705f;
   --serif:Georgia,"Times New Roman",Times,serif;
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;color:var(--ink);font-family:var(--serif);
-  background:var(--bg);
-  background-image:linear-gradient(rgba(40,60,75,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(40,60,75,.07) 1px,transparent 1px);
-  background-size:32px 32px}
+html,body{margin:0;height:100%;color:var(--ink);font-family:var(--serif);background:var(--bg)}
 button{font:inherit;color:inherit}
 
-.hub{height:100vh;display:flex;justify-content:center;align-items:center;padding:18px}
-.card{
-  width:min(860px,100%);max-height:100%;min-height:0;background:var(--card);border:1px solid var(--line);border-radius:12px;
-  display:flex;flex-direction:column;overflow:hidden
-}
-.photo{flex:1 1 auto;min-height:160px;height:330px;width:auto;aspect-ratio:285/400;max-width:100%;align-self:center;margin-top:20px;border-radius:10px;border:1px solid var(--line);object-fit:cover;object-position:50% 0;display:block;filter:saturate(.88)}
-.info{flex:0 0 auto;padding:18px 28px 24px;display:flex;flex-direction:column;gap:16px}
-.name{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
-h1{margin:0;font-size:clamp(28px,3.2vw,40px);font-weight:800;line-height:1.1}
-h1::after{content:"_";color:var(--accent);animation:blink 1.1s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
-.meta{font-size:20px;color:var(--muted)}
+/* left column + work area */
+.app{height:100vh;display:grid;grid-template-columns:290px minmax(0,1fr)}
+.side{min-height:0;display:flex;flex-direction:column;gap:12px;padding:14px;background:var(--card);border-right:1px solid var(--line);overflow:auto}
+.photo{flex:0 1 auto;width:100%;height:240px;min-height:120px;object-fit:cover;object-position:50% 0;border-radius:8px;border:1px solid var(--line);display:block;filter:saturate(.88)}
+h1{margin:2px 0 0;font-size:24px;font-weight:800;line-height:1.15}
+.meta{font-size:17px;color:var(--muted)}
 .meta b{color:var(--accent)}
-.go-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.nav{display:flex;flex-direction:column;gap:8px;margin-top:4px}
 .go{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  min-height:76px;padding:0 24px;border:1px solid var(--line);border-radius:10px;background:var(--card2);
-  font-size:23px;font-weight:800;cursor:pointer;text-align:left;white-space:nowrap
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  min-height:56px;padding:0 16px;border:1px solid var(--line);border-radius:8px;background:var(--card2);
+  font-size:19px;font-weight:800;cursor:pointer;text-align:left;white-space:nowrap
 }
-.go span{color:var(--muted);font-weight:400;font-size:26px}
-.go.main{background:var(--steel);border-color:var(--steel);color:#fff}
-.go.main span{color:#c9d6df}
-.go:hover{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
-.go.main:hover{background:#3a576f}
+.go span{color:var(--muted);font-weight:400}
+.go:hover{border-color:var(--accent);color:var(--accent)}
+.go.active{background:var(--steel);border-color:var(--steel);color:#fff}
+.go.active span{color:#c9d6df}
 
-/* Screen with homework inside */
-.screen{position:fixed;inset:0;z-index:30;display:none;background:var(--bg)}
-.screen.open{display:grid;grid-template-rows:40px 1fr}
-.head{display:flex;align-items:center;gap:14px;padding:0 18px;background:var(--steel);color:#fff}
-.back{border:1px solid var(--line);border-radius:6px;background:var(--card2);font-size:15px;font-weight:700;padding:4px 12px;cursor:pointer;color:var(--ink)}
-.back:hover{border-color:var(--accent);color:var(--accent)}
-.title{font-size:18px;font-weight:800}
-.workspace{min-height:0}
-.workspace iframe{width:100%;height:100%;border:0;display:block;background:var(--bg)}
+.work{min-width:0;min-height:0}
+.work iframe{width:100%;height:100%;border:0;display:block;background:var(--bg)}
 
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-@media(prefers-reduced-motion:reduce){h1::after{animation:none}}
-@media(max-width:700px){
+@media(max-height:600px){.photo{height:200px}}
+@media(max-width:760px){
   html,body{height:auto}
-  .hub{height:auto}
-  .photo{height:320px;flex:none}
-  .go-row{grid-template-columns:1fr}
+  .app{height:auto;grid-template-columns:1fr}
+  .side{border-right:0;border-bottom:1px solid var(--line)}
+  .photo{height:260px;width:auto;max-width:100%;aspect-ratio:285/400;align-self:flex-start}
+  .work iframe{height:90vh}
 }
 </style>
 </head>
 <body>
-<main class="hub">
-  <section class="card">
+<div class="app">
+  <aside class="side">
     <img class="photo" src="./timofey.jpg?v=20261007" alt="Timofey">
-    <div class="info">
-      <div class="name">
-        <h1>Timofey's English Hub</h1>
-        <div class="meta">grade <b>9</b> · goal <b>OGE</b></div>
-      </div>
-      <div class="go-row">
-        <button class="go main" type="button" data-open="homework">On Screen Homework<span>›</span></button>
-        <button class="go main" type="button" data-open="oge">OGE Homework<span>›</span></button>
-      </div>
+    <div>
+      <h1>Timofey's English Hub</h1>
+      <div class="meta">grade <b>9</b> · goal <b>OGE</b></div>
     </div>
-  </section>
-</main>
-
-<section class="screen" id="screen" aria-hidden="true">
-  <header class="head">
-    <button class="back" id="back" type="button">← Hub</button>
-    <div class="title" id="title"></div>
-  </header>
-  <div class="workspace" id="ws"></div>
-</section>
+    <nav class="nav">
+      <button class="go" type="button" data-open="homework">On Screen Homework<span>›</span></button>
+      <button class="go" type="button" data-open="oge">OGE Homework<span>›</span></button>
+    </nav>
+  </aside>
+  <main class="work" id="work"></main>
+</div>
 
 <script>
 (()=>{
-  const $=id=>document.getElementById(id);
-  const screen=$('screen');
   const PAGES={
-    homework:['On Screen Homework','../timofey-homework/?v=20261112'],
-    oge:['OGE Homework','../timofey-oge-homework/?v=20261112']
+    homework:['On Screen Homework','../timofey-homework/?v=20261112b'],
+    oge:['OGE Homework','../timofey-oge-homework/?v=20261112b']
   };
+  const work=document.getElementById('work');
+  const btns=[...document.querySelectorAll('[data-open]')];
   function openPage(key){
     const p=PAGES[key];if(!p)return;
-    $('title').textContent=p[0];
-    const ws=$('ws');ws.innerHTML='';
+    btns.forEach(b=>b.classList.toggle('active',b.dataset.open===key));
+    work.innerHTML='';
     const f=document.createElement('iframe');f.title=p[0];f.src=p[1];
-    /* inner pages have their own link back to this hub — hide it, the bar above already has one */
+    /* inner pages have their own link back to this hub — not needed here */
     f.addEventListener('load',()=>{try{f.contentDocument.querySelectorAll('a[href="../timofey/"]').forEach(a=>a.style.display='none');}catch(e){}});
-    ws.appendChild(f);
-    screen.classList.add('open');screen.setAttribute('aria-hidden','false');
+    work.appendChild(f);
     history.replaceState(null,'','#'+key);
   }
-  function closeScreen(){
-    screen.classList.remove('open');screen.setAttribute('aria-hidden','true');$('ws').innerHTML='';
-    history.replaceState(null,'',location.pathname+location.search);
-  }
-  document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>openPage(b.dataset.open)));
-  $('back').addEventListener('click',closeScreen);
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&screen.classList.contains('open'))closeScreen()});
+  btns.forEach(b=>b.addEventListener('click',()=>openPage(b.dataset.open)));
   const h=location.hash.slice(1);
-  if(PAGES[h])openPage(h);else if(/^oge/.test(h))openPage('oge');
+  openPage(PAGES[h]?h:/^oge/.test(h)?'oge':'homework');
 })();
 </script>
 </body>

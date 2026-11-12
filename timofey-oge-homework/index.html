@@ -26,9 +26,9 @@ a{color:inherit;text-decoration:none}
 .tab{padding:7px 16px;background:var(--steel);color:#e6edf2;font-size:16px}
 .tab b{color:#a8d8c2}
 
-.practice .row{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;padding:10px 12px}
-.sec{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:46px;padding:0 12px;
-  border:1px solid var(--line);border-radius:6px;background:var(--card2);font-size:18px;font-weight:700}
+.practice .row{display:grid;grid-template-columns:repeat(6,auto);gap:8px;padding:10px 12px}
+.sec{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:46px;padding:0 10px;
+  border:1px solid var(--line);border-radius:6px;background:var(--card2);font-size:17px;font-weight:700;white-space:nowrap}
 .sec span{color:var(--muted);font-weight:400}
 .sec:hover{border-color:var(--accent);color:var(--accent)}
 
@@ -39,9 +39,9 @@ a{color:inherit;text-decoration:none}
 .day-h h2{margin:0;font-size:20px}
 .day-h .cnt{font-size:16px;color:var(--muted)}
 .day-h .cnt.all{color:var(--ok);font-weight:700}
-.rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 22px;padding:8px 14px 10px}
+.rows{display:grid;grid-template-columns:1fr;gap:4px 22px;padding:8px 14px 10px}
 .rows.one{grid-template-columns:1fr}
-.embed .top h1{visibility:hidden}
+
 .r{display:flex;align-items:center;gap:10px;min-height:42px}
 .r .lab{flex:0 0 150px;font-size:17px;font-weight:700}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
@@ -57,7 +57,8 @@ a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media(max-width:900px){
   html,body{height:auto}
-  .practice .row{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .practice .row{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sec{white-space:normal}
   .rows{grid-template-columns:1fr}
   .hw .list{overflow:visible}
 }
@@ -91,8 +92,8 @@ a{color:inherit;text-decoration:none}
   "use strict";
   var $=function(id){return document.getElementById(id);};
   try{if(self!==top)document.body.classList.add("embed");}catch(e){}
-  var T="../timofey-oge/?from=hw&v=20261112#";
-  var P="../timofey-homework/oge-practice.html?v=20261112#";
+  var T="../timofey-oge/?from=hw&v=20261112b#";
+  var P="../timofey-homework/oge-practice.html?v=20261112b#";
 
   /* ---- what Timofey has done: read from this device ---- */
   function read(k){try{return JSON.parse(localStorage.getItem(k)||"null")||null;}catch(e){return null;}}
