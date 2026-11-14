@@ -107,11 +107,6 @@ html,body{height:100%;overflow:hidden;font-family:"Segoe UI",Arial,sans-serif;fo
     </div>
   </header>
 
-  <section class="panel practice">
-    <div class="tab"><b>//</b> practice · 2 examples in each section</div>
-    <div class="row" id="practice"></div>
-  </section>
-
   <section class="panel hw">
     <div class="tab"><b>//</b> homework</div>
     <div class="list" id="list"></div>
@@ -162,13 +157,7 @@ html,body{height:100%;overflow:hidden;font-family:"Segoe UI",Arial,sans-serif;fo
     for(var i=0;i<8;i++){if(PR[pre+i])n++;if(PRS.indexOf(pre+i)>=0)sent=true;}
     return sent?"sent":n>=8?"done":"";
   }
-
-  /* ---- practice: 2 examples per section ---- */
-  [["Reading","tf"],["Grammar","gr"],["Word formation","wf"],["Writing","wr"],["Speaking","s2"],["Book 2026","bks"]].forEach(function(s){
-    var a=document.createElement("a");a.className="sec";a.href=T+s[1];a.innerHTML=s[0]+"<span>›</span>";$("practice").appendChild(a);
-  });
-
-  /* ---- homework by date (newest first) ---- */
+    /* ---- homework by date (newest first) ---- */
   function items(n){
     return [
       ["Reading",[["T/F","tf",n],["Matching","mt",n]]],
