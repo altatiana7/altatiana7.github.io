@@ -119,7 +119,7 @@ h1 .cur{display:inline-block;width:.55em;height:.08em;margin-left:.1em;backgroun
 <script>
 (()=>{
   const $=id=>document.getElementById(id);
-  const V='20261114assigned-only';
+  const V='20261114given1';
   const PAGES={
     oge:['OGE Homework','../timofey-oge-homework/?v='+V],
     homework:['ON SCREEN Homework','../timofey-homework/?v='+V],
@@ -131,7 +131,7 @@ h1 .cur{display:inline-block;width:.55em;height:.08em;margin-left:.1em;backgroun
     const p=PAGES[key];if(!p)return;
     $('title').textContent=p[0];
     const ws=$('ws');ws.innerHTML='';
-    const f=document.createElement('iframe');f.title=p[0];f.src=p[1];
+    const f=document.createElement('iframe');f.title=p[0];f.src=p[1]+(key==='oge'&&new URLSearchParams(location.search).get('teacher')==='1'?'&teacher=1':'');
     /* inner pages have their own "← Hub" link; the bar above already has one */
     f.addEventListener('load',()=>{try{
       const doc=f.contentDocument;
