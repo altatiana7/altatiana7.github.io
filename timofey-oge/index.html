@@ -8,6 +8,39 @@
 <link rel="stylesheet" href="../timofey-homework/hw.css?v=20261113compact">
 <link rel="stylesheet" href="../timofey-homework/app.css?v=20261113compact">
 <link rel="stylesheet" href="./oge.css?v=20261113compact">
+<style>
+/* Exam memo: separate overlay, leaves original exercise layout unchanged. */
+.memo-launch{position:fixed;right:12px;bottom:12px;z-index:80;border:1px solid #aac9be;background:#fff;color:#244b45;border-radius:8px;padding:9px 14px;font:600 15px/1.2 "Segoe UI",Arial,sans-serif;box-shadow:0 3px 15px #19333935;cursor:pointer}
+.memo-launch:hover{background:#e8f5ee}
+.memo-overlay[hidden]{display:none!important}
+.memo-overlay{position:fixed;inset:0;z-index:200;background:rgba(21,36,43,.64);display:flex;align-items:center;justify-content:center;padding:14px;font-family:"Segoe UI",Arial,sans-serif;color:#21313b}
+.memo-box{width:min(1100px,98vw);max-height:min(94dvh,900px);background:#f4f7f8;border:1px solid #b9c9ce;border-radius:12px;display:flex;flex-direction:column;box-shadow:0 18px 60px #0b1d29aa;overflow:hidden}
+.memo-head{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;background:#365a66;color:#fff;padding:10px 16px;gap:12px}
+.memo-head h2{font-size:21px;margin:0}
+.memo-head button{font:600 15px "Segoe UI",Arial,sans-serif;border:0;border-radius:6px;padding:7px 13px;background:white;color:#23434f;cursor:pointer}
+.memo-tabs{display:flex;flex-wrap:wrap;gap:6px;padding:9px 14px;border-bottom:1px solid #cbd6db}
+.memo-tabs button{background:#dfe9ec;border:1px solid #bbcbd1;border-radius:6px;padding:7px 12px;font:600 15px "Segoe UI",Arial,sans-serif;cursor:pointer}
+.memo-tabs button[aria-selected=true]{background:#376a60;color:#fff;border-color:#376a60}
+.memo-content{overflow:auto;padding:14px 18px;font-size:16px;line-height:1.45}
+.memo-content section[hidden]{display:none}
+.memo-content h3{font-size:19px;margin:0 0 8px;color:#244f58}
+.memo-content h4{font-size:16px;margin:12px 0 4px;color:#24574b}
+.memo-content p{margin:5px 0 9px}
+.memo-content ul{margin:5px 0 12px;padding-left:23px}
+.memo-content li{margin:4px 0}
+.memo-content table{border-collapse:collapse;width:100%;background:#fff;font-size:15px;margin:8px 0}
+.memo-content td,.memo-content th{padding:7px 10px;border:1px solid #c8d3d6;text-align:left}
+.memo-content th{background:#dfeaed}
+.memo-content a{color:#176a6a;text-decoration:underline}
+.memo-stats{display:flex;gap:10px;flex-wrap:wrap}
+.memo-stats span{border:1px solid #c4d4d1;background:#fff;border-radius:6px;padding:8px 12px;font-size:16px}
+.memo-source{font-size:13px;color:#526b72;border-top:1px solid #d1dbdd;margin-top:10px;padding-top:8px}
+@media(max-width:750px){.memo-launch{font-size:13px;padding:7px 10px}.memo-box{max-height:96dvh}.memo-content{padding:10px 12px;font-size:14px}.memo-tabs{gap:4px;padding:6px}.memo-tabs button{font-size:13px;padding:5px 8px}.memo-head h2{font-size:17px}}
+.memo-nav-button{background:#e8f4ef!important;border:1px solid #6da58b!important;color:#245b4a!important;font:700 15px/1.3 "Segoe UI",Arial,sans-serif!important;margin-bottom:8px!important;padding:10px 8px!important;min-height:42px!important}
+.memo-nav-button:hover{background:#d1eadf!important}
+.memo-launch{font-size:15px!important;bottom:16px!important;right:16px!important;background:#e5f4e9!important;border:2px solid #3c7d64!important;color:#20523f!important}
+@media(max-width:820px){.memo-launch{bottom:8px!important;right:8px!important}}
+</style>
 </head>
 <body>
 <header class="top">
@@ -29,5 +62,103 @@
 <script src="./oge-book.js?v=20261024"></script>
 <script src="./oge.js?v=20261112b"></script>
 <script src="../timofey-homework/fit.js?v=20261024"></script>
+<button class="memo-launch" id="memoLaunch" type="button" aria-haspopup="dialog" aria-controls="memoOverlay">ОГЭ: 68 баллов · критерии</button>
+<div class="memo-overlay" id="memoOverlay" hidden>
+  <div class="memo-box" role="dialog" aria-modal="true" aria-labelledby="memoTitle">
+    <header class="memo-head"><h2 id="memoTitle">ОГЭ-2027 · Баллы и требования</h2><button type="button" id="memoClose">Закрыть ×</button></header>
+    <nav class="memo-tabs" aria-label="Разделы памятки">
+      <button type="button" data-memo-tab="structure" aria-selected="true">Баллы</button>
+      <button type="button" data-memo-tab="reading" aria-selected="false">Тестовая часть</button>
+      <button type="button" data-memo-tab="writing" aria-selected="false">Письмо</button>
+      <button type="button" data-memo-tab="speaking" aria-selected="false">Устная часть</button>
+      <button type="button" data-memo-tab="check" aria-selected="false">Чек-лист</button>
+    </nav>
+    <div class="memo-content">
+      <section data-memo-page="structure">
+        <h3>Структура экзамена · 68 первичных баллов</h3>
+        <div class="memo-stats"><span><b>38</b> заданий</span><span><b>120 минут</b> письменная часть</span><span><b>15 минут</b> устная часть</span></div>
+        <table><thead><tr><th>Раздел</th><th>Номера заданий</th><th>Максимум</th></tr></thead><tbody>
+          <tr><td>Аудирование</td><td>1–11</td><td>15</td></tr>
+          <tr><td>Чтение</td><td>12–19</td><td>13</td></tr>
+          <tr><td>Грамматика и лексика</td><td>20–34</td><td>15</td></tr>
+          <tr><td>Электронное письмо</td><td>35</td><td>10</td></tr>
+          <tr><td>Говорение</td><td>Устные задания 1–3 (36–38)</td><td>15</td></tr>
+          <tr><th colspan="2">Всего</th><th>68</th></tr></tbody></table>
+        <p>Номера 1–35 относятся к письменной части, устные задания нумеруются отдельно 1–3.</p>
+        <p><b>Важно:</b> итоговая отметка по пятибалльной шкале зависит от утверждённой шкалы перевода; здесь показаны только первичные баллы. Памятка ориентирована на опубликованный проект КИМ-2027.</p>
+      </section>
+      <section data-memo-page="reading" hidden>
+        <h3>Аудирование · чтение · грамматика</h3>
+        <table><thead><tr><th>Задание</th><th>Баллы</th><th>Как выполнять</th></tr></thead><tbody>
+          <tr><td>Аудирование 1–4</td><td>4 × 1 = 4</td><td>Выбирать ответ по содержанию записи, не по отдельному знакомому слову.</td></tr>
+          <tr><td>Аудирование 5</td><td>5</td><td>Сопоставить высказывания и утверждения, не использовать лишний вариант.</td></tr>
+          <tr><td>Аудирование 6–11</td><td>6 × 1 = 6</td><td>Записывать требуемую информацию точно по услышанному.</td></tr>
+          <tr><td>Чтение 12</td><td>6</td><td>Сопоставить шесть текстов и рубрики; одна рубрика лишняя.</td></tr>
+          <tr><td>Чтение 13–19</td><td>7 × 1 = 7</td><td>True — подтверждено, False — опровергнуто, Not stated — информации нет.</td></tr>
+          <tr><td>Грамматика 20–28</td><td>9 × 1 = 9</td><td>Изменить исходное слово грамматически: время, число, степень сравнения и т. п.</td></tr>
+          <tr><td>Словообразование 29–34</td><td>6 × 1 = 6</td><td>Образовать подходящее слово, учитывая значение и часть речи.</td></tr>
+        </tbody></table>
+        <p>В ответах проверяй орфографию. В Word Formation и Grammar исходное слово требуется преобразовать в соответствии с контекстом.</p>
+      </section>
+      <section data-memo-page="writing" hidden>
+        <h3>Задание 35 · Электронное письмо · 10 баллов</h3>
+        <div class="memo-stats"><span><b>100–120</b> слов</span><span><b>30 минут</b> ориентир для планирования</span></div>
+        <table><thead><tr><th>Критерий</th><th>Максимум</th></tr></thead><tbody>
+          <tr><td>К1 · Решение коммуникативной задачи: все 3 ответа, вежливость, стиль</td><td>3</td></tr>
+          <tr><td>К2 · Организация: абзацы, логика, связки, оформление</td><td>2</td></tr>
+          <tr><td>К3 · Лексика и грамматика</td><td>3</td></tr>
+          <tr><td>К4 · Орфография и пунктуация</td><td>2</td></tr></tbody></table>
+        <ul><li>Ответь на три вопроса друга, включая все уточнения <i>why / how / where</i>.</li><li>Начни с <i>Dear …,</i>; поблагодари за письмо, используй абзацы, заверши фразой прощания и именем.</li><li>Не указывай почтовый адрес и дату; свои вопросы другу задавать не нужно.</li><li><b>Менее 90 слов:</b> 0 баллов за письмо. <b>Более 132:</b> проверяют только первые 120 слов.</li><li><b>К1 = 0</b> означает 0 баллов за всё письмо.</li></ul>
+      </section>
+      <section data-memo-page="speaking" hidden>
+        <h3>Устная часть · 15 баллов</h3>
+        <table><thead><tr><th>Задание</th><th>Максимум</th><th>Требования</th></tr></thead><tbody>
+          <tr><td>1 · Reading aloud</td><td>2</td><td>Подготовка 1,5 минуты, чтение до 2 минут. Правильное произношение, ударение, паузы и интонация.</td></tr>
+          <tr><td>2 · Interview</td><td>6</td><td>6 вопросов по аудио, по 40 секунд на ответ. Дай прямой полный ответ без ухода от темы.</td></tr>
+          <tr><td>3 · Talk</td><td>7</td><td>Подготовка 1,5 минуты; монолог до 2 минут; 10–12 фраз, все 4 пункта плана, вступление, заключение, связки.</td></tr>
+        </tbody></table>
+        <h4>Монолог: К1 + К2 + К3 = 3 + 2 + 2</h4>
+        <p>К1 — раскрытие четырёх аспектов и объём (до 3); К2 — логика, вступление, заключение и связки (до 2); К3 — лексика, грамматика и произношение (до 2). Если К1 = 0, за монолог ставят 0 в целом.</p>
+        <p>Для высшего балла по содержанию ориентируйся на <b>10–12 самостоятельных фраз</b>, а не на короткие однословные ответы.</p>
+      </section>
+      <section data-memo-page="check" hidden>
+        <h3>Чек-лист перед сдачей</h3>
+        <ul>
+          <li><b>Reading:</b> ищи подтверждение именно в тексте. Не путай False и Not stated.</li>
+          <li><b>Grammar:</b> проверь грамматический контекст и форму опорного слова.</li>
+          <li><b>Word formation:</b> проверь часть речи, приставку/суффикс и орфографию.</li>
+          <li><b>Email:</b> все три ответа раскрыты; 100–120 слов; абзацы, обращение и подпись на месте.</li>
+          <li><b>Reading aloud:</b> соблюдай интонацию и смысловые паузы.</li>
+          <li><b>Interview:</b> отвечай на поставленный вопрос в пределах 40 секунд.</li>
+          <li><b>Talk:</b> все четыре пункта, 10–12 фраз, вступление и завершение.</li>
+        </ul>
+        <p class="memo-source">Основа: опубликованные ФИПИ материалы ОГЭ-2027. <a href="https://fipi.ru/oge/demoversii-specifikacii-kodifikatory" target="_blank" rel="noopener noreferrer">Демоверсии, спецификации и кодификаторы ФИПИ</a>.</p>
+      </section>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const launch=document.getElementById('memoLaunch'),overlay=document.getElementById('memoOverlay'),close=document.getElementById('memoClose');
+  const buttons=[...document.querySelectorAll('[data-memo-tab]')],pages=[...document.querySelectorAll('[data-memo-page]')];
+  let previousFocus=null;
+  function select(name){buttons.forEach(b=>b.setAttribute('aria-selected',String(b.dataset.memoTab===name)));pages.forEach(p=>p.hidden=p.dataset.memoPage!==name);}
+  function show(){previousFocus=document.activeElement;select('structure');overlay.hidden=false;close.focus();}
+  function hide(){overlay.hidden=true;if(previousFocus&&previousFocus.focus)previousFocus.focus();}
+  launch.addEventListener('click',show);close.addEventListener('click',hide);
+  const sidebar=document.getElementById('nav');
+  if(sidebar){
+    const btn=document.createElement('button');
+    btn.type='button';btn.className='memo-nav-button';btn.textContent='Баллы ОГЭ · 68 / 68';
+    btn.setAttribute('aria-label','Открыть памятку: баллы и критерии ОГЭ');
+    btn.addEventListener('click',show);sidebar.prepend(btn);
+  }
+  /* When entered from the hub specifically for exam criteria, open the score table immediately. */
+  if(location.hash==='#memo')show();
+  buttons.forEach(b=>b.addEventListener('click',()=>select(b.dataset.memoTab)));
+  overlay.addEventListener('click',e=>{if(e.target===overlay)hide();});
+  document.addEventListener('keydown',e=>{if(overlay.hidden)return;if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();hide();}if(e.key==='Tab'){const eligible=[...overlay.querySelectorAll('button,a[href]')].filter(x=>!x.closest('[hidden]'));if(!eligible.length)return;const first=eligible[0],last=eligible[eligible.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}},true);
+})();
+</script>
 </body>
 </html>
