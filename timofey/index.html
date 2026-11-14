@@ -72,6 +72,9 @@ h1 .cur{display:inline-block;width:.55em;height:.08em;margin-left:.1em;backgroun
 @media(max-width:800px){.screen.open{grid-template-rows:34px minmax(0,1fr)}}
 .right{gap:clamp(11px,2.5vh,19px)}.btns{gap:9px}.go{min-height:55px}.go b{font-size:18px}.go svg.ic{width:27px;height:27px}
 @media(max-height:650px) and (min-width:801px){.right{gap:11px;padding-top:12px;padding-bottom:12px}.btns{gap:7px}.go{min-height:47px;padding:5px 13px}.go b{font-size:16px}}
+.memo-home-link{background:#e4f4eb;border:2px solid #357b62;color:var(--ink);text-decoration:none;cursor:pointer}
+.memo-home-link:hover{background:#d3ecde;border-color:#245d4d}
+.memo-home-link:focus-visible{outline:3px solid #245d4d;outline-offset:2px}
 </style>
 </head>
 <body>
@@ -96,11 +99,11 @@ h1 .cur{display:inline-block;width:.55em;height:.08em;margin-left:.1em;backgroun
         <b>OGE Practice</b>
         <svg class="ar" viewBox="0 0 24 24"><path d="M3 12h17M14 6l6 6-6 6"/></svg>
       </button>
-      <button class="go" type="button" data-open="memo">
+      <a class="go memo-home-link" href="./oge-memo.html?v=20261114fix" aria-label="Баллы и критерии ОГЭ 2027, открыть памятку">
         <svg class="ic" viewBox="0 0 48 48"><path d="M12 5h19l6 6v31H12zM31 5v7h6M18 19h13M18 25h13M18 31h9"/><circle cx="35" cy="34" r="7"/><path d="M35 30v5M35 38h.01"/></svg>
-        <b>Баллы и критерии ОГЭ</b>
+        <b>Баллы и критерии ОГЭ · 68</b>
         <svg class="ar" viewBox="0 0 24 24"><path d="M3 12h17M14 6l6 6-6 6"/></svg>
-      </button>
+      </a>
     </div>
   </section>
 </main>
@@ -116,7 +119,7 @@ h1 .cur{display:inline-block;width:.55em;height:.08em;margin-left:.1em;backgroun
 <script>
 (()=>{
   const $=id=>document.getElementById(id);
-  const V='20261113memo-home';
+  const V='20261114fix';
   const PAGES={
     oge:['OGE Homework','../timofey-oge-homework/?v='+V],
     homework:['ON SCREEN Homework','../timofey-homework/?v='+V],
