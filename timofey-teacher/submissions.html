@@ -115,7 +115,7 @@ const state={rows:[],busy:false,expanded:new Set(),seen:new Set()};
 try{state.seen=new Set(JSON.parse(localStorage.getItem(SEEN)||"[]"))}catch(e){}
 const own=id=>id.startsWith("timofey-oge-")||id.startsWith("timofey:")||id.startsWith("timofey-oge-reading-");
 const kindOf=id=>id.startsWith("timofey:")?"receipt":id.startsWith("timofey-oge-hw-")||id.startsWith("timofey-oge-reading-")?"homework":"oge";
-const descOf=k=>k==="receipt"?"Сдано":k==="homework"?"Домашка":"ОГЭ";
+const descOf=k=>k==="receipt"?"Сдано":k==="homework"?"Homework":"ОГЭ";
 const dt=x=>{const d=new Date(x);return isNaN(+d)?"Дата не указана":d.toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})};
 const safe=(x)=>String(x===null||x===undefined?"":x);
 function node(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=safe(txt);return e}
@@ -211,7 +211,7 @@ function draw(){
  const stats=$("stats");stats.replaceChildren();
  [
  ["Получено",latest.size],
- ["Домашка",[...latest.values()].filter(r=>recordKind(r)==="homework").length],
+ ["Homework",[...latest.values()].filter(r=>recordKind(r)==="homework").length],
  ["ОГЭ",[...latest.values()].filter(r=>recordKind(r)==="oge").length],
  ["Не проверено",[...latest.values()].filter(r=>!state.seen.has(uniqueKey(r))).length]
  ].forEach(([t,n])=>{const d=node("div","stat");d.append(node("b","",n),node("span","",t));stats.append(d)});

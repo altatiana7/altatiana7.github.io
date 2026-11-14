@@ -216,9 +216,9 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
     timer:'<circle cx="12" cy="13" r="7"/><path d="M12 9v4l2.5 2M9.5 3h5"/>'
   };
   const OS=[
-    ['Homework','Домашка On Screen',I.book,'#2f7cf6,#59a8ff','On Screen · ','../timofey-homework/?v='+V+'&teacher=1'],
-    ['Выдача домашки','Выдать / отозвать',I.stack,'#127e75,#2fb5a8','On Screen · ','./assign.html?v=20261107b',1],
-    ['Входящие работы','Домашка, ответы и сдачи',I.check,'#0b5fe0,#1d8cf0','On Screen · ','./submissions.html?v=20261107',1]
+    ['Homework','Homework On Screen',I.book,'#2f7cf6,#59a8ff','On Screen · ','../timofey-homework/?v='+V+'&teacher=1'],
+    ['Выдача Homework','Выдать / отозвать',I.stack,'#127e75,#2fb5a8','On Screen · ','./assign.html?v=20261107b',1],
+    ['Входящие работы','Homework, ответы и сдачи',I.check,'#0b5fe0,#1d8cf0','On Screen · ','./submissions.html?v=20261107',1]
   ];
   const OGE=[
     ['Reading','True/False, matching',I.read,'#22b59a,#46d6b6','ОГЭ · ',oge('reading')],
@@ -253,7 +253,7 @@ function unlock(){document.getElementById('gate').hidden=true;document.getElemen
       const card=[...document.querySelectorAll('#g-os .card')].find(c=>c.querySelector('b')?.textContent==='Homework');
       if(!card||card.querySelector('.hwg'))return;
       const g=document.createElement('em');g.className='hwg';g.textContent='✓ В ДЗ';
-      g.title='Отправлено в домашку: '+rows.map(x=>x.title).join(' · ');card.appendChild(g);
+      g.title='Отправлено в Homework: '+rows.map(x=>x.title).join(' · ');card.appendChild(g);
     }catch(e){}
   })();
 
