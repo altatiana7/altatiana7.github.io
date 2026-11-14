@@ -34,7 +34,7 @@
   var ITEM_FULL="digital-life";
   /* OGE is available only in ../timofey-oge-homework/ and ../timofey-oge/. */
   function load(src,next){var s=document.createElement("script");s.src=src;s.onload=next;document.body.appendChild(s);}
-  function go(){removeOGE();load("./app.js?v=20261113separate",function(){
+  function go(){removeOGE();load("./app.js?v=20261114",function(){
     load("./fit.js?v=20261023",function(){window.dispatchEvent(new Event("resize"));});
     /* «load» мог уже пройти, пока шёл запрос: сдачу и подгонку запускаем сами */
     if(document.readyState==="complete"&&typeof sendHW==="function")setTimeout(sendHW,1200);

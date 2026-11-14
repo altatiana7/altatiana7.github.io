@@ -35,7 +35,7 @@ async function sendHW(){
   const sig=det.map(d=>d.id+"="+d.chosen).join("~");if(sig===lastSent){st.textContent="Tatyana has your answers ✓";return true;}
   try{
     const r=await fetch(DB_URL+"/rest/v1/rpc/submit_arina_homework",{method:"POST",headers:{apikey:DB_KEY,Authorization:"Bearer "+DB_KEY,"Content-Type":"application/json"},
-      body:JSON.stringify({p_test_id:"timofey-oge-hw-"+QUEST,p_test_title:"Тимофей · On Screen · Домашка · "+TITLE,p_score:0,p_max_score:0,p_answers:{student:"Тимофей",heard:Object.fromEntries(Object.entries(state.answers).filter(([k])=>/^sp\d$/.test(k)))},p_details:det})});
+      body:JSON.stringify({p_test_id:"timofey-oge-hw-"+QUEST,p_test_title:"Тимофей · On Screen · Homework · "+TITLE,p_score:0,p_max_score:0,p_answers:{student:"Тимофей",heard:Object.fromEntries(Object.entries(state.answers).filter(([k])=>/^sp\d$/.test(k)))},p_details:det})});
     if(!r.ok)throw Error("send");
     lastSent=sig;state.sentSig=sig;try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}
     st.textContent="Tatyana has your answers ✓";return true;
