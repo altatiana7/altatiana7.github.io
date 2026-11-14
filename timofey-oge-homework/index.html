@@ -95,6 +95,22 @@ html,body{height:100%;overflow:hidden;font-family:"Segoe UI",Arial,sans-serif;fo
 @media(max-width:1000px){.practice .row{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:650px){.page{padding:6px}.practice .row{grid-template-columns:repeat(2,minmax(0,1fr))}.r{flex-wrap:wrap;gap:4px}.r .lab{flex:0 0 100%}.chips{width:100%}}
 
+
+/* Teacher assignment log: hidden from students and independent of pupil submission */
+.teacher-tools{display:none;align-items:center;gap:8px;flex-wrap:wrap}
+.teacher .teacher-tools{display:flex}
+.teacher .teacher-note{display:block}
+.teacher-note{display:none;font-size:12px;color:var(--muted);padding:0 4px}
+.teacher-summary{font-size:13px;font-weight:600;color:#355c50}
+.given-mark{font:600 12px/1.2 "Segoe UI",Arial,sans-serif;height:30px;border:1px solid #9bacb1;border-radius:5px;background:#fff;color:#36505b;padding:0 8px;cursor:pointer;white-space:nowrap}
+.given-mark.active{border-color:#357b62;background:#d9eee3;color:#24543e}
+.given-mark:focus-visible{outline:2px solid #357b62}
+.teacher .chips{align-items:center}
+.teacher .given-pair{display:inline-flex;align-items:center;gap:3px;padding-right:6px;border-right:1px solid #ccd6d8}
+.teacher .given-pair:last-child{border-right:0}
+.teacher .chip{height:30px}
+.teacher .teacher-tools .btn{font-size:13px}
+@media(max-width:650px){.teacher .given-pair{gap:2px;padding-right:3px}.given-mark{font-size:11px;padding:0 6px}}
 </style>
 </head>
 <body>
@@ -102,11 +118,13 @@ html,body{height:100%;overflow:hidden;font-family:"Segoe UI",Arial,sans-serif;fo
   <header class="top">
     <a class="btn" href="../timofey/">← Hub</a>
     <h1>OGE Homework</h1>
+    <div class="teacher-tools" id="teacherTools"><strong class="teacher-summary" id="teacherSummary">Выдано: 0</strong><button class="btn" type="button" id="teacherExport">Список выданного</button></div>
     <div class="legend">
       <span class="chip">To do</span><span class="chip done">Done <i>✓</i></span><span class="chip sent">Sent <i>✓</i></span>
     </div>
   </header>
 
+  <p class="teacher-note">Учительские отметки «Выдано» хранятся в этом браузере. Они не отправляют задания ученику и не изменяют статусы Done / Sent.</p>
   <section class="panel hw">
     <div class="tab"><b>//</b> homework</div>
     <div class="list" id="list"></div>
@@ -120,6 +138,32 @@ html,body{height:100%;overflow:hidden;font-family:"Segoe UI",Arial,sans-serif;fo
   "use strict";
   var $=function(id){return document.getElementById(id);};
   try{if(self!==top)document.body.classList.add("embed");}catch(e){}
+  var teacher=/[?&]teacher=1(?:&|$)/.test(location.search);
+  if(teacher)document.body.classList.add("teacher");
+  var GIVEN_KEY="timofey.oge.homework.given.teacher.v1";
+  var given={};
+  try{given=JSON.parse(localStorage.getItem(GIVEN_KEY)||"{}")||{};if(typeof given!=="object"||Array.isArray(given))given={};}catch(e){given={};}
+  var assignments=[];
+  function updateTeacherSummary(){
+    if(!teacher)return;
+    var count=assignments.filter(function(a){return !!given[a.key];}).length;
+    $("teacherSummary").textContent="Выдано: "+count+" / "+assignments.length;
+  }
+  function markGiven(key,on,button){
+    if(on)given[key]=new Date().toISOString();else delete given[key];
+    try{localStorage.setItem(GIVEN_KEY,JSON.stringify(given));}catch(e){alert("Не удалось сохранить отметку в этом браузере.");}
+    button.classList.toggle("active",on);
+    button.textContent=on?"Выдано ✓":"Выдать";
+    button.setAttribute("aria-pressed",String(on));
+    updateTeacherSummary();
+  }
+  if(teacher)$("teacherExport").addEventListener("click",function(){
+    var lines=["Выданные задания Тимофея",""];
+    assignments.filter(function(a){return given[a.key];}).forEach(function(a){lines.push(a.date+" · "+a.section+" · "+a.label+" · "+new Date(given[a.key]).toLocaleString("ru-RU"));});
+    if(lines.length===2)lines.push("Пока нет отмеченных заданий.");
+    var blob=new Blob([lines.join("\\n")],{type:"text/plain;charset=utf-8"});
+    var url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="timofey-issued-homework.txt";a.click();setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  });
   var T="../timofey-oge/?from=hw&v=20261112b#";
   var P="../timofey-homework/oge-practice.html?v=20261112b#";
 
@@ -199,7 +243,16 @@ html,body{height:100%;overflow:hidden;font-family:"Segoe UI",Arial,sans-serif;fo
         a.textContent=c.label;
         if(c.st){var i=document.createElement("i");i.textContent=c.st==="sent"?"sent ✓":"done ✓";a.appendChild(i);}
         if(c.st!==null){all++;if(c.st)ok++;}
-        chips.appendChild(a);
+        if(teacher){
+          var key=d.date+"|"+r[0]+"|"+c.label;
+          assignments.push({key:key,date:d.date,section:r[0],label:c.label});
+          var pair=document.createElement("span");pair.className="given-pair";
+          var mark=document.createElement("button");mark.type="button";mark.className="given-mark"+(given[key]?" active":"");
+          mark.textContent=given[key]?"Выдано ✓":"Выдать";mark.setAttribute("aria-pressed",String(!!given[key]));
+          mark.setAttribute("aria-label",c.label+" — "+(given[key]?"выдано":"отметить выданным"));
+          mark.addEventListener("click",function(){markGiven(key,!given[key],mark);});
+          pair.append(a,mark);chips.appendChild(pair);
+        }else chips.appendChild(a);
       });
       row.append(lab,chips);rows.appendChild(row);
     });
@@ -216,6 +269,7 @@ html,body{height:100%;overflow:hidden;font-family:"Segoe UI",Arial,sans-serif;fo
     h.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle();}});
     $("list").appendChild(day);
   });
+  updateTeacherSummary();
 })();
 </script>
 </body>
