@@ -96,6 +96,11 @@ h1 .cur{display:inline-block;width:.55em;height:.08em;margin-left:.1em;backgroun
         <b>OGE Practice</b>
         <svg class="ar" viewBox="0 0 24 24"><path d="M3 12h17M14 6l6 6-6 6"/></svg>
       </button>
+      <button class="go" type="button" data-open="memo">
+        <svg class="ic" viewBox="0 0 48 48"><path d="M12 5h19l6 6v31H12zM31 5v7h6M18 19h13M18 25h13M18 31h9"/><circle cx="35" cy="34" r="7"/><path d="M35 30v5M35 38h.01"/></svg>
+        <b>Баллы и критерии ОГЭ</b>
+        <svg class="ar" viewBox="0 0 24 24"><path d="M3 12h17M14 6l6 6-6 6"/></svg>
+      </button>
     </div>
   </section>
 </main>
@@ -111,11 +116,12 @@ h1 .cur{display:inline-block;width:.55em;height:.08em;margin-left:.1em;backgroun
 <script>
 (()=>{
   const $=id=>document.getElementById(id);
-  const V='20261114no-memo';
+  const V='20261113memo-home';
   const PAGES={
     oge:['OGE Homework','../timofey-oge-homework/?v='+V],
     homework:['ON SCREEN Homework','../timofey-homework/?v='+V],
-    practice:['OGE Practice','../timofey-oge/?v='+V+'#reading']
+    practice:['OGE Practice','../timofey-oge/?v='+V+'#reading'],
+    memo:['Памятка ОГЭ · Баллы и критерии','./oge-memo.html?v='+V]
   };
   const screen=$('screen');
   function openPage(key){
