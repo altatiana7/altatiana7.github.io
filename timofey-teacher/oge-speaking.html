@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Teacher · OGE Speaking · 19.11.2026</title>
+<style>
+:root{
+  --bg:#E9EEEC;--surface:#F8FAF9;--raise:#FFFFFF;--ink:#1C2725;--muted:#566662;--line:#C9D4D0;
+  --sage:#4F7467;--sage-soft:#DCE7E2;--steel:#47657F;--steel-soft:#DDE5EC;
+  --good:#2C8653;--good-soft:#DCEFE3;--bad:#B9443B;--bad-soft:#F6DFDC;--lava:#D9632C;--sand:#F3EBDD;
+  --f:Georgia,"Times New Roman",Times,serif;
+  --t-s:clamp(14px,1.9vh,16px);--t-m:clamp(16px,2.35vh,19px);--t-l:clamp(18px,2.9vh,23px);--t-xl:clamp(24px,4vh,32px);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:var(--t-m);line-height:1.35;overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:2px solid var(--steel);outline-offset:2px}
+.app{height:100vh;display:grid;grid-template-rows:auto 1fr}
+
+/* bar */
+.bar{display:flex;align-items:center;gap:10px;padding:5px 14px;background:var(--surface);border-bottom:1px solid var(--line);min-height:40px}
+.brand{font-weight:700;font-size:var(--t-s);letter-spacing:.05em;white-space:nowrap;text-transform:uppercase}
+.brand .t{background:var(--steel);color:#fff;border-radius:5px;padding:2px 7px;margin-right:6px;letter-spacing:.08em}
+.brand span{color:var(--sage)}
+.tabs{display:flex;gap:3px;flex:1;min-width:0;overflow:auto;scrollbar-width:none}
+.tab{border:1px solid transparent;background:none;border-radius:7px;padding:4px 9px;font-size:var(--t-s);color:var(--muted);white-space:nowrap}
+.tab b{color:var(--sage);margin-right:4px}
+.tab:hover{background:var(--sage-soft)}
+.tab[aria-selected="true"]{background:var(--sage);color:#fff}
+.tab[aria-selected="true"] b{color:#fff}
+.tbtn{border:1px solid var(--line);background:var(--raise);border-radius:7px;padding:4px 12px;font-size:var(--t-s);white-space:nowrap}
+.tbtn.pri{background:var(--steel);border-color:var(--steel);color:#fff}
+
+main{min-height:0;padding:10px 14px;overflow:hidden}
+.stage{height:100%;display:none;gap:10px;min-height:0}
+.stage.on{display:grid}
+.g2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.g3{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)}
+.g21{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+.col{display:flex;flex-direction:column;gap:10px;min-height:0}
+
+/* home */
+.home{align-content:center;justify-items:center}
+.homein{width:min(1120px,100%);display:flex;flex-direction:column;gap:12px}
+.hh{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.hh h1{margin:0;font-size:var(--t-xl);line-height:1.1}
+.hh h1 span{color:var(--sage)}
+.hh p{margin:2px 0 0;color:var(--muted);font-size:var(--t-s)}
+.date{font-size:var(--t-s);color:var(--steel);border:1px solid var(--steel);border-radius:999px;padding:3px 12px;white-space:nowrap}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.tile{border:1px solid var(--line);background:var(--raise);border-radius:12px;padding:12px 14px;text-align:left;display:flex;flex-direction:column;gap:4px;min-height:clamp(86px,15vh,118px);border-top:5px solid var(--c,var(--sage));transition:background .12s,border-color .12s}
+.tile:hover{background:#F2F7F5;border-color:var(--c,var(--sage))}
+.tile .k{font-size:var(--t-s);color:var(--c,var(--sage));font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.tile b{font-size:var(--t-l);line-height:1.15}
+.tile span{font-size:var(--t-s);color:var(--muted)}
+
+/* panel */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:10px 13px;display:flex;flex-direction:column;gap:8px;min-width:0;min-height:0;overflow:hidden;align-self:start;max-height:100%}
+.panel.fill{align-self:stretch}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ph h2{margin:0;font-size:var(--t-l);font-weight:700}
+.ph .r{display:flex;align-items:center;gap:6px}
+.tag{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--steel);white-space:nowrap}
+.xp{border:1px solid var(--line);background:var(--raise);border-radius:6px;width:28px;height:26px;padding:0;font-size:15px;line-height:1;color:var(--muted)}
+.xp:hover{color:var(--steel);border-color:var(--steel)}
+.shade{position:fixed;inset:0;background:rgba(28,39,37,.35);z-index:40;display:none}
+.shade.on{display:block}
+.panel.max{position:fixed;inset:5vh 7vw;z-index:50;max-height:none;font-size:calc(var(--t-m) * 1.18);box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.panel.max .ph h2{font-size:calc(var(--t-l) * 1.15)}
+.btn{border:1px solid var(--line);background:var(--raise);border-radius:7px;padding:5px 12px;font-size:var(--t-s)}
+.btn:hover{border-color:var(--sage)}
+.btn.pri{background:var(--sage);border-color:var(--sage);color:#fff}
+.btn.st{background:var(--steel);border-color:var(--steel);color:#fff}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.sp{flex:1}
+.muted{color:var(--muted);font-size:var(--t-s);margin:0}
+select{font:inherit;font-size:var(--t-s);border:1px solid var(--line);border-radius:7px;padding:4px 8px;background:var(--raise);color:var(--ink);max-width:100%}
+
+/* rules */
+.rules{border-collapse:collapse;width:100%;font-size:var(--t-s);background:var(--raise)}
+.rules td,.rules th{border:1px solid var(--line);padding:5px 8px;vertical-align:top;text-align:left}
+.rules th{background:var(--sage-soft);font-weight:700}
+.rules td.p{font-weight:700;color:var(--steel);white-space:nowrap;text-align:center;width:44px}
+.tips{margin:0;padding-left:20px;font-size:var(--t-s)}
+.tips li{margin:2px 0}
+.tips b{color:var(--sage)}
+.box{background:var(--raise);border:1px solid var(--line);border-radius:9px;padding:7px 10px;font-size:var(--t-s)}
+.warn{background:var(--sand);border-color:#E2D3B6}
+.hidebox[hidden],.rules[hidden]{display:none}
+
+/* quiz (one question at a time) */
+.qz{display:flex;flex-direction:column;gap:8px;min-height:0}
+.qtop{display:flex;align-items:center;gap:8px;font-size:var(--t-s);color:var(--muted)}
+.dots{display:flex;gap:3px;flex-wrap:wrap}
+.dot{width:24px;height:22px;border-radius:5px;border:1px solid var(--line);background:var(--raise);font-size:12px;padding:0}
+.dot.cur{border-color:var(--steel);background:var(--steel-soft);font-weight:700}
+.dot.ok{background:var(--good-soft);border-color:var(--good)}
+.dot.no{background:var(--bad-soft);border-color:var(--bad)}
+.qq{font-size:var(--t-l);font-weight:700;line-height:1.3;min-height:2.6em}
+.qsub{font-size:var(--t-m);background:var(--raise);border:1px solid var(--line);border-left:4px solid var(--steel);border-radius:8px;padding:7px 11px}
+.qsub i{color:var(--muted);font-style:normal;font-size:var(--t-s);display:block}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{border:2px solid var(--line);background:var(--raise);border-radius:10px;padding:9px 12px;text-align:left;font-size:var(--t-m);min-height:48px;transition:background .12s}
+.opt:hover{border-color:var(--sage)}
+.opt.ok{background:var(--good-soft);border-color:var(--good)}
+.opt.no{background:var(--bad-soft);border-color:var(--bad)}
+.opt:disabled{cursor:default;opacity:1}
+.why{font-size:var(--t-s);border-radius:8px;padding:7px 10px;background:var(--steel-soft);min-height:2.2em}
+.why:empty{visibility:hidden}
+.why b.g{color:var(--good)}.why b.b{color:var(--bad)}
+.qnav{display:flex;align-items:center;gap:6px}
+.res{display:flex;flex-direction:column;gap:6px;font-size:var(--t-s)}
+.res .big{font-size:var(--t-xl);font-weight:700;color:var(--sage)}
+.res ul{margin:0;padding-left:18px;max-height:30vh;overflow:auto}
+
+/* quizlet */
+.ql{display:flex;flex-direction:column;align-items:center;gap:7px}
+.qcard{width:100%;max-width:400px;perspective:1000px;display:grid;border:none;background:none;padding:0;text-align:center}
+.qcard .face{grid-area:1/1;min-height:clamp(120px,22vh,170px);border-radius:12px;border:1px solid var(--line);background:var(--raise);backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .45s ease;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:12px 16px;gap:5px;box-shadow:0 2px 0 var(--line)}
+.qcard .back{transform:rotateY(180deg);background:var(--sage-soft);border-color:var(--sage)}
+.qcard.on .front{transform:rotateY(180deg)}
+.qcard.on .back{transform:rotateY(0)}
+.qw{font-size:var(--t-xl);font-weight:700;line-height:1.15}
+.qru{font-weight:700;color:var(--sage);font-size:var(--t-m)}
+.qex{font-size:var(--t-s);color:var(--muted);font-style:italic}
+.qnv{display:flex;align-items:center;gap:8px}
+.cnt{font-size:var(--t-s);min-width:56px;text-align:center;color:var(--muted)}
+.arrow{width:38px;height:32px;border:1px solid var(--line);border-radius:7px;background:var(--raise);font-size:17px;line-height:1;padding:0}
+
+/* interview */
+.iv{display:flex;flex-direction:column;gap:8px;align-items:center;min-height:0}
+.ivtop{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:center}
+.nums{display:flex;gap:3px}
+.nums button{width:28px;height:28px;border:1px solid var(--line);border-radius:6px;background:var(--raise);padding:0;font-size:var(--t-s)}
+.nums button.on{background:var(--steel);color:#fff;border-color:var(--steel)}
+.icard{width:100%;max-width:520px;display:grid;perspective:1100px}
+.icard .face{grid-area:1/1;border:1px solid var(--line);border-radius:12px;background:var(--raise);min-height:clamp(190px,36vh,270px);padding:12px 16px;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .45s ease;display:flex;flex-direction:column;gap:8px}
+.icard .front{align-items:center;justify-content:center;text-align:center}
+.icard .back{transform:rotateY(180deg);background:var(--sage-soft);border-color:var(--sage);justify-content:center}
+.icard.on .front{transform:rotateY(180deg)}
+.icard.on .back{transform:rotateY(0)}
+.ring{position:relative;width:clamp(74px,13vh,100px);height:clamp(74px,13vh,100px)}
+.ring svg{transform:rotate(-90deg);width:100%;height:100%}
+.ring .sec{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:var(--t-xl)}
+.ilbl{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--steel)}
+.iq{font-size:var(--t-l);font-weight:700}
+.status{font-size:var(--t-s);color:var(--muted);min-height:1.3em}
+
+/* prediction */
+.pred{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.pred .pc{padding:6px 10px;gap:4px}
+.pc{border:1px solid var(--line);background:var(--raise);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:6px}
+.pc b{font-size:var(--t-m)}
+.pc .muted{font-size:13px}
+.pch{display:flex;gap:4px;flex-wrap:wrap}
+.pch button{border:1px solid var(--line);background:var(--surface);border-radius:7px;min-width:40px;padding:4px 8px;font-size:var(--t-s)}
+.pch button.sel{background:var(--steel-soft);border-color:var(--steel);font-weight:700}
+.pch button.ok{background:var(--good-soft);border-color:var(--good);font-weight:700}
+.pch button.no{background:var(--bad-soft);border-color:var(--bad)}
+.pc .fact{font-size:13px;color:var(--good);min-height:1.2em}
+
+/* matching */
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.mi{border:1px solid var(--line);background:var(--raise);border-radius:8px;padding:6px 10px;text-align:left;min-height:40px;font-size:var(--t-s)}
+.mi.sel{border-color:var(--steel);background:var(--steel-soft)}
+.mi.ok{border-color:var(--good);background:var(--good-soft);cursor:default}
+.mi.no{border-color:var(--bad);background:var(--bad-soft)}
+
+/* sorting */
+.bank{display:flex;gap:6px;flex-wrap:wrap;min-height:38px;padding:6px;border:1px dashed var(--line);border-radius:8px;background:var(--raise)}
+.chip{border:1px solid var(--steel);background:var(--steel-soft);border-radius:6px;padding:3px 9px;font-size:var(--t-s)}
+.chip.sel{background:var(--steel);color:#fff}
+.zones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.zone{border:1px dashed var(--line);border-radius:8px;min-height:clamp(90px,17vh,140px);padding:5px;display:flex;flex-direction:column;gap:4px;background:var(--surface);text-align:left}
+.zone h4{margin:0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--steel)}
+.zone.hot{background:var(--steel-soft);border-color:var(--steel)}
+.zone .chip{border-color:var(--good);background:var(--good-soft)}
+.zone.bad{background:var(--bad-soft);border-color:var(--bad)}
+
+/* reading practice */
+.rtext{background:var(--raise);border:1px solid var(--line);border-radius:9px;padding:8px 12px;font-size:clamp(15px,2.45vh,19px);line-height:1.42;overflow:auto;min-height:0}
+.rtext mark{background:#F3E2B8;border-radius:3px;padding:0 2px}
+.tbar{height:9px;border-radius:5px;background:var(--line);overflow:hidden;flex:1}
+.tbar i{display:block;height:100%;width:0;background:var(--sage);transition:width .25s linear}
+.tl{font-size:var(--t-s);min-width:120px}
+
+/* talk scorer */
+.plan{display:flex;flex-direction:column;gap:4px}
+.pt{border:1px solid var(--line);background:var(--raise);border-radius:7px;padding:5px 9px;text-align:left;font-size:var(--t-s)}
+.pt.on{background:var(--good-soft);border-color:var(--good)}
+.cntbig{font-size:var(--t-xl);font-weight:700;min-width:56px;text-align:center;color:var(--steel)}
+.kk{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.kk div{border:1px solid var(--line);border-radius:8px;background:var(--raise);padding:5px 8px;text-align:center;font-size:12px;color:var(--muted)}
+.kk b{display:block;font-size:var(--t-l);color:var(--ink)}
+.tg{border:1px solid var(--line);background:var(--raise);border-radius:7px;padding:4px 10px;font-size:var(--t-s)}
+.tg.on{background:var(--good-soft);border-color:var(--good)}
+.panel{position:relative}
+.sample{position:absolute;left:12px;right:12px;top:50px;bottom:12px;z-index:5;font-size:var(--t-m);background:var(--raise);border:1px solid var(--sage);border-radius:9px;padding:10px 14px;overflow:auto;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.sample[hidden]{display:none}
+.sample .btn{position:sticky;top:0;float:right}
+.sample p{margin:0 0 4px}
+
+/* jeopardy */
+.jp{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
+.jgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.jcat{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--steel);text-align:center;padding:2px;font-weight:700}
+.jt{border:1px solid var(--steel);background:var(--steel);color:#fff;border-radius:8px;min-height:clamp(48px,10vh,70px);font-weight:700;font-size:var(--t-l)}
+.jt.used{background:var(--raise);color:var(--line);border-color:var(--line);cursor:default}
+.jq{position:absolute;inset:0;background:var(--surface);border:1px solid var(--steel);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:12px;justify-content:center}
+.jq[hidden]{display:none}
+.jq .q1{font-size:var(--t-l);font-weight:700}
+.jq .a1{font-size:var(--t-m);color:var(--good);font-weight:700;min-height:1.4em}
+.score{font-weight:700;font-size:var(--t-l);color:var(--sage)}
+
+/* speed */
+.spd{display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;border:1px solid var(--line);border-radius:10px;background:var(--raise);padding:12px;justify-content:center;min-height:clamp(200px,40vh,300px)}
+.spd .st{font-size:var(--t-l);font-weight:700;min-height:2.6em;display:flex;align-items:center}
+.fuse{width:100%;height:10px;border-radius:5px;background:var(--line);overflow:hidden}
+.fuse i{display:block;height:100%;width:100%;background:var(--lava);transition:width .1s linear}
+.tf{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.tf button{border:2px solid var(--sage);background:var(--surface);border-radius:10px;padding:10px;font-size:var(--t-l);font-weight:700}
+.tf button.ok{background:var(--good-soft);border-color:var(--good)}
+.tf button.no{background:var(--bad-soft);border-color:var(--bad)}
+
+@media(max-width:900px){body{overflow:auto}.app{height:auto}.stage.on{display:flex;flex-direction:column}.tiles{grid-template-columns:1fr 1fr}.opts{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="bar">
+  <div class="brand"><span class="t">Teacher</span>OGE Speaking <span>· 19.11.2026</span></div>
+  <nav class="tabs" id="tabs"></nav>
+  <button class="tbtn" id="homeBtn" type="button">Home</button>
+  <button class="tbtn pri" id="nextBtn" type="button">Next block →</button>
+</header>
+<main id="main">
+
+<!-- HOME -->
+<section class="stage home on" data-s="home">
+  <div class="homein">
+    <div class="hh">
+      <div><h1>OGE Speaking <span>· how it is scored</span></h1><p>Tasks 1–3: points, timing and what examiners listen for</p></div>
+      <div class="date">Lesson · 19 November 2026</div>
+    </div>
+    <div class="tiles" id="tiles"></div>
+  </div>
+</section>
+
+<!-- 1 WARM-UP -->
+<section class="stage g2" data-s="1">
+  <div class="panel fill">
+    <div class="ph"><h2>Warm-up · Interview</h2><div class="r"><span class="tag">Listen · 40 sec</span><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div id="iv"></div>
+  </div>
+  <div class="panel">
+    <div class="ph"><h2>Prediction · Guess the points</h2><div class="r"><span class="tag">Before we start</span><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div class="pred" id="pred"></div>
+    <div class="row"><button class="btn st" id="predShow" type="button">Check my guesses</button><span class="muted" id="predRes"></span></div>
+  </div>
+</section>
+
+<!-- 2 SCORES -->
+<section class="stage g21" data-s="2">
+  <div class="panel fill">
+    <div class="ph"><h2>Points &amp; timing quiz</h2><div class="r"><span class="tag">15 questions</span><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div id="qzScores"></div>
+  </div>
+  <div class="panel">
+    <div class="ph"><h2>Score map</h2><div class="r"><button class="btn" id="mapBtn" type="button">Show</button><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div class="hidebox" id="mapBox" hidden>
+      <table class="rules">
+        <tr><th>Task</th><th>Prepare</th><th>Speak</th><th>Max</th></tr>
+        <tr><td>1 · Reading aloud</td><td>1.5 min</td><td>up to 2 min</td><td class="p">2</td></tr>
+        <tr><td>2 · Interview (6 questions)</td><td>—</td><td>40 sec per answer</td><td class="p">6</td></tr>
+        <tr><td>3 · Talk (4 plan points)</td><td>1.5 min</td><td>up to 2 min · 10–12 phrases</td><td class="p">7</td></tr>
+        <tr><th colspan="3">Speaking part</th><th class="p">15</th></tr>
+      </table>
+      <div class="box warn" style="margin-top:8px">Every answer is recorded. A shorter answer is not penalised for time, but if you speak longer, the recording stops and the examiner does not hear your ending.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 TASK 1 -->
+<section class="stage g3" data-s="3">
+  <div class="panel">
+    <div class="ph"><h2>Task 1 · Rules</h2><div class="r"><span class="tag">max 2</span><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <table class="rules">
+      <tr><td class="p">2</td><td>Easy to follow, no unnatural pauses. Up to <b>5</b> phonetic mistakes, of them only <b>1–2</b> change the meaning.</td></tr>
+      <tr><td class="p">1</td><td>Some unnatural pauses. Up to <b>7</b> phonetic mistakes, of them <b>3</b> change the meaning.</td></tr>
+      <tr><td class="p">0</td><td>Hard to follow, or more than 7 mistakes, or 4+ mistakes that change the meaning.</td></tr>
+    </table>
+    <ul class="tips">
+      <li><b>Meaning-changing:</b> ship → sheep, put read as cut.</li>
+      <li><b>Every missed or added word</b> (a, the, in, and) is a serious mistake. Four of them = 0.</li>
+      <li>2–3 words left unread — the task is still checked. More than 3 words or a whole line missed = 0.</li>
+      <li><b>Watch:</b> numbers and years, stress in long words, silent letters (castle), lists.</li>
+      <li><b>Intonation:</b> falling in statements and wh-questions, rising in yes/no questions and in lists.</li>
+    </ul>
+  </div>
+  <div class="panel fill">
+    <div class="ph"><h2>Be the examiner · 2, 1 or 0?</h2><div class="r"><span class="tag">11 cases</span><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div id="qzT1"></div>
+  </div>
+  <div class="panel fill">
+    <div class="ph"><h2>Read aloud</h2><div class="r"><select id="rdSel" aria-label="Text"></select><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div class="row"><button class="btn st" id="rdGo" type="button">Start 1.5 + 2 min</button><button class="btn" id="rdStop" type="button">Stop</button><button class="btn" id="rdMark" type="button">Mark numbers</button></div>
+    <div class="row"><span class="tl" id="rdLbl">Prepare 1:30</span><div class="tbar"><i id="rdBar"></i></div></div>
+    <div class="rtext" id="rdText"></div>
+  </div>
+</section>
+
+<!-- 4 TASK 2 -->
+<section class="stage g3" data-s="4">
+  <div class="panel">
+    <div class="ph"><h2>Task 2 · Rules</h2><div class="r"><span class="tag">6 × 1 point</span><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <table class="rules">
+      <tr><td class="p">1</td><td>A <b>full answer</b> to the question. Small mistakes are OK if they don't stop understanding.</td></tr>
+      <tr><td class="p">0</td><td>No answer · off the question · one word or a phrase · “I don't know / I don't remember” · a factual mistake · mistakes that block understanding.</td></tr>
+    </table>
+    <ul class="tips">
+      <li>You hear each question <b>once</b>. Think, then speak: 40 seconds is enough.</li>
+      <li>A short answer + a full sentence counts: “In Moscow. I live in Moscow.”</li>
+      <li>If you correct yourself, only your <b>last</b> version is scored.</li>
+      <li>Keep the tense of the question: Did…? → past · Would you like…? → I'd like…</li>
+      <li>Why? / In what way? → give a reason. What is he like? = character, not looks.</li>
+      <li>A missing -s (he like) does not cost the point in the OGE.</li>
+    </ul>
+  </div>
+  <div class="panel fill">
+    <div class="ph"><h2>1 point or 0?</h2><div class="r"><span class="tag">12 answers</span><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div id="qzT2"></div>
+  </div>
+  <div class="panel">
+    <div class="ph"><h2>Question → answer start</h2><div class="r"><span class="tag" id="mtTag">Round 1/2</span><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div id="mt"></div>
+  </div>
+</section>
+
+<!-- 5 TASK 3 PLAN -->
+<section class="stage g3" data-s="5">
+  <div class="panel">
+    <div class="ph"><h2>Task 3 · Rules</h2><div class="r"><span class="tag">3 + 2 + 2 = 7</span><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div class="row" id="kTabs"><button class="btn st" data-k="0" type="button">K1 · Task · 3</button><button class="btn" data-k="1" type="button">K2 · Organisation · 2</button><button class="btn" data-k="2" type="button">K3 · Language · 2</button></div>
+    <table class="rules kt">
+      <tr><td class="p">3</td><td>All 4 plan points covered fully · 10–12 phrases</td></tr>
+      <tr><td class="p">2</td><td>One point not fully covered · 8–9 phrases</td></tr>
+      <tr><td class="p">1</td><td>Topic covered in a limited way · 6–7 phrases</td></tr>
+      <tr><td class="p">0</td><td>Three points not covered · 5 phrases or fewer → <b>0 for the whole talk</b></td></tr>
+    </table>
+    <table class="rules kt" hidden>
+      <tr><td class="p">2</td><td>Logical · opening + closing · linkers used correctly</td></tr>
+      <tr><td class="p">1</td><td>No opening <i>or</i> no closing, and/or 1–3 linking mistakes</td></tr>
+      <tr><td class="p">0</td><td>No opening and no closing, and/or 4+ linking mistakes</td></tr>
+    </table>
+    <table class="rules kt" hidden>
+      <tr><td class="p">2</td><td>Up to 4 minor grammar/vocabulary mistakes and up to 3 phonetic</td></tr>
+      <tr><td class="p">1</td><td>Up to 5 grammar/vocabulary and up to 4 phonetic</td></tr>
+      <tr><td class="p">0</td><td>6+ grammar/vocabulary or 5+ phonetic, or more than 3 serious mistakes</td></tr>
+    </table>
+    <ul class="tips">
+      <li><b>Opening</b> and <b>closing</b> both name the topic — in English.</li>
+      <li>Every plan point, in order; if it says <b>why</b>, give a reason.</li>
+      <li>Linkers between all parts. No extra information outside the plan.</li>
+      <li>Count your phrases in practice; stop before 2 minutes.</li>
+    </ul>
+  </div>
+  <div class="panel">
+    <div class="ph"><h2>Talk phrases</h2><div class="r"><span class="tag">Flashcards</span><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div id="ql"></div>
+    <ul class="tips">
+      <li>Plan points read aloud <b>do not count</b> as phrases. I think / I believe are not counted either.</li>
+      <li>2–3 phrases for each plan point, in the same order.</li>
+    </ul>
+  </div>
+  <div class="panel">
+    <div class="ph"><h2>Opening · Linking · Closing</h2><div class="r"><span class="tag">Sorting · 12</span><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div id="sort"></div>
+  </div>
+</section>
+
+<!-- 6 TASK 3 SCORE -->
+<section class="stage g2" data-s="6">
+  <div class="panel fill">
+    <div class="ph"><h2>Score the talk</h2><div class="r"><span class="tag">13 cases</span><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div id="qzT3"></div>
+  </div>
+  <div class="panel fill">
+    <div class="ph"><h2>Give a talk · live score</h2><div class="r"><select id="tkSel" aria-label="Topic"></select><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div class="box" id="tkPrompt"></div>
+    <div class="plan" id="tkPlan"></div>
+    <div class="row"><button class="tg" id="tkIntro" type="button">Opening</button><button class="tg" id="tkEnd" type="button">Closing</button><span class="sp"></span>
+      <span class="muted">Phrases</span><button class="arrow" id="tkMinus" type="button">−</button><span class="cntbig" id="tkCnt">0</span><button class="arrow" id="tkPlus" type="button">+</button></div>
+    <div class="kk"><div><b id="k1">0</b>K1</div><div><b id="k2">0</b>K2</div><div><b>?</b>K3</div><div><b id="kt">0</b>K1 + K2</div></div>
+    <div class="row"><button class="btn st" id="tkGo" type="button">Start 1.5 + 2 min</button><button class="btn" id="tkStop" type="button">Stop</button><span class="tl" id="tkLbl">Prepare 1:30</span><div class="tbar"><i id="tkBar"></i></div></div>
+    <div class="row"><button class="btn" id="tkSampleBtn" type="button">Sample talk</button><button class="btn" id="tkReset" type="button">Reset</button></div>
+    <div class="sample" id="tkSample" hidden></div>
+  </div>
+</section>
+
+<!-- 7 REVIEW -->
+<section class="stage g2" data-s="7">
+  <div class="panel fill">
+    <div class="ph"><h2>Jeopardy</h2><div class="r"><span class="score" id="jScore">0</span><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div class="jp" id="jp"></div>
+  </div>
+  <div class="panel fill">
+    <div class="ph"><h2>Speed Game · True or False</h2><div class="r"><span class="tag">15 sec each</span><button class="xp" type="button" title="Expand">⤢</button></div></div>
+    <div id="spd"></div>
+  </div>
+</section>
+
+</main>
+</div>
+<div class="shade" id="shade"></div>
+
+<script>
+const SP={"SP1":[{"n":1,"title":"Robot","paras":["A robot is a machine that does work for people. The word “robot” appeared in the 1920s and it was first used in a science fiction story. In real life, the robot was invented later, in 1954. There are different kinds of robots which are used in different industries. Most of them are operated with the help of a computer program. Instead of humans, robots do hard and boring work in unpleasant or dangerous environments. They usually work faster and more accurately than people. They never get tired and do not make mistakes. Nowadays robots are often used for domestic needs to clean houses or to look after sick and elderly people. Scientists say that soon robots will become a normal part of our life, like mobiles and computers today."]},{"n":2,"title":"Vacuum Cleaner","paras":["The first vacuum cleaner was designed in 1869. Since then, vacuum cleaners have changed a lot. Nowadays the robot vacuum cleaner is getting more and more popular. This device cleans a house automatically. Following a programme, the robot drives slowly around the house and makes it cleaner. It operates with brushes and a tube. The robot is so flexible that it can get under a table or sofa or reach dust in corners. Some advanced models can also wash floors of all kinds. These functions are provided by a complicated electronic system and sensors inside. The vacuum cleaner looks like a plate and can be kept in the corner. It is friendly to children and animals and works on electricity."]},{"n":3,"title":"Refrigerator","paras":["Nowadays people can’t imagine their kitchen without a refrigerator. The first refrigerators appeared at the end of the 18th century. They looked different: they were just iceboxes. The refrigerators of the past were just wooden boxes, sometimes lined inside with metal. People put ice into the box and then placed the food inside to keep it cool. The refrigerator, similar to the one that we have now, was produced by General Electric in 1911, in France. It was very expensive. In those days, with the same money you could buy two cars. Today, in developed countries almost every family has enough money to buy a refrigerator for their kitchen. It’s hard to imagine how difficult and uncomfortable our lives would be without a refrigerator."]},{"n":4,"title":"Recycling","paras":["Recycling is a technology that helps protect the environment and cut down on usage of raw materials. The steel, paper and glass industries recycle a lot. The largest recycler is the steel industry. It recovers more than 70 percent of its original materials. For example, since 1988 they have produced the majority of new metal cans from old ones. Metal parts for cars and planes are other examples of recycling steel. Fragments of waste glass are widely used in construction. For producing writing paper and pens, used packing boxes are an ideal material. They are cheap and easy to recycle. Nowadays more and more recycling centres are appearing in our towns and cities."]},{"n":5,"title":"Oxford University","paras":["Oxford University is the oldest university in the English-speaking world. It is also the second oldest university in the world. The University of Oxford is believed to have started in 1133. It is located in Oxford City on the Thames River, not far from London. Oxford University is one of the world’s most impressive centres of education. There are students from different countries there. In fact, there is no building in Oxford called Oxford University. The University includes 38 colleges and related buildings. Over 22,000 students study English language and literature, geography, history, law, modern languages and other subjects there."]},{"n":6,"title":"Rainbow","paras":["Our planet is the only planet in the Solar System where rainbows are possible. They are not visible in big cities, due to pollution and smog. But if you are travelling after rain has fallen in the countryside or walking on the beach, you have a good chance to see a rainbow. The rainbow is a multi-coloured arc which appears in the sky. When you see a rainbow, the sun is always behind you and it is raining in front of you. It is impossible to get to the end of the rainbow and to touch it. When you move, the rainbow moves too. We have always learned that rainbows have 7 colours. However, until the 17th century, people used to think there were only 5 colours in the rainbow."]}],"SP2":[{"n":1,"title":"Best Friend","qa":[{"q":"What’s your best friend like?","a":"My best friend's name is Artyom. He is clever, honest and has a great sense of humour. He is also really good at maths, just like me."},{"q":"Where did you and your friend meet for the first time?","a":"We met at a programming club when we were in the sixth grade. We were working on the same project, so we started talking, and since then we have been friends."},{"q":"How often do you see each other?","a":"We see each other almost every day because we go to the same school. At weekends we often meet online or go out together."},{"q":"What do you like to do together?","a":"We love playing computer games and building small apps together. We also like riding our bikes and talking about new gadgets."},{"q":"What career is your best friend going to follow?","a":"Artyom wants to become a game designer. He is very creative and has already made a simple game on his own."},{"q":"What would you recommend to a teenager who wants to be a good friend?","a":"I would recommend being honest and reliable. A good friend listens, helps when you have problems and is happy about your success."}]},{"n":2,"title":"Daily Routines 1","qa":[{"q":"How many days a week do you go to school?","a":"I go to school five days a week, from Monday to Friday. Saturday and Sunday are my days off."},{"q":"When do you go to bed in the evening?","a":"I usually go to bed at about eleven o'clock. Sometimes I stay up a bit later if I am finishing a coding project."},{"q":"How do you spend your mornings?","a":"On weekdays my mornings are busy. I get up at seven, have a quick breakfast, check my messages and go to school."},{"q":"What means of transport do you use to get to school?","a":"I usually walk to school because it is not far from my house. When the weather is bad, I take the bus."},{"q":"What do you usually have for lunch?","a":"I usually have lunch in the school canteen. As a rule, I have soup, some meat or chicken with potatoes and a cup of tea."},{"q":"What would you recommend to a teenager who wants to stay fit and healthy?","a":"I would recommend doing some sport every day, eating healthy food and not spending too much time in front of the screen. Sleeping enough is also very important."}]},{"n":3,"title":"Daily Routines 2","qa":[{"q":"What time do you usually go to bed in the evening?","a":"I usually go to bed at about eleven in the evening. Before that, I like reading a few articles about technology."},{"q":"How much time do you spend doing your homework?","a":"It takes me about two hours a day. Maths and computer science are quick for me, but English and literature take more time."},{"q":"What sports do you do regularly?","a":"I go swimming twice a week and play football with my friends at weekends. It helps me relax after sitting at the computer."},{"q":"What do you do to help your parents about the house?","a":"I help my parents about the house quite a lot. I take out the rubbish, do the shopping and fix things on our home computer."},{"q":"How do you spend your weekends?","a":"At weekends I sleep a bit longer, meet my friends and work on my own programming projects. Sometimes we go to the cinema with my family."},{"q":"What would you like to change in your daily routine?","a":"I would like to go to bed earlier and spend less time on my phone in the evening. I would also like to find more time for sport."}]},{"n":4,"title":"Internet","qa":[{"q":"How old are you?","a":"I’m fifteen. I’m in the ninth grade."},{"q":"How much time do you spend on the Internet every day?","a":"About three hours a day. Part of this time I study, and part of it I write code or chat with my friends."},{"q":"What do you use the Internet for?","a":"I use it for studying, programming and keeping in touch with my friends. I also watch videos about new technologies."},{"q":"What do you do in Information Technology or Computer Studies lessons?","a":"We learn how computers work, write simple programs and make presentations. This year we are learning Python, which I really enjoy."},{"q":"Why are computer skills useful for everyone?","a":"Because computers are used in almost every job today. Besides, with good computer skills you can find information quickly and study online."},{"q":"What would you recommend to a person who spends too much time on the Internet?","a":"I would recommend setting a time limit and switching off notifications. It’s also a good idea to do sports and meet friends in real life."}]},{"n":5,"title":"Computers","qa":[{"q":"How old were you when you started using a computer?","a":"I started using a computer when I was about six. At first I only played simple games on it."},{"q":"In what lessons at school do you use computers?","a":"We use them in Computer Studies lessons, of course. Sometimes we also use them in Maths, Physics and English."},{"q":"What do you use your computer for?","a":"Mostly for programming and doing my homework. I also play games and watch films in English on it."},{"q":"What do the members of your family use computers for?","a":"My parents use computers for work and for paying bills online. They also read the news and watch films."},{"q":"Which jobs need good computer skills in your view?","a":"Programmers, engineers and designers need them most of all. But actually, almost every job needs computer skills nowadays."},{"q":"In what way have computers made people’s life easier?","a":"We can find any information in seconds, study and work from home and keep in touch with people all over the world."}]},{"n":6,"title":"Future career","qa":[{"q":"What is your favourite school subject?","a":"My favourite subject is Computer Science because I’m really into programming. I like Maths too."},{"q":"What do you like to do in your free time?","a":"In my free time I write programs in Python, play computer games and hang out with my friend Artyom."},{"q":"What part-time job would you like to do during the school holidays, if any?","a":"I would like to make simple websites for small businesses. It would give me real experience and some pocket money."},{"q":"What career would you like to choose after finishing school? Why?","a":"I would like to become a software developer. I love creating apps and solving logical problems, and it’s an interesting and well-paid job."},{"q":"Do you think English will be useful for you in the future? In what way?","a":"Yes, definitely. Most programming documentation is in English, and I’ll need it to work with people from other countries."},{"q":"What would you recommend to a teenager who can’t choose a career?","a":"I would recommend thinking about what you are good at and what you enjoy. It’s also useful to talk to people from different professions and to try some courses."}]}],"SP3":[{"n":1,"title":"Your best friend","prompt":"You are going to give a talk about your best friend.","bul":["what people need friends for;","how long you and your friend have known each other;","what you enjoy doing together;","what your attitude to friendship is."],"sample":["I'd like to give a talk about my best friend. Friends play an important role in my life.","People need friends for several reasons. Firstly, friends support us when we have problems. Secondly, with friends our life becomes more interesting and fun.","My best friend is Artyom. We have known each other for three years. We met at a programming club and found out that we have a lot in common.","We enjoy playing computer games together, building small apps and riding our bikes in the park. We also discuss new gadgets and technologies.","Needless to say, I have a positive attitude to friendship because a real friend is someone you can always rely on.","That's all for now. Thank you for listening to my talk about my best friend."]},{"n":2,"title":"Your free time","prompt":"You are going to give a talk about your free time.","bul":["whether you have a lot of free time, and why, or why not;","what you enjoy doing in your free time;","what your Sunday afternoons are like;","what your attitude to planning your free time is."],"sample":["I'd like to give a talk about my free time. It is important for everyone to have time to relax.","To be honest, I don't have a lot of free time on weekdays because I am preparing for my exams and I have a lot of homework.","In my free time I enjoy programming. I am learning Python and I like making small games and websites. I also like playing football with my friends.","My Sunday afternoons are usually quiet. I go for a walk, have dinner with my family and work on my own coding projects.","As for planning my free time, I think it is a good idea. When I plan my day, I have time for both studying and my hobbies.","That's all for now. Thank you for listening to my talk about my free time."]},{"n":3,"title":"Reading books","prompt":"You are going to give a talk about reading books.","bul":["whether reading is popular with teenagers, and why, or why not;","what kind of books you like reading;","why many people prefer e-books to paper books;","what your attitude to reading is."],"sample":["I'd like to give a talk about reading books. Reading is still an important part of our lives.","I think reading is less popular with teenagers nowadays because they prefer watching videos and playing computer games. However, many young people still enjoy good books.","Personally, I like reading science fiction and books about technology and famous inventors. My favourite writer is Isaac Asimov.","Many people prefer e-books to paper books because they are cheaper and you can keep hundreds of books on one device. I also read e-books on my tablet.","Needless to say, I have a positive attitude to reading because books broaden our horizons and help us think creatively.","That's all for now. Thank you for listening to my talk about reading books."]},{"n":4,"title":"The Internet","prompt":"You are going to give a talk about the Internet.","bul":["why today’s teenagers use the Internet so much;","how the Internet makes long-distance communication easier;","what dangers teenagers can face when they use the Internet;","what your attitude to the Internet is."],"sample":["I’d like to give a talk about the Internet. It has become an important part of our life.","Today’s teenagers use the Internet so much because it has everything they need. We study online, look for information, watch videos and play games there.","The Internet makes long-distance communication much easier. We can send messages and make video calls to people in any part of the world, and it’s free.","However, teenagers can face some dangers online. Some people try to steal personal information, and some websites are full of fake news. Besides, spending too much time online is bad for your health.","As for me, I have a positive attitude to the Internet. I use it every day for programming and studying, but I try to be careful and not to spend all my free time online."]},{"n":5,"title":"Hobbies","prompt":"You are going to give a talk about hobbies.","bul":["why it is important for people to have a hobby;","what your hobby is and how long you have been doing it;","how much time a week you give to your hobby and why;","what your attitude to creative hobbies is."],"sample":["I’d like to give a talk about hobbies. I think a hobby makes our life more interesting.","It is important for people to have a hobby because it helps them relax after work or school. A hobby also helps us learn new things and find friends with the same interests.","My hobby is programming. I have been doing it for about three years. I write small programs and apps in Python.","I give my hobby about six or seven hours a week. I can’t spend more time on it because I have a lot of homework and I’m preparing for my exams.","As for creative hobbies, I have a very positive attitude to them. In my opinion, programming is a creative hobby too, because you create something new from nothing."]},{"n":6,"title":"Learning foreign languages","prompt":"You are going to give a talk about learning foreign languages.","bul":["why lots of people learn foreign languages nowadays;","why you have chosen to do the English exam this year;","what you did to prepare for your English exam;","what your attitude to learning foreign languages is."],"sample":["I’d like to give a talk about learning foreign languages. Nowadays it is more popular than ever.","Lots of people learn foreign languages because they want to travel, to communicate with people from other countries and to get a good job.","I have chosen to do the English exam this year because English is very important for my future career. I want to become a programmer, and most information about programming is in English.","To prepare for the exam, I have English lessons with my teacher, do a lot of exam tasks and read articles about technologies in English. I also watch films and videos without translation.","As for me, I have a positive attitude to learning foreign languages. It isn’t easy, but it opens a lot of opportunities."]}]};
+const $=id=>document.getElementById(id);
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- voice (natural British voice if the computer has one) ---------- */
+let VOICE=null;
+function pickVoice(){
+  if(!window.speechSynthesis)return;
+  const vs=speechSynthesis.getVoices();
+  const pref=[/Sonia.*Natural/i,/Libby.*Natural/i,/Ryan.*Natural/i,/Maisie.*Natural/i,/Natural.*en-GB/i,/Google UK English Female/i,/Google UK English Male/i,/Serena/i,/Daniel/i,/Kate/i];
+  for(const p of pref){const v=vs.find(v=>p.test(v.name)&&/en/i.test(v.lang));if(v){VOICE=v;return;}}
+  VOICE=vs.find(v=>/en-GB/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null;
+}
+if(window.speechSynthesis){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
+let sayTok=0;
+function say(text,onend){
+  if(!window.speechSynthesis){onend&&onend(false);return;}
+  speechSynthesis.cancel();const my=++sayTok;
+  const u=new SpeechSynthesisUtterance(text);u.lang="en-GB";u.rate=.92;if(VOICE)u.voice=VOICE;
+  u.onend=()=>{if(my===sayTok)onend&&onend(true);};u.onerror=()=>{if(my===sayTok)onend&&onend(false);};
+  speechSynthesis.speak(u);
+}
+function hush(){sayTok++;if(window.speechSynthesis)speechSynthesis.cancel();}
+
+/* ---------- blocks / navigation ---------- */
+const BLOCKS=[
+  {id:"1",tab:"Warm-up",k:"Warm-up",b:"Interview & prediction",s:"Answer 6 questions · guess the points",c:"#4F7467"},
+  {id:"2",tab:"Scores",k:"Scores",b:"Points & timing",s:"Quiz · score map",c:"#47657F"},
+  {id:"3",tab:"Task 1",k:"Task 1",b:"Reading aloud",s:"Rules · be the examiner · read",c:"#2C8653"},
+  {id:"4",tab:"Task 2",k:"Task 2",b:"Interview",s:"Rules · 1 point or 0? · matching",c:"#8A6A2E"},
+  {id:"5",tab:"Task 3 · plan",k:"Task 3",b:"Talk: plan & phrases",s:"K1–K3 · flashcards · sorting",c:"#7A4F6E"},
+  {id:"6",tab:"Task 3 · score",k:"Task 3",b:"Score the talk",s:"Cases · live talk with a phrase counter",c:"#B5552E"},
+  {id:"7",tab:"Review",k:"Review",b:"Jeopardy & Speed Game",s:"All three tasks",c:"#3B6E8C"}
+];
+const tabs=$("tabs"),tiles=$("tiles");
+BLOCKS.forEach(B=>{
+  const t=el("button","tab","<b>"+B.id+"</b>"+esc(B.tab));t.type="button";t.dataset.go=B.id;tabs.append(t);
+  const c=el("button","tile",'<span class="k">'+B.id+" · "+esc(B.k)+"</span><b>"+esc(B.b)+"</b><span>"+esc(B.s)+"</span>");c.type="button";c.style.setProperty("--c",B.c);c.dataset.go=B.id;tiles.append(c);
+});
+let cur="home";
+function go(id){
+  hush();stopTimers();closeMax();
+  cur=id;document.querySelectorAll(".stage").forEach(s=>s.classList.toggle("on",s.dataset.s===id));
+  tabs.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",String(t.dataset.go===id)));
+  const i=BLOCKS.findIndex(b=>b.id===id);
+  $("nextBtn").textContent=id==="home"?"Start →":(i===BLOCKS.length-1?"Home":"Next block →");
+}
+document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g)go(g.dataset.go);});
+$("homeBtn").onclick=()=>go("home");
+$("nextBtn").onclick=()=>{if(cur==="home")return go("1");const i=BLOCKS.findIndex(b=>b.id===cur);go(i===BLOCKS.length-1?"home":BLOCKS[i+1].id);};
+
+/* expand / collapse any block */
+const shade=$("shade");
+function closeMax(){document.querySelectorAll(".panel.max").forEach(p=>{p.classList.remove("max");p.querySelector(".xp").textContent="⤢";});shade.classList.remove("on");}
+document.querySelectorAll(".xp").forEach(b=>b.addEventListener("click",()=>{
+  const p=b.closest(".panel");const on=p.classList.contains("max");closeMax();
+  if(!on){p.classList.add("max");b.textContent="✕";shade.classList.add("on");}
+}));
+shade.onclick=closeMax;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMax();});
+
+/* ---------- timers ---------- */
+const TIMERS=new Set();
+function stopTimers(){TIMERS.forEach(f=>f());TIMERS.clear();}
+
+/* ---------- quiz: one question at a time, free navigation ---------- */
+function quiz(box,items,opt={}){
+  const st=items.map(()=>null);let i=0;let order=items.map(it=>opt.keep||it.keep?it.o.slice():shuffle(it.o));
+  function render(){
+    box.innerHTML="";const w=el("div","qz");box.append(w);
+    if(i===items.length){return result(w);}
+    const it=items[i];
+    const top=el("div","qtop");const dots=el("div","dots");
+    items.forEach((_,k)=>{const d=el("button","dot"+(k===i?" cur":"")+(st[k]==null?"":st[k]?" ok":" no"),String(k+1));d.type="button";d.onclick=()=>{i=k;render();};dots.append(d);});
+    top.append(dots);w.append(top);
+    w.append(el("div","qq",esc(it.q)));
+    if(it.sub)w.append(el("div","qsub",it.sub));
+    const os=el("div","opts");w.append(os);
+    const why=el("div","why");w.append(why);
+    const btns=order[i].map(o=>{const b=el("button","opt",esc(o));b.type="button";os.append(b);return b;});
+    function show(){
+      btns.forEach(b=>{b.disabled=true;const t=b.textContent;if(t===it.a)b.classList.add("ok");else if(t===st[i+"pick"])b.classList.add("no");});
+      why.innerHTML=(st[i]?'<b class="g">Right.</b> ':'<b class="b">Not quite.</b> Correct: <b>'+esc(it.a)+"</b>. ")+esc(it.x||"");
+    }
+    btns.forEach(b=>b.onclick=()=>{if(st[i]!=null)return;st[i]=b.textContent===it.a;st[i+"pick"]=b.textContent;show();});
+    if(st[i]!=null)show();
+    const nav=el("div","qnav");
+    const pv=el("button","btn","← Back");pv.type="button";pv.disabled=i===0;pv.onclick=()=>{i--;render();};
+    const nx=el("button","btn pri",i===items.length-1?"See result":"Next question →");nx.type="button";nx.onclick=()=>{i++;render();};
+    nav.append(pv,el("span","sp"),el("span","muted",(i+1)+" / "+items.length),el("span","sp"),nx);w.append(nav);
+  }
+  function result(w){
+    const ok=items.filter((_,k)=>st[k]===true).length,skip=items.filter((_,k)=>st[k]==null).length;
+    const r=el("div","res");r.append(el("div","big",ok+" / "+items.length));
+    if(skip)r.append(el("p","muted",skip+" not answered yet"));
+    const wrong=items.map((it,k)=>({it,k})).filter(o=>st[o.k]===false);
+    if(wrong.length){r.append(el("b","","Check again:"));const ul=el("ul");wrong.forEach(o=>ul.append(el("li","",(o.k+1)+". "+esc(o.it.q.length>70?o.it.q.slice(0,70)+"…":o.it.q)+" → <b>"+esc(o.it.a)+"</b>")));r.append(ul);}
+    const row=el("div","row");
+    const b1=el("button","btn","← Back to questions");b1.type="button";b1.onclick=()=>{i=0;render();};
+    const b2=el("button","btn pri","Play again");b2.type="button";b2.onclick=()=>{st.length=0;items.forEach(()=>st.push(null));order=items.map(it=>opt.keep||it.keep?it.o.slice():shuffle(it.o));i=0;render();};
+    row.append(b1,b2);r.append(row);w.append(r);
+  }
+  render();
+}
+
+/* ---------- 1 · warm-up interview ---------- */
+(function(){
+  const box=$("iv");const w=el("div","iv");box.append(w);
+  const top=el("div","ivtop");const sel=el("select");SP.SP2.forEach((v,k)=>sel.append(new Option("Variant "+v.n+" · "+v.title,k)));
+  const nums=el("div","nums");top.append(sel,nums);w.append(top);
+  const card=el("div","icard");
+  const front=el("div","face front");const back=el("div","face back");card.append(front,back);w.append(card);
+  const R=44,C=2*Math.PI*R;
+  front.innerHTML='<div class="ilbl" id="ivN"></div><div class="ring"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#C9D4D0" stroke-width="8"/><circle id="ivArc" cx="50" cy="50" r="44" fill="none" stroke="#4F7467" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+C+'" stroke-dashoffset="0"/></svg><div class="sec" id="ivSec">40</div></div><div class="row"><button class="btn st" id="ivPlay" type="button">Play</button><button class="btn" id="ivRe" type="button">Replay</button><button class="btn" id="ivStop" type="button">Stop</button></div><div class="status" id="ivSt">Listen to the question, then answer in 40 seconds.</div>';
+  const nav=el("div","row");const bB=el("button","btn","← Back"),bF=el("button","btn pri","Flip card"),bN=el("button","btn","Next →");[bB,bF,bN].forEach(b=>b.type="button");nav.append(bB,bF,bN);w.append(nav);
+  let v=0,q=0,tm=null;
+  function stop(){clearInterval(tm);tm=null;hush();}
+  TIMERS.add(stop);
+  function setRing(s){$("ivSec").textContent=s;$("ivArc").setAttribute("stroke-dashoffset",String(C*(1-s/40)));$("ivArc").setAttribute("stroke",s<=10?"#B9443B":"#4F7467");}
+  function timer(){clearInterval(tm);let s=40;setRing(s);tm=setInterval(()=>{s--;setRing(Math.max(s,0));if(s<=0){clearInterval(tm);tm=null;$("ivSt").textContent="Time is up.";}},1000);TIMERS.add(stop);}
+  function play(){stop();card.classList.remove("on");setRing(40);$("ivSt").textContent="Listen…";
+    say(SP.SP2[v].qa[q].q,ok=>{$("ivSt").textContent=ok?"Answer now · 40 seconds":"No voice on this computer — flip the card.";if(ok)timer();});}
+  function draw(){stop();card.classList.remove("on");const it=SP.SP2[v].qa[q];
+    $("ivN").textContent="Question "+(q+1)+" of "+SP.SP2[v].qa.length;setRing(40);$("ivSt").textContent="Listen to the question, then answer in 40 seconds.";
+    back.innerHTML='<div class="ilbl">Question '+(q+1)+'</div><div class="iq">'+esc(it.q)+'</div><div class="ilbl">Sample answer</div><div>'+esc(it.a)+"</div>";
+    nums.innerHTML="";SP.SP2[v].qa.forEach((_,k)=>{const b=el("button",k===q?"on":"",String(k+1));b.type="button";b.onclick=()=>{q=k;draw();};nums.append(b);});
+    bB.disabled=q===0;bN.disabled=q===SP.SP2[v].qa.length-1;}
+  sel.onchange=()=>{v=+sel.value;q=0;draw();};
+  front.addEventListener("click",e=>{const id=e.target.id;if(id==="ivPlay"||id==="ivRe")play();if(id==="ivStop")stop();});
+  bF.onclick=()=>{stop();card.classList.toggle("on");};bB.onclick=()=>{if(q>0){q--;draw();}};bN.onclick=()=>{if(q<SP.SP2[v].qa.length-1){q++;draw();}};
+  draw();
+})();
+
+/* ---------- 1 · prediction ---------- */
+(function(){
+  const P=[
+    {t:"Task 1 · Reading aloud",d:"Max points?",o:["1","2","3","5"],a:"2"},
+    {t:"Task 2 · Interview",d:"Max points?",o:["3","6","9","12"],a:"6"},
+    {t:"Task 3 · Talk",d:"Max points?",o:["5","7","10","12"],a:"7"},
+    {t:"Whole speaking part",d:"Max points?",o:["10","12","15","20"],a:"15"},
+    {t:"Interview",d:"Seconds for each answer?",o:["20","30","40","60"],a:"40"},
+    {t:"Talk",d:"How many phrases?",o:["5–6","8–9","10–12","15–20"],a:"10–12"}
+  ];
+  const box=$("pred");const pick=P.map(()=>null);const rows=[];
+  P.forEach((p,k)=>{const c=el("div","pc");c.append(el("b","",esc(p.t)),el("p","muted",esc(p.d)));const ch=el("div","pch");
+    const bs=p.o.map(o=>{const b=el("button","",esc(o));b.type="button";b.onclick=()=>{if(box.dataset.done)return;pick[k]=o;bs.forEach(x=>x.classList.toggle("sel",x===b));};ch.append(b);return b;});
+    const f=el("div","fact");c.append(ch,f);box.append(c);rows.push({bs,f});});
+  $("predShow").onclick=()=>{box.dataset.done=1;let n=0;P.forEach((p,k)=>{rows[k].bs.forEach(b=>{b.classList.remove("sel");if(b.textContent===p.a)b.classList.add("ok");else if(b.textContent===pick[k])b.classList.add("no");});
+      if(pick[k]===p.a)n++;rows[k].f.textContent=pick[k]===p.a?"You guessed it":"Answer: "+p.a;});
+    $("predRes").textContent=n+" of "+P.length+" guessed";$("predShow").disabled=true;};
+})();
+
+/* ---------- 2 · scores quiz ---------- */
+quiz($("qzScores"),[
+  {q:"How many tasks are there in the speaking part?",o:["2","3","4","5"],a:"3",keep:1,x:"Reading aloud, interview and talk."},
+  {q:"What is the maximum for the whole speaking part?",o:["10 points","12 points","15 points","20 points"],a:"15 points",keep:1,x:"2 + 6 + 7 = 15."},
+  {q:"Task 1: how long can you prepare before reading aloud?",o:["1 minute","1.5 minutes","2 minutes","3 minutes"],a:"1.5 minutes",keep:1,x:"1.5 minutes to look through the text, then up to 2 minutes to read."},
+  {q:"Task 1: what is the time limit for reading aloud?",o:["1 minute","1.5 minutes","2 minutes","3 minutes"],a:"2 minutes",keep:1,x:"Up to 2 minutes."},
+  {q:"Task 1: what is the maximum score?",o:["1","2","3","4"],a:"2",keep:1,x:"Reading aloud is scored 0, 1 or 2."},
+  {q:"Task 2: how many questions do you answer?",o:["4","5","6","8"],a:"6",keep:1,x:"Six questions, one point each."},
+  {q:"Task 2: how much time do you have for each answer?",o:["20 seconds","30 seconds","40 seconds","1 minute"],a:"40 seconds",keep:1,x:"40 seconds per answer."},
+  {q:"Task 2: how many times do you hear each question?",o:["Once","Twice","Three times","As many as you like"],a:"Once",x:"The question is not repeated — listen carefully."},
+  {q:"Task 2: what is the maximum score?",o:["3","6","9","12"],a:"6",keep:1,x:"6 × 1 point."},
+  {q:"Task 3: how long can you prepare your talk?",o:["1 minute","1.5 minutes","2 minutes","3 minutes"],a:"1.5 minutes",keep:1,x:"1.5 minutes to prepare."},
+  {q:"Task 3: how long can you speak?",o:["Up to 1 minute","Up to 1.5 minutes","Up to 2 minutes","Up to 3 minutes"],a:"Up to 2 minutes",keep:1,x:"Not more than 2 minutes."},
+  {q:"Task 3: how many points are there in the plan?",o:["2","3","4","5"],a:"4",keep:1,x:"Four plan points — cover every one."},
+  {q:"Task 3: how many phrases should your talk have?",o:["5–6","8–9","10–12","15–20"],a:"10–12",keep:1,x:"10–12 phrases for the top K1 score."},
+  {q:"Task 3: what is the maximum score?",o:["5","6","7","9"],a:"7",keep:1,x:"K1 3 + K2 2 + K3 2 = 7."},
+  {q:"What happens if you speak longer than the time limit?",o:["You get an extra point","The recording stops","The examiner gives you more time","Nothing changes"],a:"The recording stops",x:"The examiner will not hear your ending, and you may lose points."}
+]);
+$("mapBtn").onclick=()=>{const h=$("mapBox").hidden;$("mapBox").hidden=!h;$("mapBtn").textContent=h?"Hide":"Show";};
+
+/* ---------- 3 · task 1 examiner ---------- */
+quiz($("qzT1"),[
+  {q:"Easy to follow, no unnatural pauses, 3 phonetic mistakes. None of them changes the meaning.",o:["2","1","0"],a:"2",keep:1,x:"Up to 5 mistakes and no unnatural pauses → 2."},
+  {q:"Easy to follow, no unnatural pauses, 5 phonetic mistakes. Two of them change the meaning.",o:["2","1","0"],a:"2",keep:1,x:"Still 2: up to 5 mistakes, of them 1–2 change the meaning."},
+  {q:"No unnatural pauses, but 6 phonetic mistakes. None of them changes the meaning.",o:["2","1","0"],a:"1",keep:1,x:"More than 5 mistakes → no longer 2. Up to 7 → 1."},
+  {q:"Some unnatural pauses, only 4 phonetic mistakes, none changes the meaning.",o:["2","1","0"],a:"1",keep:1,x:"For 2 points there must be no unnatural pauses."},
+  {q:"Some unnatural pauses, 6 phonetic mistakes. Three of them change the meaning.",o:["2","1","0"],a:"1",keep:1,x:"Up to 7 mistakes with 3 meaning-changing → 1."},
+  {q:"Some unnatural pauses, 7 phonetic mistakes. One of them changes the meaning.",o:["2","1","0"],a:"1",keep:1,x:"7 is the limit for 1 point."},
+  {q:"8 phonetic mistakes.",o:["2","1","0"],a:"0",keep:1,x:"More than 7 mistakes → 0."},
+  {q:"Fluent reading, but 4 mistakes that change the meaning: ship → sheep, put → cut and others.",o:["2","1","0"],a:"0",keep:1,x:"4 or more meaning-changing mistakes → 0."},
+  {q:"Four small words were missed: a, the, in, and.",o:["2","1","0"],a:"0",keep:1,x:"Every missed or added word is a serious mistake. Four → 0."},
+  {q:"A whole line of the text was skipped.",o:["2","1","0"],a:"0",keep:1,x:"A missed line → 0."},
+  {q:"Hard to follow: a lot of hesitation, stops and wrong stress.",o:["2","1","0"],a:"0",keep:1,x:"Speech that is hard to follow → 0."}
+]);
+
+/* ---------- 3 · read aloud practice ---------- */
+(function(){
+  const sel=$("rdSel");SP.SP1.forEach((t,k)=>sel.append(new Option(t.n+" · "+t.title,k)));
+  let marked=false;
+  function draw(){const t=SP.SP1[+sel.value];const txt=esc(t.paras.join(" "));
+    $("rdText").innerHTML=marked?txt.replace(/(\b\d[\d,.]*s?\b)/g,"<mark>$1</mark>"):txt;}
+  sel.onchange=()=>{stop();draw();};
+  $("rdMark").onclick=()=>{marked=!marked;$("rdMark").classList.toggle("st",marked);draw();};
+  let tm=null;
+  function stop(){clearInterval(tm);tm=null;$("rdBar").style.width="0";$("rdLbl").textContent="Prepare 1:30";}
+  TIMERS.add(stop);
+  const fmt=s=>Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
+  function phases(P,lbl,bar,done){let k=0,s=P[0].sec;clearInterval(tm);
+    const upd=()=>{lbl.textContent=P[k].label+" "+fmt(s);bar.style.width=(100*(1-s/P[k].sec))+"%";bar.style.background=k?"#47657F":"#4F7467";};upd();
+    tm=setInterval(()=>{s--;if(s<0){k++;if(k>=P.length){clearInterval(tm);tm=null;lbl.textContent="Time is up";bar.style.width="100%";done&&done();return;}s=P[k].sec;}upd();},1000);}
+  $("rdGo").onclick=()=>{TIMERS.add(stop);phases([{label:"Prepare",sec:90},{label:"Read",sec:120}],$("rdLbl"),$("rdBar"));};
+  $("rdStop").onclick=stop;
+  window._phases=(P,lbl,bar)=>phases(P,lbl,bar);
+  draw();
+})();
+
+/* ---------- 4 · task 2: 1 point or 0 ---------- */
+const P10=["1 point","0 points"];
+quiz($("qzT2"),[
+  {q:"Is this answer worth a point?",sub:"<i>What's your best friend like?</i>He is tall and has short dark hair.",o:P10,a:"0 points",keep:1,x:"“What is he like?” asks about character, not appearance."},
+  {q:"Is this answer worth a point?",sub:"<i>Where did you and your friend meet for the first time?</i>At a programming club.",o:P10,a:"0 points",keep:1,x:"Only a phrase, no full sentence."},
+  {q:"Is this answer worth a point?",sub:"<i>Where did you and your friend meet for the first time?</i>At a programming club. We met at a programming club when we were in the sixth grade.",o:P10,a:"1 point",keep:1,x:"A short answer followed by a full one counts."},
+  {q:"Is this answer worth a point?",sub:"<i>How often do you see each other?</i>We see each other almost every day because we go to the same school.",o:P10,a:"1 point",keep:1,x:"Full, exact answer to the question."},
+  {q:"Is this answer worth a point?",sub:"<i>What do you like to do together?</i>Computer games.",o:P10,a:"0 points",keep:1,x:"One phrase is not a full answer."},
+  {q:"Is this answer worth a point?",sub:"<i>How do you spend your mornings?</i>I don't know.",o:P10,a:"0 points",keep:1,x:"“I don't know / I don't remember” gets 0."},
+  {q:"Is this answer worth a point?",sub:"<i>What career is your best friend going to follow?</i>He want to become a game designer because he love creating games.",o:P10,a:"1 point",keep:1,x:"The missing -s does not block understanding, so the point stays."},
+  {q:"Is this answer worth a point?",sub:"<i>How old were you when you started using a computer?</i>I am seven when I start using a computer.",o:P10,a:"0 points",keep:1,x:"A past question needs a past answer: I was seven when I started…"},
+  {q:"Is this answer worth a point?",sub:"<i>What part-time job would you like to do during the school holidays, if any?</i>I like working in a café.",o:P10,a:"0 points",keep:1,x:"“Would you like…?” → I'd like to… / I would like to…"},
+  {q:"Is this answer worth a point?",sub:"<i>Do you think English will be useful for you in the future? In what way?</i>Yes, I do.",o:P10,a:"0 points",keep:1,x:"“In what way?” needs an explanation."},
+  {q:"Is this answer worth a point?",sub:"<i>What means of transport do you use to get to school?</i>I go by bus. No, sorry — I usually walk to school because it isn't far.",o:P10,a:"1 point",keep:1,x:"Only the last version is scored, and it is a full answer."},
+  {q:"Is this answer worth a point?",sub:"<i>What would you recommend to a teenager who wants to stay fit and healthy?</i>I would recommend doing some sport every day and eating healthy food.",o:P10,a:"1 point",keep:1,x:"I would recommend + -ing: a full answer."}
+]);
+
+/* ---------- 4 · matching ---------- */
+(function(){
+  const PAIRS=[
+    ["Did you … last summer?","Yes, I did. I went …"],
+    ["Have you ever …?","Yes, I have. / No, I've never …"],
+    ["Would you like to …?","Yes, I'd like to …"],
+    ["Are you going to …?","Yes, I'm going to …"],
+    ["What's your friend like?","He's kind and reliable."],
+    ["What does your friend look like?","He's tall with short dark hair."],
+    ["How often do you …?","Almost every day. / Twice a week."],
+    ["What would you recommend …?","I would recommend + -ing …"],
+    ["Why are computer skills useful?","Because … / The main reason is …"],
+    ["How old were you when …?","I was … when I …"]
+  ];
+  const box=$("mt");let round=0;
+  function draw(){
+    box.innerHTML="";const set=PAIRS.slice(round*5,round*5+5);$("mtTag").textContent="Round "+(round+1)+"/2";
+    const g=el("div","mt");box.append(g);let selL=null,done=0;
+    const L=shuffle(set.map((p,k)=>({t:p[0],k}))),Rr=shuffle(set.map((p,k)=>({t:p[1],k})));
+    for(let r=0;r<5;r++){
+      const a=el("button","mi",esc(L[r].t));a.type="button";a.dataset.k=L[r].k;
+      const b=el("button","mi",esc(Rr[r].t));b.type="button";b.dataset.k=Rr[r].k;b.dataset.side="r";
+      a.onclick=()=>{if(a.classList.contains("ok"))return;g.querySelectorAll(".mi.sel").forEach(x=>x.classList.remove("sel"));a.classList.add("sel");selL=a;};
+      b.onclick=()=>{if(!selL||b.classList.contains("ok"))return;
+        if(selL.dataset.k===b.dataset.k){selL.classList.remove("sel");selL.classList.add("ok");b.classList.add("ok");selL=null;done++;if(done===5)fin();}
+        else{b.classList.add("no");setTimeout(()=>b.classList.remove("no"),600);}};
+      g.append(a,b);
+    }
+    const row=el("div","row");row.style.marginTop="6px";box.append(row);
+    function fin(){row.innerHTML="";const n=el("button","btn pri",round===0?"Round 2 →":"Play again");n.type="button";n.onclick=()=>{round=round===0?1:0;draw();};row.append(el("span","muted","All matched."),el("span","sp"),n);}
+  }
+  draw();
+})();
+
+/* K tabs */
+document.querySelectorAll("#kTabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#kTabs button").forEach(x=>x.classList.toggle("st",x===b));document.querySelectorAll(".rules.kt").forEach((t,k)=>t.hidden=k!==+b.dataset.k);});
+/* ---------- 5 · quizlet phrases ---------- */
+(function(){
+  const C=[
+    {w:"I'd like to give a talk about…",ru:"Я хотел бы рассказать о…",ex:"I'd like to give a talk about my best friend."},
+    {w:"To begin with,",ru:"Начнём с того, что…",ex:"To begin with, friends support us when we have problems."},
+    {w:"Firstly, … Secondly, …",ru:"Во-первых, … Во-вторых, …",ex:"Firstly, friends support us. Secondly, life becomes more fun."},
+    {w:"What's more,",ru:"Более того,",ex:"What's more, we both love new gadgets."},
+    {w:"As for…",ru:"Что касается…",ex:"As for planning my free time, I think it is a good idea."},
+    {w:"Speaking of…",ru:"Говоря о…",ex:"Speaking of Sunday afternoons, they are usually quiet."},
+    {w:"One shouldn't forget that…",ru:"Не стоит забывать, что…",ex:"One shouldn't forget that the Internet can be dangerous."},
+    {w:"To my mind,",ru:"На мой взгляд,",ex:"To my mind, a real friend is someone you can rely on."},
+    {w:"I'm absolutely sure that…",ru:"Я абсолютно уверен, что…",ex:"I'm absolutely sure that English will help me in IT."},
+    {w:"To conclude,",ru:"В заключение,",ex:"To conclude, friendship is very important for me."},
+    {w:"That's all I wanted to say about…",ru:"Это всё, что я хотел сказать о…",ex:"That's all I wanted to say about my free time."},
+    {w:"Thank you for listening.",ru:"Спасибо за внимание.",ex:"That's all for now. Thank you for listening."}
+  ];
+  const box=$("ql");const w=el("div","ql");box.append(w);
+  const card=el("button","qcard");card.type="button";const f=el("div","face front"),b=el("div","face back");card.append(f,b);w.append(card);
+  const nv=el("div","qnv");const p=el("button","arrow","‹"),n=el("button","arrow","›"),cnt=el("span","cnt"),au=el("button","btn","Listen");[p,n,au].forEach(x=>x.type="button");nv.append(p,cnt,n,au);w.append(nv);
+  let i=0;
+  function draw(){card.classList.remove("on");const c=C[i];f.innerHTML='<div class="qw">'+esc(c.w)+"</div>";b.innerHTML='<div class="qru">'+esc(c.ru)+'</div><div class="qex">'+esc(c.ex)+"</div>";cnt.textContent=(i+1)+" / "+C.length;}
+  card.onclick=()=>card.classList.toggle("on");
+  p.onclick=()=>{i=(i-1+C.length)%C.length;draw();};n.onclick=()=>{i=(i+1)%C.length;draw();};
+  au.onclick=()=>say(card.classList.contains("on")?C[i].ex:C[i].w.replace(/…/g,""));
+  draw();
+})();
+
+/* ---------- 5 · sorting ---------- */
+(function(){
+  const IT=[["I'd like to give a talk about…",0],["Let me give a talk about…",0],["I'm going to talk about…",0],
+    ["To begin with,",1],["Secondly,",1],["What's more,",1],["As for…",1],["Speaking of…",1],["Moreover,",1],
+    ["To conclude,",2],["That's all I wanted to say about…",2],["Thank you for listening.",2]];
+  const Z=["Opening","Linking","Closing"];const box=$("sort");
+  function draw(){
+    box.innerHTML="";const bank=el("div","bank");const zs=el("div","zones");box.append(bank,zs);let sel=null,left=IT.length;
+    const zones=Z.map((z,k)=>{const d=el("div","zone","<h4>"+z+"</h4>");d.setAttribute("role","button");d.style.cursor="pointer";d.onclick=()=>drop(k,d);zs.append(d);return d;});
+    shuffle(IT).forEach(it=>{const c=el("button","chip",esc(it[0]));c.type="button";c.dataset.z=it[1];c.onclick=e=>{if(c.parentNode!==bank)return;e.stopPropagation();bank.querySelectorAll(".sel").forEach(x=>x.classList.remove("sel"));c.classList.add("sel");sel=c;zones.forEach(z=>z.classList.add("hot"));};bank.append(c);});
+    function drop(k,d){if(!sel)return;zones.forEach(z=>z.classList.remove("hot"));
+      if(+sel.dataset.z===k){sel.classList.remove("sel");d.append(sel);sel=null;left--;if(!left)fin();}
+      else{d.classList.add("bad");const s=sel;setTimeout(()=>{d.classList.remove("bad");},500);s.classList.remove("sel");sel=null;}}
+    const row=el("div","row");box.append(row);
+    function fin(){bank.remove();const b=el("button","btn pri","Play again");b.type="button";b.onclick=draw;row.append(el("span","muted","All sorted."),el("span","sp"),b);}
+  }
+  draw();
+})();
+
+/* ---------- 6 · score the talk ---------- */
+quiz($("qzT3"),[
+  {q:"All four plan points are covered fully. The talk has 11 phrases. K1 = ?",o:["3","2","1","0"],a:"3",keep:1,x:"All four points + 10–12 phrases → 3."},
+  {q:"One plan point is covered only partly. The talk has 9 phrases. K1 = ?",o:["3","2","1","0"],a:"2",keep:1,x:"One point not fully covered, 8–9 phrases → 2."},
+  {q:"The topic is covered in a limited way. 7 phrases. K1 = ?",o:["3","2","1","0"],a:"1",keep:1,x:"6–7 phrases → 1."},
+  {q:"Only 5 phrases. Three plan points are missing. What is the score for the whole talk?",o:["0","1","2","3"],a:"0",keep:1,x:"K1 = 0 → the whole talk gets 0."},
+  {q:"Timofey read the 4 plan points aloud and added 6 phrases of his own. How many phrases count?",o:["4","6","10","12"],a:"6",keep:1,x:"Plan points read aloud are not counted."},
+  {q:"Does “I think” count as a separate phrase?",o:["Yes","No"],a:"No",keep:1,x:"I think / I believe are not counted."},
+  {q:"Logical talk, an opening and a closing, linkers used correctly. K2 = ?",o:["2","1","0"],a:"2",keep:1,x:"Everything in place → 2."},
+  {q:"There is an opening, but no closing. Linkers are fine. K2 = ?",o:["2","1","0"],a:"1",keep:1,x:"No closing → 1."},
+  {q:"No opening and no closing. K2 = ?",o:["2","1","0"],a:"0",keep:1,x:"Both missing → 0."},
+  {q:"4 minor grammar and vocabulary mistakes and 2 phonetic mistakes. K3 = ?",o:["2","1","0"],a:"2",keep:1,x:"Up to 4 + up to 3 → 2."},
+  {q:"5 minor grammar and vocabulary mistakes and 4 phonetic mistakes. K3 = ?",o:["2","1","0"],a:"1",keep:1,x:"Up to 5 + up to 4 → 1."},
+  {q:"6 grammar and vocabulary mistakes. K3 = ?",o:["2","1","0"],a:"0",keep:1,x:"6 or more → 0."},
+  {q:"The opening was said in Russian. Does it count as an opening?",o:["Yes","No"],a:"No",keep:1,x:"Opening and closing must be in English."}
+]);
+
+/* ---------- 6 · live talk ---------- */
+(function(){
+  const sel=$("tkSel");SP.SP3.forEach((t,k)=>sel.append(new Option(t.n+" · "+t.title,k)));
+  let cnt=0,intro=false,end=false,asp=[];
+  function calc(){
+    const a=asp.filter(Boolean).length;
+    let k1=0;if(cnt>=10&&a===4)k1=3;else if(cnt>=8&&a>=3)k1=2;else if(cnt>=6&&a>=2)k1=1;
+    const k2=k1===0?0:(intro&&end?2:(intro||end?1:0));
+    $("k1").textContent=k1;$("k2").textContent=k2;$("kt").textContent=k1+k2;$("tkCnt").textContent=cnt;
+    $("tkIntro").classList.toggle("on",intro);$("tkEnd").classList.toggle("on",end);
+  }
+  function draw(){const t=SP.SP3[+sel.value];cnt=0;intro=end=false;asp=t.bul.map(()=>false);
+    $("tkPrompt").textContent=t.prompt+" Remember to say:";
+    const pl=$("tkPlan");pl.innerHTML="";t.bul.forEach((b,k)=>{const x=el("button","pt",esc(b));x.type="button";x.onclick=()=>{asp[k]=!asp[k];x.classList.toggle("on",asp[k]);calc();};pl.append(x);});
+    $("tkSample").innerHTML='<button class="btn" type="button" id="tkSampleX">Close</button>'+t.sample.map(s=>"<p>"+esc(s)+"</p>").join("");$("tkSampleX").onclick=()=>{$("tkSample").hidden=true;$("tkSampleBtn").textContent="Sample talk";};$("tkSample").hidden=true;$("tkSampleBtn").textContent="Sample talk";calc();}
+  sel.onchange=()=>{stop();draw();};
+  $("tkPlus").onclick=()=>{cnt++;calc();};$("tkMinus").onclick=()=>{cnt=Math.max(0,cnt-1);calc();};
+  $("tkIntro").onclick=()=>{intro=!intro;calc();};$("tkEnd").onclick=()=>{end=!end;calc();};
+  $("tkSampleBtn").onclick=()=>{const h=$("tkSample").hidden;$("tkSample").hidden=!h;$("tkSampleBtn").textContent=h?"Hide sample":"Sample talk";};
+  $("tkReset").onclick=()=>{stop();draw();};
+  function stop(){stopTimers();$("tkBar").style.width="0";$("tkLbl").textContent="Prepare 1:30";}
+  $("tkGo").onclick=()=>{stopTimers();window._phases([{label:"Prepare",sec:90},{label:"Speak",sec:120}],$("tkLbl"),$("tkBar"));};
+  $("tkStop").onclick=stop;
+  draw();
+})();
+
+/* ---------- 7 · jeopardy ---------- */
+(function(){
+  const CAT=[
+    {c:"Task 1",q:[["How long can you prepare before reading?","1.5 minutes"],["You skipped a whole line. Score?","0 points"],["How many phonetic mistakes are allowed for 2 points?","Up to 5, of them only 1–2 change the meaning"]]},
+    {c:"Task 2",q:[["How many questions and how long for each answer?","6 questions · 40 seconds each"],["Is a one-word answer OK?","No — 0 points"],["“Would you like to…?” How do you start your answer?","Yes, I'd like to… / I would like to…"]]},
+    {c:"Task 3",q:[["How many plan points?","Four"],["How many phrases for the top K1?","10–12"],["K1 = 0. What happens?","0 for the whole talk"]]},
+    {c:"Phrases",q:[["Start your talk.","I'd like to give a talk about…"],["Give two linkers.","As for… · What's more… · Speaking of…"],["Finish your talk.","That's all I wanted to say about… Thank you for listening."]]}
+  ];
+  const box=$("jp");let score=0;
+  const g=el("div","jgrid");CAT.forEach(c=>g.append(el("div","jcat",c.c)));
+  const ov=el("div","jq");ov.hidden=true;
+  for(let r=0;r<3;r++)CAT.forEach(c=>{const v=(r+1)*100;const t=el("button","jt",String(v));t.type="button";
+    t.onclick=()=>{if(t.classList.contains("used"))return;open(c.c,c.q[r],v,t);};g.append(t);});
+  box.append(g,ov);
+  const row=el("div","row");row.style.marginTop="8px";const rs=el("button","btn","New game");rs.type="button";row.append(el("span","sp"),rs);box.append(row);
+  rs.onclick=()=>{score=0;$("jScore").textContent=0;g.querySelectorAll(".jt").forEach(t=>t.classList.remove("used"));ov.hidden=true;};
+  function open(cat,[q,a],v,t){
+    ov.innerHTML="";ov.hidden=false;ov.append(el("div","tag",esc(cat)+" · "+v),el("div","q1",esc(q)));const an=el("div","a1");ov.append(an);
+    const r=el("div","row");const sh=el("button","btn st","Show answer"),y=el("button","btn pri","Correct +"+v),n=el("button","btn","No points");[sh,y,n].forEach(b=>b.type="button");r.append(sh,y,n);ov.append(r);
+    sh.onclick=()=>{an.textContent=a;};
+    y.onclick=()=>{score+=v;$("jScore").textContent=score;t.classList.add("used");ov.hidden=true;};
+    n.onclick=()=>{t.classList.add("used");ov.hidden=true;};
+  }
+})();
+
+/* ---------- 7 · speed game ---------- */
+(function(){
+  const S=[
+    ["You hear each interview question twice.",false],["The whole speaking part gives 15 points.",true],["You have 40 seconds for each interview answer.",true],
+    ["A missing -s (he like) gives 0 for the interview answer.",false],["Plan points read aloud count as phrases.",false],["If 2–3 words are left unread, Task 1 is still checked.",true],
+    ["“I think” counts as one phrase.",false],["A short answer followed by a full sentence gets 1 point.",true],["The talk plan has four points.",true],
+    ["If you speak longer than 2 minutes, the examiner hears everything.",false],["Task 3 gives up to 7 points.",true],["An extra word added in reading aloud is a serious mistake.",true]
+  ];
+  const box=$("spd");let order,i,score,tm,wrong;
+  function stop(){clearInterval(tm);tm=null;}
+  function start(){TIMERS.add(stop);order=shuffle(S);i=0;score=0;wrong=[];next();}
+  function next(){stop();if(i>=order.length)return fin();
+    const [t,a]=order[i];box.innerHTML="";const w=el("div","spd");box.append(w);
+    w.append(el("div","muted",(i+1)+" / "+order.length+" · score "+score),el("div","st",esc(t)));
+    const fu=el("div","fuse","<i></i>");w.append(fu);const bar=fu.firstChild;
+    const tf=el("div","tf");const bT=el("button","","True"),bF=el("button","","False");[bT,bF].forEach(b=>b.type="button");tf.append(bT,bF);w.append(tf);
+    let left=150;tm=setInterval(()=>{left--;bar.style.width=(left/1.5)+"%";if(left<=0){stop();answer(null);}},100);
+    function answer(v){stop();bT.disabled=bF.disabled=true;(a?bT:bF).classList.add("ok");if(v!==null&&v!==a)(v?bT:bF).classList.add("no");
+      if(v===a)score++;else wrong.push(t+" → "+(a?"True":"False"));setTimeout(()=>{i++;next();},1100);}
+    bT.onclick=()=>answer(true);bF.onclick=()=>answer(false);
+  }
+  function fin(){box.innerHTML="";const r=el("div","res");r.append(el("div","big",score+" / "+order.length));
+    if(wrong.length){r.append(el("b","","Check again:"));const ul=el("ul");wrong.forEach(x=>ul.append(el("li","",esc(x))));r.append(ul);}
+    const b=el("button","btn pri","Play again");b.type="button";b.onclick=start;r.append(b);box.append(r);}
+  function intro(){box.innerHTML="";const w=el("div","spd");w.append(el("div","st","12 statements about the speaking part. 15 seconds for each."));const b=el("button","btn pri","Start");b.type="button";b.onclick=start;w.append(b);box.append(w);}
+  intro();
+})();
+go("home");
+</script>
+</body>
+</html>
