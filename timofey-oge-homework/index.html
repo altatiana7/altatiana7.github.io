@@ -223,6 +223,8 @@ html,body{height:100%;overflow:hidden;font-family:"Segoe UI",Arial,sans-serif;fo
       return [row[0],chips];
     });
   }
+  function build(){
+  $("list").innerHTML="";assignments.length=0;
   var DAYS=[
     {date:"20 November",rows:[
       ["Grammar",[{label:"Task 07",href:T+"gr/7",st:trainer("gr",7)}]],
@@ -279,6 +281,32 @@ html,body{height:100%;overflow:hidden;font-family:"Segoe UI",Arial,sans-serif;fo
     $("list").appendChild(day);
   });
   updateTeacherSummary();
+  }
+  build();
+
+  /* Статусы с этого устройства + то, что уже пришло во «Входящие» (по коду учителя, только на её компьютере). */
+  (function syncInbox(){
+    var code="";try{code=localStorage.getItem("arina-teacher-code")||"";}catch(e){}
+    if(!code||!window.fetch)return;
+    fetch("https://lzxcmrlubhjfdhtqvqzt.supabase.co/rest/v1/rpc/get_arina_homework",{method:"POST",
+      headers:{apikey:"sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI",Authorization:"Bearer sb_publishable_PmyZRwzWne8lqprej4XJQA_XiujtjEI","Content-Type":"application/json"},
+      body:JSON.stringify({p_teacher_code:code})})
+    .then(function(r){return r.ok?r.json():[];})
+    .then(function(rows){
+      if(!Array.isArray(rows))return;var changed=false;
+      rows.forEach(function(r){
+        var id=String(r.test_id||"");
+        if(id==="timofey-oge-practice-20261109"){
+          (Array.isArray(r.details)?r.details:[]).forEach(function(d){if(d&&d.id&&PRS.indexOf(d.id)<0){PRS.push(d.id);changed=true;}});
+          return;
+        }
+        var m=/^timofey-oge-(tf|mt|gr|wf|wr|s1|s2|s3|bks)-(\d+)$/.exec(id);
+        if(m){var k=m[1]+":"+m[2];if(RECEIVED.indexOf(k)<0){RECEIVED.push(k);changed=true;}}
+      });
+      if(changed)build();
+    })
+    .catch(function(){});
+  })();
 })();
 </script>
 </body>
