@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Language Paradox — Lesson for Nikita (B2–C1)</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:#eef1f7;color:#1e293b;line-height:1.45;display:flex;flex-direction:column;overflow:hidden}
+/* HEADER */
+header{flex:0 0 auto;background:linear-gradient(120deg,#0f172a,#1e293b 55%,#134e4a);color:#fff;padding:14px 20px 12px}
+.hwrap{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+h1{font-size:21px;letter-spacing:.2px}
+.gq{font-size:14px;color:#5eead4;font-style:italic;margin-top:2px}
+.badges{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.badge{background:rgba(255,255,255,.12);padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600}
+.badge.progress{background:#0d9488;color:#fff;cursor:default}
+.badge.reset{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);cursor:pointer;color:#cbd5e1}
+/* TABS */
+nav{flex:0 0 auto;background:#fff;box-shadow:0 2px 10px rgba(15,23,42,.08)}
+.tabrow{max-width:1240px;margin:0 auto;display:flex;overflow-x:auto;padding:6px 12px;gap:6px}
+.tabbtn{border:1px solid #e2e8f0;background:#f8fafc;border-radius:12px;padding:7px 12px;cursor:pointer;font-weight:700;font-size:13px;white-space:nowrap;color:#475569;display:flex;gap:7px;align-items:center}
+.tabbtn .n{background:#e2e8f0;color:#334155;border-radius:8px;padding:1px 7px;font-size:12px}
+.tabbtn .m{font-weight:500;color:#94a3b8;font-size:11px}
+.tabbtn.active{background:linear-gradient(120deg,#0d9488,#0f766e);border-color:#0d9488;color:#fff}
+.tabbtn.active .n{background:rgba(255,255,255,.2);color:#fff}
+.tabbtn.active .m{color:#99f6e4}
+.tabbtn.done .n{background:#22c55e;color:#fff}
+/* MAIN */
+main{flex:1 1 auto;min-height:0;max-width:1240px;width:100%;margin:0 auto}
+.pane{display:none;height:100%;overflow-y:auto;padding:16px 18px 10px}
+.pane.active{display:block}
+.phead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.stagechip{background:#0f172a;color:#fff;font-size:11px;font-weight:800;letter-spacing:.6px;padding:4px 11px;border-radius:999px}
+.stagechip em{font-style:normal;color:#5eead4}
+.phead h2{font-size:21px}
+.phead .mission{font-size:13px;color:#64748b}
+/* LAYOUT */
+.duo{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:14px;align-items:start}
+.duo.v{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+.duo.w{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}
+@media(max-width:980px){.duo,.duo.v,.duo.w{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:14px;padding:14px 16px;box-shadow:0 3px 14px rgba(15,23,42,.07);border-top:4px solid #0d9488}
+.card.violet{border-top-color:#7c3aed}.card.amber{border-top-color:#f59e0b}.card.blue{border-top-color:#3b82f6}.card.rose{border-top-color:#e11d48}
+.card h3{font-size:16px;margin-bottom:4px}
+.card .sub{font-size:13px;color:#64748b;margin-bottom:10px}
+.stack>*+*{margin-top:14px}
+/* EMBEDS */
+.embed-frame{width:100%;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.embed-frame iframe{display:block;width:100%;border:0}
+.video-frame{aspect-ratio:16/9}
+.wordwall-frame{height:470px}
+.openbtn{display:inline-flex;align-items:center;gap:6px;background:#0f172a;color:#fff;border:none;border-radius:10px;padding:8px 14px;font-weight:700;font-size:13px;cursor:pointer;text-decoration:none;margin-top:8px}
+.openbtn:hover{background:#1e293b}
+.ghostbtn{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#0f172a;border:1.5px solid #cbd5e1;border-radius:10px;padding:8px 14px;font-weight:700;font-size:13px;cursor:pointer}
+.ghostbtn:hover{border-color:#0d9488;color:#0d9488}
+/* TEACHER NOTE */
+details.tnote{margin-top:10px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:8px 12px;font-size:12.5px;color:#475569}
+details.tnote summary{cursor:pointer;font-weight:700;color:#7c3aed}
+details.tnote a{color:#2563eb}
+/* BUTTONS + QUESTIONS */
+.btn{border:1.5px solid #cbd5e1;background:#fff;padding:8px 14px;border-radius:10px;font-weight:700;cursor:pointer;font-size:13px}
+.btn:hover{border-color:#0d9488;color:#0d9488}
+.btn.primary{background:#0d9488;border-color:#0d9488;color:#fff}
+.btn.primary:hover{background:#0f766e;color:#fff}
+.btn.dark{background:#0f172a;border-color:#0f172a;color:#fff}
+.q{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:11px 12px;margin-bottom:9px}
+.q p{font-weight:600;font-size:13.5px;margin-bottom:8px}
+.opts{display:flex;gap:7px;flex-wrap:wrap}
+.opt{border:1.5px solid #cbd5e1;background:#fff;padding:6px 11px;border-radius:999px;cursor:pointer;font-weight:600;font-size:12.5px;text-align:left}
+.opt.sel{border-color:#7c3aed;background:#f3e8ff;color:#6b21a8}
+.opt.correct{border-color:#22c55e;background:#dcfce7;color:#166534}
+.opt.wrong{border-color:#ef4444;background:#fee2e2;color:#991b1b}
+.hintbtn{background:none;border:none;color:#b45309;font-weight:700;font-size:12px;cursor:pointer;padding:0;text-decoration:underline}
+.hinttext{font-size:12.5px;color:#b45309;margin-left:8px}
+.why{font-size:12.5px;margin-top:6px;color:#475569;display:none}
+.why.show{display:block}
+.result{font-weight:800;font-size:13.5px;margin-top:6px;min-height:18px}
+.result.ok{color:#16a34a}.result.no{color:#dc2626}
+.rowfoot{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+select.fill{padding:7px 9px;border-radius:9px;border:1.5px solid #cbd5e1;font-size:13px;max-width:230px;background:#fff}
+.gapline{font-size:13.5px;margin-bottom:9px;padding:9px 11px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px}
+/* CHIPS */
+.chip{display:inline-block;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:999px;padding:4px 11px;font-size:12.5px;font-weight:600;color:#334155;margin:3px 3px 0 0}
+.chip.hot{background:#ecfdf5;border-color:#99f6e4;color:#0f766e}
+.pick{cursor:pointer;user-select:none}
+.pick.on{background:#7c3aed;border-color:#7c3aed;color:#fff}
+/* FLIP DECK */
+.deckinfo{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;color:#475569;margin-bottom:6px}
+.progressline{height:7px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-bottom:10px}
+.progressline div{height:100%;background:linear-gradient(90deg,#0d9488,#7c3aed);transition:width .3s}
+.flip{perspective:900px;height:215px;cursor:pointer;margin-bottom:10px}
+.flipin{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flip.flipped .flipin{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;text-align:center}
+.front{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:2px solid #14b8a6}
+.back{background:linear-gradient(135deg,#faf5ff,#f3e8ff);border:2px solid #a78bfa;transform:rotateY(180deg)}
+.front .word{font-size:21px;font-weight:800;color:#134e4a}
+.back .ru{font-size:14.5px;font-weight:700;color:#6b21a8}
+.back .ex{font-size:12.5px;color:#475569;margin-top:8px;font-style:italic}
+.face small{margin-top:10px;color:#94a3b8;font-size:11.5px}
+.deckgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:7px}
+.deckgrid2{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px}
+.mini{font-size:12px;font-weight:700;padding:7px 6px}
+/* LEAD-IN GAME */
+.roundnum{font-size:12px;font-weight:800;letter-spacing:.5px;color:#0d9488}
+.playbtn{width:100%;padding:12px;font-size:15px;margin:8px 0}
+.chiprow{margin:8px 0 2px}
+.clue{font-size:12.5px;color:#64748b;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:8px 10px;margin-top:8px}
+/* MISSIONS */
+.mission{background:#fff;border-radius:14px;border-top:4px solid #7c3aed;padding:12px 14px;box-shadow:0 3px 12px rgba(15,23,42,.06)}
+.mission h4{font-size:14.5px;margin-bottom:2px}
+.mission .mfacts{font-size:12px;font-weight:700;color:#7c3aed;margin-bottom:8px}
+.tfrow{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}
+.tfrow p{flex:1;font-size:13px;font-weight:600}
+.tfbtns{display:flex;gap:5px}
+.tf{border:1.5px solid #cbd5e1;background:#fff;border-radius:9px;padding:4px 9px;font-size:12px;font-weight:800;cursor:pointer}
+.tf.myth.sel{background:#fee2e2;border-color:#ef4444;color:#991b1b}
+.tf.fact.sel{background:#dcfce7;border-color:#22c55e;color:#166534}
+.tf.right{outline:2px solid #22c55e}
+.tf.badr{outline:2px solid #ef4444}
+.verdict{font-size:12.5px;color:#334155;background:#faf5ff;border:1px solid #e9d5ff;border-radius:10px;padding:8px 10px;margin-top:6px}
+/* DEBATE */
+.debgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin:10px 0}
+.debq{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:10px;font-size:13px;font-weight:600;position:relative}
+.debq .tag{position:absolute;top:-9px;left:10px;background:#7c3aed;color:#fff;font-size:10.5px;font-weight:800;border-radius:999px;padding:2px 8px}
+.debq.spot{border-color:#7c3aed;background:#faf5ff;box-shadow:0 0 0 2px #ddd6fe}
+.phrasebox{background:#f0fdfa;border:1px solid #99f6e4;border-radius:12px;padding:10px 12px;font-size:12.5px}
+.phrasebox b{color:#0f766e}
+/* EXIT */
+.timerbox{text-align:center;background:#0f172a;border-radius:14px;padding:14px;color:#fff}
+.timer{font-size:44px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:1px}
+.timer.warn{color:#fbbf24}
+.steps4{counter-reset:s;margin-top:10px}
+.steps4 li{list-style:none;font-size:13px;padding:7px 10px 7px 34px;position:relative;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;margin-bottom:6px}
+.steps4 li::before{counter-increment:s;content:counter(s);position:absolute;left:9px;top:7px;width:18px;height:18px;background:#7c3aed;color:#fff;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.exprgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.expr{border:1.5px solid #cbd5e1;background:#fff;border-radius:10px;padding:7px 9px;font-size:12px;font-weight:600;cursor:pointer;text-align:left}
+.expr.on{background:#ecfdf5;border-color:#14b8a6;color:#0f766e}
+.expr.on::after{content:" ✓"}
+textarea{width:100%;min-height:64px;border:1.5px solid #cbd5e1;border-radius:10px;padding:8px;font-family:inherit;font-size:13px;resize:vertical}
+label.fld{display:block;font-size:12px;font-weight:800;color:#475569;margin:8px 0 4px}
+/* COMPLETE ROW */
+.completerow{display:flex;align-items:center;gap:10px;margin:14px 0 8px;padding-top:10px;border-top:1px dashed #cbd5e1}
+.donebtn{border:2px solid #22c55e;background:#f0fdf4;color:#166534;font-weight:800;border-radius:10px;padding:9px 16px;cursor:pointer;font-size:13px}
+.donebtn.isdone{background:#22c55e;color:#fff}
+.completerow span{font-size:12.5px;color:#64748b}
+/* POLL */
+.pollrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.poll{border:1.5px solid #cbd5e1;background:#fff;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;cursor:pointer}
+.poll.on{background:#7c3aed;border-color:#7c3aed;color:#fff}
+.checkline{font-size:13px;font-weight:700;color:#334155;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:8px 10px;margin-top:8px}
+ul.tight{padding-left:18px;font-size:13px}
+ul.tight li{margin-bottom:4px}
+.note-rus{font-size:12.5px;color:#64748b;font-style:italic}
+@media(max-width:980px){body{overflow:auto}main{min-height:auto}.pane{height:auto;overflow:visible}}
+@media(max-width:980px){header{padding:12px 14px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hwrap">
+    <div>
+      <h1>The Language Paradox: Can We Understand Each Other?</h1>
+      <div class="gq">“If we all spoke the same language, would we really understand each other better?”</div>
+    </div>
+    <div class="badges">
+      <span class="badge">🎯 B2–C1 · Nikita</span>
+      <span class="badge">⏱ 60 min · 7 stages</span>
+      <span class="badge progress" id="progressBadge">0 / 7 complete</span>
+      <button class="badge reset" onclick="resetAll()" title="Clear saved progress">↺ reset</button>
+    </div>
+  </div>
+</header>
+
+<nav><div class="tabrow" id="tabrow"></div></nav>
+
+<main>
+<!-- ============ 01 LEAD-IN ============ -->
+<section class="pane" id="pane-1">
+  <div class="phead"><span class="stagechip">01 · LEAD-IN · <em>5 MIN</em></span><h2>Guess the Language</h2><span class="mission">Listen → guess → argue. Words are banned until you have guessed: describe the <b>music</b>, not the meaning.</span></div>
+  <div class="duo w">
+    <div class="card">
+      <h3>🎧 Mystery Voices</h3>
+      <p class="sub">Six recordings. For each one: play it, pick the language, then tell me <i>what gave it away</i>. There is a surprise at the end.</p>
+      <div id="gameBox">
+        <div class="roundnum" id="roundNum">ROUND 1 / 6</div>
+        <button class="btn dark playbtn" id="playBtn">▶ Play the mystery voice</button>
+        <div class="opts" id="guessOpts"></div>
+        <div class="chiprow">
+          <span style="font-size:12px;font-weight:800;color:#475569;margin-right:4px">What gave it away?</span>
+          <span class="chip pick" data-c="rhythm">rhythm</span><span class="chip pick" data-c="intonation">intonation</span><span class="chip pick" data-c="sounds">specific sounds</span><span class="chip pick" data-c="speed">speed</span>
+        </div>
+        <div class="clue" id="clueBox" style="display:none"></div>
+        <div class="rowfoot">
+          <button class="btn primary" id="nextRound">Next voice →</button>
+          <span class="result" id="gameScore" style="margin-top:0"></span>
+        </div>
+      </div>
+      <div id="gameEnd" style="display:none">
+        <div class="checkline" style="background:#ecfdf5;border-color:#99f6e4">🎉 <b>Surprise:</b> all six voices said exactly the same sentence — <i>“Hi! The weather is lovely today. Shall we go for a walk together?”</i></div>
+        <div class="q" style="margin-top:9px"><p>Wrap-up — discuss:</p>
+          <ul class="tight">
+            <li>Which voice sounded <b>friendliest</b>? Which sounded <b>most serious</b>? Same words — so where did that impression come from?</li>
+            <li>You recognised languages in seconds without knowing a word of most of them. What exactly were you recognising?</li>
+            <li><b>Bridge to today's question:</b> if understanding depended only on words, could music fool us? <i>Can we understand each other without a common language?</i></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card violet">
+      <h3>Plan A · Preply game</h3>
+      <p class="sub">The Preply “Most recognisable languages” page is a ready-made version of the same game. It can't be embedded on this page, so open it in a separate window. Our built-in Mystery Voices above is Plan B — same goal.</p>
+      <a class="openbtn" href="https://preply.com/en/d/most-recognizable-languages" target="_blank" rel="noopener">Open Preply game ↗</a>
+      <details class="tnote">
+        <summary>Заметки учителя</summary>
+        <p>Требуйте аргументацию, а не угадывание: <i>“What gave it away — rhythm, intonation or pronunciation?”</i> Если Никита называет язык без обоснования — не засчитывайте. Опора на план A или B на выбор; оба занимают ~4 мин, оставьте минуту на wrap-up вопрос — он выводит на главный парадокс урока.</p>
+      </details>
+      <div class="completerow">
+        <button class="donebtn" data-stage="1">✓ Stage complete</button><span>Прогресс сохраняется в этом браузере.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 VOCABULARY LAB ============ -->
+<section class="pane" id="pane-2">
+  <div class="phead"><span class="stagechip">02 · VOCABULARY LAB · <em>10 MIN</em></span><h2>Your Toolkit: 12 Collocations</h2><span class="mission">These twelve do all the work today — the videos, the debate and your final monologue all pay off better if you spend them.</span></div>
+  <div class="duo">
+    <div class="card">
+      <h3>🃏 Flashcards</h3>
+      <p class="sub">Flip, listen, sort: <b style="color:#16a34a">Know</b> or <b style="color:#dc2626">Still learning</b>. Aim to send 8+ to “Know” before the exercises.</p>
+      <div class="deckinfo"><span id="cardNum">Card 1 / 12</span><span id="deckStat">✅ 0 · 🔁 0</span></div>
+      <div class="progressline"><div id="deckBar" style="width:8%"></div></div>
+      <div class="flip" id="flipCard">
+        <div class="flipin">
+          <div class="face front"><div class="word" id="frontWord"></div><small>click to flip</small></div>
+          <div class="face back"><div class="ru" id="backRu"></div><div class="ex" id="backEx"></div><small>click to flip back</small></div>
+        </div>
+      </div>
+      <div class="deckgrid">
+        <button class="btn mini" id="prevCard">← Prev</button>
+        <button class="btn primary mini" id="flipBtn">Flip</button>
+        <button class="btn mini" id="nextCard">Next →</button>
+      </div>
+      <div class="deckgrid2">
+        <button class="btn dark mini" id="sayWord">🔊 Phrase</button>
+        <button class="btn mini" id="shuffleBtn">🔀 Shuffle</button>
+      </div>
+      <div class="deckgrid2">
+        <button class="btn mini" id="knowBtn" style="background:#dcfce7;border-color:#22c55e;color:#166534">✓ Know</button>
+        <button class="btn mini" id="learningBtn" style="background:#fee2e2;border-color:#ef4444;color:#991b1b">✗ Still learning</button>
+      </div>
+      <label style="font-size:12.5px;font-weight:600"><input type="checkbox" id="autoSay" checked> auto-play audio on flip</label>
+      <details class="tnote"><summary>Заметки учителя</summary><p>Просите Никиту проговаривать фразу вслух до нажатия «Know» — активное проговаривание закрепляет коллокацию лучше, чем узнавание. Русский перевод — подсказка, не ответ: проверяйте, что он помнит английскую форму целиком.</p></details>
+    </div>
+    <div class="stack">
+      <div class="card amber">
+        <h3>Exercise A · Make the sentence work</h3>
+        <p class="sub">Choose the collocation that fits. Mind the form — one option is grammatically right, the others just look familiar.</p>
+        <div id="exA"></div>
+        <div class="rowfoot">
+          <button class="btn primary" id="checkA">✅ Check</button>
+          <button class="hintbtn" id="hintsA">💡 All hints</button>
+          <button class="ghostbtn" id="showA" style="padding:6px 12px">👁 Show answers</button>
+          <span class="result" id="resA" style="margin-top:0"></span>
+        </div>
+      </div>
+      <div class="card amber">
+        <h3>Exercise B · Decode the definition</h3>
+        <p class="sub">Match the paraphrase to the collocation — say the whole phrase aloud before you click.</p>
+        <div id="exB"></div>
+        <div class="rowfoot">
+          <button class="btn primary" id="checkB">✅ Check</button>
+          <span class="result" id="resB" style="margin-top:0"></span>
+        </div>
+      </div>
+      <div class="completerow">
+        <button class="donebtn" data-stage="2">✓ Stage complete</button><span>Оба упражнения проверены? Переходите к детективу.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 ACCENT DETECTIVE ============ -->
+<section class="pane" id="pane-3">
+  <div class="phead"><span class="stagechip">03 · ACCENT DETECTIVE · <em>8 MIN</em></span><h2>Accent Detective</h2><span class="mission">Play 4–5 rounds of the accent quiz below, then argue the big question. Detective's rule: no “I just know” — name the clue.</span></div>
+  <div class="duo v">
+    <div class="card blue">
+      <h3>🔎 The Game — Wordwall</h3>
+      <p class="sub">Listening quiz: “Guess the English Accent — Around the World”. Play 4–5 rounds — we don't need all ten, and we don't need Genially (same job).</p>
+      <div class="embed-frame wordwall-frame"><iframe src="https://wordwall.net/embed/775b6cda8ba7474ea152e17501efd4c2?themeId=1&ref=oembed" title="Guess the English Accent — Wordwall" allowfullscreen></iframe></div>
+      <a class="openbtn" href="https://wordwall.net/resource/69392570/guess-the-english-accent-around-the-world" target="_blank" rel="noopener">Open Wordwall in a new window ↗</a>
+      <details class="tnote"><summary>Заметки учителя · Plan B</summary>
+        <p>Если Wordwall тормозит — вот версия Genially с той же функцией (открывается в новом окне): <a href="https://view.genially.com/65f75c59dc2f2c00143714d4" target="_blank" rel="noopener">view.genially.com/65f75c59…</a>. Достаточно ОДНОЙ из двух. Перед игрой бегло проговорите брифинг справа — без него задание превращается в слепое угадывание.</p>
+      </details>
+    </div>
+    <div class="stack">
+      <div class="card">
+        <h3>🗂 Detective's briefing</h3>
+        <p class="sub">Accents you may hear. Before each clip, predict from the name; after, check your ear.</p>
+        <div>
+          <span class="chip hot">British Isles:</span><span class="chip">Irish</span><span class="chip">Scottish</span><span class="chip">Welsh</span><span class="chip">Geordie (Newcastle)</span><span class="chip">Birmingham</span><span class="chip">Bristol</span><span class="chip">Essex</span><span class="chip">London</span>
+        </div>
+        <div style="margin-top:6px">
+          <span class="chip hot">Americas:</span><span class="chip">General American</span><span class="chip">Texas</span><span class="chip">New York</span><span class="chip">California</span><span class="chip">Southern US</span><span class="chip">North Central</span><span class="chip">Canadian</span>
+        </div>
+        <div style="margin-top:6px">
+          <span class="chip hot">Global:</span><span class="chip">Australian</span><span class="chip">New Zealand</span><span class="chip">South African</span><span class="chip">Indian</span><span class="chip">Singaporean</span><span class="chip">Filipino</span><span class="chip">Jamaican</span><span class="chip">Maltese</span>
+        </div>
+        <label class="fld">Detective's log — which sound betrayed each accent?</label>
+        <textarea id="accLog" placeholder="e.g. Scottish — rolled /r/; Indian — retroflex t/d, syllable-timed rhythm; Australian — /eɪ/ sounds like /æɪ/…"></textarea>
+      </div>
+      <div class="card rose">
+        <h3>⚖️ Debrief — argue your verdict</h3>
+        <p class="sub">React, then defend your position in 2–3 sentences. This feeds the final debate.</p>
+        <div id="polls"></div>
+        <div class="q" style="margin-top:9px;border-left:4px solid #e11d48"><p>⭐ The big question: <i>To what extent does someone's accent influence our perception of them?</i> Does it change how smart, trustworthy or professional they sound — to you?</p></div>
+        <details class="tnote"><summary>Заметки учителя</summary><p>Цель — вывести на «accentism»: мы судим о человеке по десяти секундам звука. Полезный поворот: «everyone has an accent — native speakers included; there is no accentless English». Свяжите с вопросом 3 финальной дискуссии (кредит доверия и акцент).</p></details>
+      </div>
+      <div class="completerow">
+        <button class="donebtn" data-stage="3">✓ Stage complete</button><span>4–5 раундов + дебриф — достаточно.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 VIDEO DISCOVERY ============ -->
+<section class="pane" id="pane-4">
+  <div class="phead"><span class="stagechip">04 · VIDEO DISCOVERY · <em>10 MIN</em></span><h2>The Simplest Language?</h2><span class="mission">Nas Daily makes a provocative claim: more languages = less communication. Your job: enjoy it, then take it apart.</span></div>
+  <div class="duo v">
+    <div class="card">
+      <h3>▶ Nas Daily — The Simplest Language <span style="font-weight:500;color:#64748b;font-size:13px">· 5:25 (we stop at 4:30 — the last minute is an ad)</span></h3>
+      <div class="embed-frame video-frame" style="margin-top:8px"><iframe src="https://www.youtube-nocookie.com/embed/l5RUufmRsYc?rel=0&modestbranding=1&end=270" title="The Simplest Language — Nas Daily" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <a class="openbtn" href="https://www.youtube.com/watch?v=l5RUufmRsYc" target="_blank" rel="noopener">Open on YouTube ↗</a>
+      <label class="fld">🎧 WHILE you watch — tick off the evidence</label>
+      <div id="listenFors"></div>
+    </div>
+    <div class="stack">
+      <div class="card violet">
+        <h3>🔮 BEFORE — lock in your predictions</h3>
+        <p class="sub">No right answers yet — commit, we'll compare after watching.</p>
+        <div id="predictions"></div>
+      </div>
+      <div class="card amber">
+        <h3>🧠 AFTER — did the video hold up?</h3>
+        <div id="vidQs"></div>
+        <div class="rowfoot"><button class="btn primary" id="checkVid">✅ Check</button><span class="result" id="resVid" style="margin-top:0"></span></div>
+        <div class="q" style="margin-top:10px;border-left:4px solid #0d9488"><p>🎤 Critical talk — use today's collocations:</p>
+          <ul class="tight">
+            <li>Nas uses three “proofs”: a religious story, Papua New Guinea and Esperanto. Which of the three is actually evidence — and which is storytelling?</li>
+            <li>Fact-check his numbers: is Esperanto really “ten times simpler”? Can 150 hours really beat 2,000? What does “simple” leave out?</li>
+            <li>Whose voice is missing from this video? Think: the 800 tribes, Esperanto speakers, people who have already lost their language.</li>
+            <li>Verdict: does a common language <b>facilitate communication</b> — or would it <b>empty</b> communication?</li>
+          </ul>
+        </div>
+        <details class="tnote"><summary>Заметки учителя</summary><p>Ролик — провокация, и это его ценность: тренируем критическое слушание (C1-навык). Не засчитывайте «согласен/не согласен» без опоры на аргументы из видео. Папуа-Новая Гвинея ещё раз появится на вкладке 05 — там Никита сверит цифры двух роликов между собой.</p></details>
+      </div>
+      <div class="completerow">
+        <button class="donebtn" data-stage="4">✓ Stage complete</button><span>Предсказания сверены, чек пройден, критический разговор состоялся.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 LANGUAGE MYTHS ============ -->
+<section class="pane" id="pane-5">
+  <div class="phead"><span class="stagechip">05 · LANGUAGE MYTHS · <em>10 MIN</em></span><h2>Myth or Fact? — Fragment Hunt</h2><span class="mission">We don't watch the whole video — it's a countdown from 25 to 1. Three raids into three short fragments. Predict first, then verify.</span></div>
+  <div class="duo v">
+    <div class="stack">
+      <div class="card">
+        <h3>▶ List 25 — 25 Unbelievable Things About Language <span style="font-weight:500;color:#64748b;font-size:13px">· 4:18, used in fragments</span></h3>
+        <div class="embed-frame video-frame" style="margin-top:8px" id="mythFrame"><iframe id="mythPlayer" src="https://www.youtube-nocookie.com/embed/ceEzrjC6i0Y?rel=0&modestbranding=1" title="25 Unbelievable Things About Language" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+        <div class="rowfoot">
+          <a class="openbtn" style="margin-top:0" href="https://www.youtube.com/watch?v=ceEzrjC6i0Y" target="_blank" rel="noopener">Open on YouTube ↗</a>
+          <button class="ghostbtn" id="mythReset" style="padding:6px 12px">↺ Player to start</button>
+        </div>
+        <details class="tnote"><summary>Заметки учителя</summary><p>Тайминги примерные (≈): внутри ролика каждая идея объявлена номером обратного отсчёта («25…», «18…»), так что наводку легко поймать вручную. Задания привязаны к СОДЕРЖАНИЮ фактов, а не к секундам — точность не критична.</p></details>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="mission"><h4>🕵️ Raid 1 — “The child genius”</h4><div class="mfacts">Facts 25–20 · fragment ≈ 0:08–1:10</div>
+        <div id="m1"></div>
+        <div class="rowfoot"><button class="btn dark" data-frag="8,74">▶ Watch the fragment (≈60 s)</button><button class="btn primary" data-reveal="1">Reveal verdicts</button></div>
+        <div class="verdict" id="v1" style="display:none"></div>
+      </div>
+      <div class="mission"><h4>🕵️ Raid 2 — “The silent majority”</h4><div class="mfacts">Facts 18–15 · fragment ≈ 1:06–1:50</div>
+        <div id="m2"></div>
+        <div class="rowfoot"><button class="btn dark" data-frag="66,112">▶ Watch the fragment (≈45 s)</button><button class="btn primary" data-reveal="2">Reveal verdicts</button></div>
+        <div class="verdict" id="v2" style="display:none"></div>
+      </div>
+      <div class="mission"><h4>🕵️ Raid 3 — “Six languages of power & a silent farewell”</h4><div class="mfacts">Facts 10 and 1 · two fragments ≈ 2:12–2:30 and ≈ 3:40–4:00</div>
+        <div id="m3"></div>
+        <div class="rowfoot"><button class="btn dark" data-frag="130,152">▶ Fragment A — fact 10 (≈20 s)</button><button class="btn dark" data-frag="218,242">▶ Fragment B — fact 1 (≈25 s)</button><button class="btn primary" data-reveal="3">Reveal verdicts</button></div>
+        <div class="verdict" id="v3" style="display:none"></div>
+      </div>
+      <div class="card" id="mythWrap" style="display:none">
+        <h3>🏆 After the hunt</h3>
+        <ul class="tight">
+          <li><b>Most unbelievable:</b> which of the nine statements would shock your friends most — and why? Thirty seconds, sell it.</li>
+          <li><b>Three languages, one comparison:</b> the “critical period” — does it match what happened to your English (early) vs your Arabic (as an adult)? What can you still hear in Arabic that a beginner can't?</li>
+          <li><b>Cross-check:</b> Nas said “800 tribes” in Papua New Guinea; List25 says nearly half of Asia's 2,000+ languages are spoken there. Do the two videos support each other — and does this diversity prove Nas's point, or destroy it?</li>
+        </ul>
+      </div>
+      <div class="completerow">
+        <button class="donebtn" data-stage="5">✓ Stage complete</button><span>Три рейда пройдены? Самый удивительный факт выбран?</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 GRAMMAR & DEBATE ============ -->
+<section class="pane" id="pane-6">
+  <div class="phead"><span class="stagechip">06 · GRAMMAR &amp; DEBATE · <em>12 MIN</em></span><h2>Mixed Conditionals — the Language of Hypotheses</h2><span class="mission">Today's debate lives in conditionals. Brush up the machinery, practise on the lesson's own questions, then argue.</span></div>
+  <details class="tnote" style="margin:0 0 12px">
+    <summary>📐 Reference — the three patterns (open if needed)</summary>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:6px">
+      <tr><th style="text-align:left;padding:6px;border-bottom:2px solid #e2e8f0">Pattern</th><th style="text-align:left;padding:6px;border-bottom:2px solid #e2e8f0">Form</th><th style="text-align:left;padding:6px;border-bottom:2px solid #e2e8f0">Today's example</th></tr>
+      <tr><td style="padding:6px"><b>2nd</b> — unreal present</td><td style="padding:6px">If + past simple → would/could/might + V</td><td style="padding:6px">If the world <b>had</b> one language, we <b>would lose</b> the music of 7,000 voices.</td></tr>
+      <tr><td style="padding:6px"><b>3rd</b> — unreal past</td><td style="padding:6px">If + had + V3 → would have + V3</td><td style="padding:6px">If we <b>hadn't invented</b> writing, history <b>would have developed</b> completely differently.</td></tr>
+      <tr><td style="padding:6px"><b>Mixed</b> — past cause → present result (and vice versa)</td><td style="padding:6px">If + had + V3 → would + V &nbsp;/&nbsp; If + past simple → would have + V3</td><td style="padding:6px">If Esperanto <b>had caught on</b> in 1887, English <b>wouldn't be</b> so dominant now. If Nikita <b>weren't</b> good at languages, he <b>wouldn't have started</b> Arabic news so soon.</td></tr>
+    </table>
+  </details>
+  <div class="duo">
+    <div class="card amber">
+      <h3>Exercise 1 · Choose the machine</h3>
+      <p class="sub">Pick the correct forms — then justify: which pattern is it?</p>
+      <div id="grQs"></div>
+      <div class="rowfoot"><button class="btn primary" id="checkGr">✅ Check</button><span class="result" id="resGr" style="margin-top:0"></span></div>
+    </div>
+    <div class="stack">
+      <div class="card">
+        <h3>Exercise 2 · Finish the hypothesis</h3>
+        <p class="sub">Complete each one YOUR way — one clause is enough. Then compare with the sample ideas.</p>
+        <div id="grOpen"></div>
+        <div class="rowfoot"><button class="btn dark" id="showGrOpen">👁 Compare ideas</button></div>
+        <div id="grOpenAnswers" style="display:none;margin-top:8px"></div>
+      </div>
+      <div class="card violet">
+        <h3>🗣 Debate arena — six questions, one winner each round</h3>
+        <p class="sub">Press the button — take the question you get. Answer in 4–6 sentences; at least one conditional must be mixed.</p>
+        <div class="rowfoot"><button class="btn primary" id="spinDeb">🎯 Give me a question</button><span id="debPick" style="font-size:12.5px;color:#6b21a8;font-weight:700"></span></div>
+        <div class="debgrid" id="debGrid"></div>
+        <div class="phrasebox"><b>Debate toolkit:</b> “I'd push back on that…” · “That's fair, but consider…” · “Admittedly…, however…” · “It depends on what we mean by…” · “The evidence from the video suggests the opposite…”</div>
+        <details class="tnote"><summary>Заметки учителя</summary><p>Каждый вопрос — miniature debate: тезис → аргумент → concession → rebuttal. Если Никита уходит в простое настоящее — возвращайте: <i>“Say that again as a mixed conditional.”</i> Вопрос 5 персональный (арабский), вопрос 6 — чистый Type 3, оставьте его на последний спин.</p></details>
+      </div>
+    </div>
+  </div>
+  <div class="completerow">
+    <button class="donebtn" data-stage="6">✓ Stage complete</button><span>Оба упражнения + хотя бы два вопроса арены.</span>
+  </div>
+</section>
+
+<!-- ============ 07 EXIT TICKET ============ -->
+<section class="pane" id="pane-7">
+  <div class="phead"><span class="stagechip">07 · EXIT TICKET · <em>5 MIN</em></span><h2>The 2-Minute Verdict</h2><span class="mission">Your closing monologue: pick a topic, speak for two minutes, spend at least five collocations. This is the proof the lesson worked.</span></div>
+  <div class="duo">
+    <div class="stack">
+      <div class="card violet">
+        <h3>Topic</h3>
+        <div class="rowfoot"><button class="btn primary" id="spinTopic">🎯 Draw a topic</button></div>
+        <div class="checkline" id="topicBox" style="margin-top:8px">Not drawn yet — press the button.</div>
+        <ol class="steps4">
+          <li><b>Position</b> — one sentence: “I'm convinced that…”</li>
+          <li><b>Argument + example</b> — from the videos, the accent game or your own Arabic/Russian/English life.</li>
+          <li><b>Concession + rebuttal</b> — “Admittedly…, however…” — the strongest counter-argument, defeated.</li>
+          <li><b>Punchline</b> — one memorable sentence answering the paradox.</li>
+        </ol>
+      </div>
+      <div class="timerbox">
+        <div style="font-size:12px;font-weight:800;letter-spacing:.5px;color:#5eead4">MONOLOGUE TIMER</div>
+        <div class="timer" id="timerFace">2:00</div>
+        <div class="rowfoot" style="justify-content:center">
+          <button class="btn primary" id="tStart">▶ Start</button>
+          <button class="btn" id="tPause" style="background:#fff">⏸ Pause</button>
+          <button class="btn" id="tReset" style="background:#fff;color:#0f172a">↺ Reset</button>
+        </div>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="card">
+        <h3>💸 Spend your collocations <span id="exprCount" style="float:right;font-weight:800;color:#0d9488">0 / 5 min</span></h3>
+        <p class="sub">Tap each expression AS you say it — the counter needs five.</p>
+        <div class="exprgrid" id="exprGrid"></div>
+        <div class="checkline" id="exprMsg">Five or more = exit ticket passed.</div>
+      </div>
+      <div class="card blue">
+        <h3>📝 Teacher's feedback</h3>
+        <label class="fld">Lexis — range, collocation accuracy, spend rate</label>
+        <textarea id="fbLex" placeholder="e.g. confident use of ‘challenge an assumption’; overused ‘very’; mixed up convey/deliver…"></textarea>
+        <label class="fld">Grammar &amp; delivery — conditionals, discourse, pronunciation</label>
+        <textarea id="fbGram" placeholder="e.g. 3rd conditional accurate; hedges overused; word stress on ‘perception’…"></textarea>
+        <label class="fld">One move for next lesson</label>
+        <textarea id="fbNext" placeholder="The single most valuable thing to fix or stretch…"></textarea>
+        <details class="tnote"><summary>Что слушать (чек-лист учителя)</summary>
+          <ul class="tight">
+            <li>Коллокации целиком (не «make a barrier» вместо «overcome a barrier»)</li>
+            <li>Хотя бы один настоящий mixed conditional, а не «если бы да кабы» в настоящем</li>
+            <li>Concession-структура: Admittedly / That said / Even so</li>
+            <li>Паузы по смыслу, а не «э-э» — темп взрослого спикера</li>
+          </ul>
+        </details>
+      </div>
+      <div class="card rose">
+        <h3>🏠 Optional homework</h3>
+        <p class="sub">Record a 90-second voice message: <i>“The Language Paradox — my verdict”</i>. Rules: 5 collocations + one mixed conditional + one quote or fact from today's videos. I reply with feedback before our next lesson.</p>
+      </div>
+      <div class="completerow">
+        <button class="donebtn" data-stage="7">✓ Stage complete</button><span>Таймер отработал, счётчик ≥ 5, фидбек записан.</span>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+/* ---------- tiny helpers ---------- */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let store={}; try{store=JSON.parse(localStorage.getItem('lpNikita')||'{}')}catch(e){store={}}
+function save(){try{localStorage.setItem('lpNikita',JSON.stringify(store))}catch(e){}}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* ---------- tabs & progress ---------- */
+const STAGES=[["1","Lead-in","5"],["2","Vocabulary","10"],["3","Accent Detective","8"],["4","Video","10"],["5","Myths","10"],["6","Grammar & Debate","12"],["7","Exit Ticket","5"]];
+const tabrow=$('#tabrow');
+STAGES.forEach(s=>{
+  const b=document.createElement('button');b.className='tabbtn';b.id='tab'+s[0];
+  b.innerHTML='<span class="n">'+s[0]+'</span>'+s[1]+'<span class="m">· '+s[2]+' min</span>';
+  b.onclick=()=>openTab(s[0]);tabrow.appendChild(b);
+});
+function openTab(n){
+  $$('.tabbtn').forEach(b=>b.classList.toggle('active',b.id==='tab'+n));
+  $$('.pane').forEach(p=>p.classList.toggle('active',p.id==='pane-'+n));
+}
+function refreshProgress(){
+  const done=(store.done||[]);
+  STAGES.forEach(s=>{const b=$('#tab'+s[0]);if(b)b.classList.toggle('done',done.includes(s[0]))});
+  $('#progressBadge').textContent=done.length+' / 7 complete';
+}
+$$('.donebtn').forEach(btn=>{
+  btn.onclick=()=>{
+    store.done=store.done||[];
+    const st=btn.dataset.stage, i=store.done.indexOf(st);
+    if(i<0)store.done.push(st);else store.done.splice(i,1);
+    btn.classList.toggle('isdone',i<0);save();refreshProgress();
+  };
+  if((store.done||[]).includes(btn.dataset.stage))btn.classList.add('isdone');
+});
+function resetAll(){if(confirm('Reset all saved progress, notes and scores?')){localStorage.removeItem('lpNikita');location.reload()}}
+refreshProgress();openTab('1');
+
+/* ---------- speech ---------- */
+let voices=[];function loadVoices(){voices=speechSynthesis?speechSynthesis.getVoices():[]}
+if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
+function hasVoice(code){return voices.some(v=>v.lang.replace('_','-').toLowerCase().startsWith(code.split('-')[0]))}
+function speak(text,code){if(!('speechSynthesis' in window))return false;speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);u.lang=code||'en-US';u.rate=.92;
+  if(code){const v=voices.find(v=>v.lang.replace('_','-').toLowerCase().startsWith(code.split('-')[0]));if(v)u.voice=v}
+  speechSynthesis.speak(u);return true}
+
+/* ---------- generic MCQ engine ---------- */
+const picks={};
+function renderMCQ(id,data,withHints){
+  const box=document.getElementById(id);
+  box.innerHTML=data.map((d,i)=>'<div class="q"><p>'+(i+1)+'. '+d.q+'</p>'+
+    '<div class="opts">'+d.opts.map((o,j)=>'<button class="opt" data-set="'+id+'" data-i="'+i+'" data-j="'+j+'">'+o+'</button>').join('')+'</div>'+
+    (withHints?'<div class="rowfoot"><button class="hintbtn" data-hint="'+id+':'+i+'">💡 Hint</button><span class="hinttext" id="'+id+'-hint-'+i+'"></span></div>':'')+
+    '<div class="why" id="'+id+'-why-'+i+'"></div></div>').join('');
+}
+document.addEventListener('click',e=>{
+  const opt=e.target.closest('.opt');
+  if(opt){const set=opt.dataset.set,i=opt.dataset.i;
+    picks[set+':'+i]=+opt.dataset.j;
+    opt.parentElement.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel'));
+    opt.classList.add('sel');return}
+  const hb=e.target.closest('.hintbtn');
+  if(hb){const [id,i]=hb.dataset.hint.split(':');
+    const el=document.getElementById(id+'-hint-'+i);
+    const d=(HINTS[id]||[])[+i];if(el&&d)el.textContent=d;return}
+});
+function checkMCQ(id,data,resId){
+  let ok=0;
+  const qboxes=document.querySelectorAll('#'+id+' .q');
+  data.forEach((d,i)=>{
+    const qbox=qboxes[i];
+    if(!qbox)return;
+    qbox.querySelectorAll('.opt').forEach(b=>{
+      const j=+b.dataset.j;
+      b.classList.remove('correct','wrong');
+      if(j===d.a)b.classList.add('correct');
+      else if(picks[id+':'+i]===j)b.classList.add('wrong');
+    });
+    const why=document.getElementById(id+'-why-'+i);
+    if(why){why.textContent=(picks[id+':'+i]===d.a?'✓ ':'✗ ')+d.why;why.classList.add('show')}
+    if(picks[id+':'+i]===d.a)ok++;
+  });
+  const r=document.getElementById(resId);
+  r.textContent=ok+' / '+data.length+(ok===data.length?' — flawless 🎉':' — another look?');
+  r.className='result '+(ok===data.length?'ok':'no');
+}
+
+/* ================= 01 LEAD-IN ================= */
+const LANGS=[
+ {name:'Arabic',code:'ar-SA',text:'أهلاً وسهلاً! اليوم الطقس جميل جداً، هل نتناول القهوة معاً؟',feature:'Deep throat consonants (ع، ح، ق) — sounds "from the chest", with emphatic heavy rhythm.'},
+ {name:'Japanese',code:'ja-JP',text:'こんにちは！今日はとてもいい天気ですね。一緒に散歩しませんか？',feature:'Steady machine-gun rhythm, polite rising-falling melody, almost no consonant clusters.'},
+ {name:'Turkish',code:'tr-TR',text:'Merhaba! Bugün hava çok güzel, birlikte yürüyüşe çıkalım mı?',feature:'Vowel harmony — the whole sentence leans front (ü, e); long glued-together words.'},
+ {name:'Hindi',code:'hi-IN',text:'नमस्ते! आज मौसम बहुत अच्छा है, क्या हम साथ घूमने चलेंगे?',feature:'Curled-back "retroflex" t/d sounds and airy aspirated kh/gh — the tongue never rests.'},
+ {name:'Portuguese (Brazil)',code:'pt-BR',text:'Oi! Hoje o tempo está muito bom, vamos dar uma volta juntos?',feature:'Nasal vowels (-ão, -em) and open musical vowels — "Spanish being sung".'},
+ {name:'Korean',code:'ko-KR',text:'안녕하세요! 오늘 날씨가 정말 좋네요. 같이 산책할까요?',feature:'Compact syllable blocks, tense consonants, polite -요 endings at every step.'}
+];
+let round=0,gameScoreVal=0,answered=false;
+const guessOpts=$('#guessOpts');
+function renderRound(){
+  answered=false;
+  $('#roundNum').textContent='ROUND '+(round+1)+' / 6';
+  const correct=LANGS[round],others=LANGS.filter((l,i)=>i!==round),opts=shuffle([correct].concat(shuffle(others).slice(0,3)));
+  guessOpts.innerHTML='';
+  opts.forEach(o=>{const b=document.createElement('button');b.className='opt';b.textContent=o.name;
+    b.onclick=()=>{
+      if(answered)return;answered=true;
+      guessOpts.querySelectorAll('.opt').forEach(x=>{x.classList.remove('sel');if(x.textContent===correct.name)x.classList.add('correct');else if(x===b)x.classList.add('wrong')});
+      if(o===correct)gameScoreVal++;
+      $('#gameScore').textContent='Score: '+gameScoreVal;
+      const cb=$('#clueBox');cb.style.display='block';
+      cb.innerHTML=(o===correct?'✅ <b>'+correct.name+'</b> — ':'❌ It was <b>'+correct.name+'</b>. ')+correct.feature;
+      speak(correct.text,correct.code);
+    };
+    guessOpts.appendChild(b)});
+  $('#clueBox').style.display='none';
+}
+$('#playBtn').onclick=()=>{
+  const l=LANGS[round];
+  if(!('speechSynthesis' in window)){
+    $('#clueBox').style.display='block';
+    $('#clueBox').innerHTML='🔇 This browser cannot speak. Use the Preply game (Plan A) for this round.';
+    return}
+  if(voices.length===0)loadVoices();
+  if(voices.length>0&&!hasVoice(l.code)){
+    $('#clueBox').style.display='block';
+    $('#clueBox').innerHTML='🔇 Your system has no <b>'+l.name+'</b> voice. Click a guess anyway — or use the Preply game (Plan A) for this round.';
+    return}
+  speak(l.text,l.code);
+};
+$('#nextRound').onclick=()=>{
+  if(round<5){round++;renderRound()}
+  else{$('#gameBox').style.display='none';$('#gameEnd').style.display='block'}
+};
+renderRound();
+document.querySelectorAll('.chip.pick').forEach(c=>c.onclick=()=>c.classList.toggle('on'));
+
+/* ================= 02 VOCABULARY ================= */
+const DECK=[
+ ["pick up on subtle differences","улавливать тонкие различия","After a month in Cairo, she could pick up on subtle differences between Egyptian and Gulf Arabic."],
+ ["have a distinctive accent","иметь характерный акцент","He has such a distinctive accent that friends recognise him on the radio."],
+ ["overcome a language barrier","преодолевать языковой барьер","Tok Pisin helped the tribes of Papua New Guinea overcome the language barrier."],
+ ["bridge the cultural gap","преодолевать культурные различия","A good interpreter does more than translate — they bridge the cultural gap."],
+ ["shape our perception","формировать наше восприятие","The language you think in shapes your perception of time and colour."],
+ ["challenge an assumption","ставить под сомнение предположение","Nas's video challenges the assumption that more languages automatically mean more conflict."],
+ ["be deeply rooted in culture","быть глубоко укоренённым в культуре","Politeness in Japanese is deeply rooted in culture — it's built into the grammar itself."],
+ ["convey subtle nuances","передавать тонкие оттенки смысла","The English 'sorry' can't convey all the subtle nuances of the Russian «извини» vs «простите»."],
+ ["lose one's linguistic identity","терять языковую идентичность","Parents fear that schooling only in English makes children lose their linguistic identity."],
+ ["facilitate communication","облегчать общение","Esperanto was invented to facilitate communication between ordinary people, not governments."],
+ ["acquire a second language","овладевать вторым языком","Adults acquire a second language consciously; children absorb theirs instinctively."],
+ ["switch between languages","переключаться между языками","Traders in Dubai switch between languages mid-sentence without noticing."]
+];
+let di=0,deck=DECK.slice(),knownN=0,learningN=0;
+function renderCard(){
+  const c=deck[di];
+  $('#frontWord').textContent=c[0];$('#backRu').textContent=c[1];$('#backEx').textContent=c[2];
+  $('#cardNum').textContent='Card '+(di+1)+' / '+deck.length;
+  $('#deckBar').style.width=((di+1)/deck.length*100)+'%';
+  $('#deckStat').textContent='✅ '+knownN+' · 🔁 '+learningN;
+  $('#flipCard').classList.remove('flipped');
+}
+$('#flipCard').onclick=()=>{const f=$('#flipCard');f.classList.toggle('flipped');if(f.classList.contains('flipped')&&$('#autoSay').checked)setTimeout(()=>speak(deck[di][0]),200)};
+$('#flipBtn').onclick=e=>{e.stopPropagation();$('#flipCard').click()};
+$('#nextCard').onclick=e=>{e.stopPropagation();di=(di+1)%deck.length;renderCard()};
+$('#prevCard').onclick=e=>{e.stopPropagation();di=(di-1+deck.length)%deck.length;renderCard()};
+$('#shuffleBtn').onclick=e=>{e.stopPropagation();deck=shuffle(deck);di=0;renderCard()};
+$('#sayWord').onclick=e=>{e.stopPropagation();speak(deck[di][0])};
+$('#knowBtn').onclick=e=>{e.stopPropagation();knownN++;di=(di+1)%deck.length;renderCard()};
+$('#learningBtn').onclick=e=>{e.stopPropagation();learningN++;di=(di+1)%deck.length;renderCard()};
+renderCard();
+
+const bankA=["bridge the cultural gap","overcome the language barrier","convey the subtle nuances","shapes our perception","is deeply rooted in culture","challenge an assumption","losing his linguistic identity","facilitated communication","have a distinctive accent","acquire a second language","switch between languages","pick up on subtle differences"];
+const bankShuffled=shuffle(bankA);
+const EXA=[
+ {s:'Simultaneous interpreters don\'t just translate words — their real job is to ___ between the two delegations.',a:'bridge the cultural gap',hint:'RU: преодолевать культурные различия (сокращать дистанцию)'},
+ {s:'For centuries the tribes of Papua New Guinea fought; a simple pidgin finally helped them ___ that had kept them apart.',a:'overcome the language barrier',hint:'RU: преодолеть то, что разделяло: барьер'},
+ {s:'Machine translation is improving fast, but it still fails to ___ that make poetry worth reading.',a:'convey the subtle nuances',hint:'RU: передать тонкие оттенки смысла'},
+ {s:'When TV villains always speak with a foreign accent, it quietly ___ of who counts as trustworthy.',a:'shapes our perception',hint:'RU: формирует наше восприятие — нужна форма 3-го лица'},
+ {s:'Rejecting a guest\'s coffee in parts of the Middle East is almost offensive — hospitality ___ there.',a:'is deeply rooted in culture',hint:'RU: глубоко укоренена в культуре'},
+ {s:'A good journalist is trained to ___ before printing it as fact.',a:'challenge an assumption',hint:'RU: ставить под сомнение предположение'},
+ {s:'After ten years in London, Arman felt his Russian was slipping — he was terrified of ___.',a:'losing his linguistic identity',hint:'RU: терять языковую идентичность (после of — форма -ing)'},
+ {s:'For centuries, Arabic has ___ between traders from Mali to Manila.',a:'facilitated communication',hint:'RU: облегчала общение (после has — V3)'}
+];
+$('#exA').innerHTML=EXA.map((d,i)=>'<div class="gapline">'+(i+1)+'. '+d.s.replace('___','<select class="fill" id="exAs'+i+'"><option value="">— choose —</option>'+bankShuffled.map(o=>'<option>'+o+'</option>').join('')+'</select>')+'<div class="hinttext" id="exAh'+i+'"></div></div>').join('');
+$('#hintsA').onclick=()=>EXA.forEach((d,i)=>{const el=document.getElementById('exAh'+i);if(el)el.textContent='💡 '+d.hint});
+$('#checkA').onclick=()=>{
+  let ok=0;
+  EXA.forEach((d,i)=>{
+    const sel=document.getElementById('exAs'+i);
+    sel.style.borderColor=sel.value===d.a?'#22c55e':'#ef4444';
+    if(sel.value===d.a)ok++;
+  });
+  const r=$('#resA');r.textContent=ok+' / 8'+(ok===8?' — toolkit mastered 🧰':' — watch the forms');r.className='result '+(ok===8?'ok':'no');
+};
+$('#showA').onclick=()=>EXA.forEach((d,i)=>{document.getElementById('exAs'+i).value=d.a;document.getElementById('exAs'+i).style.borderColor='#0d9488'});
+
+const EXB=[
+ {q:'to notice tiny details that most listeners miss',opts:['switch between languages','pick up on subtle differences','shape our perception','have a distinctive accent'],a:1,why:'“Pick up on” = notice something subtle; it\'s the detective skill from Stage 01.'},
+ {q:'to learn to use a new tongue well enough to actually speak it',opts:['acquire a second language','facilitate communication','overcome a language barrier','challenge an assumption'],a:0,why:'“Acquire” is the linguists\' verb — children acquire, adults study.'},
+ {q:'to sound instantly recognisable as being from one particular place',opts:['lose one\'s linguistic identity','be deeply rooted in culture','have a distinctive accent','switch between languages'],a:2,why:'“Distinctive” = easy to tell apart — the Wordwall quiz is literally about this.'},
+ {q:'to move from one language to another without thinking',opts:['switch between languages','pick up on subtle differences','bridge the cultural gap','convey subtle nuances'],a:0,why:'“Switch between” — like a light switch; bilinguals do it mid-sentence.'},
+ {q:'to make it easier for people to exchange ideas',opts:['shape our perception','facilitate communication','acquire a second language','have a distinctive accent'],a:1,why:'“Facilitate” = make easier — Esperanto\'s entire life mission.'},
+ {q:'to make people question an idea they take for granted',opts:['overcome a language barrier','lose one\'s linguistic identity','challenge an assumption','be deeply rooted in culture'],a:2,why:'You challenge an assumption — you don\'t break or destroy it. Nas\'s whole video in two words.'}
+];
+renderMCQ('exB',EXB,true);
+const HINTS={
+ exB:['RU: улавливать тонкие различия','RU: овладевать вторым языком','RU: иметь характерный акцент','RU: переключаться между языками','RU: облегчать общение','RU: ставить под сомнение предположение'],
+ vidQs:['It\'s a very old story about a very tall tower.','Listen again at ~0:50 — one sentence says it all.','The country adopted it after the fighting.','Compare the two numbers he quotes at ~2:30.','His very last idea before the ad.'],
+ grQs:['Two time markers: “back in 1900” (past) and “today” (present).','“Before you were five” — the window closed in the past; the hearing is NOW.','The cause sits in the past; the result is about the internet TODAY.','“Generally” describes a timeless present situation.','They stopped talking in the past; the danger exists NOW.','The downloading is imaginary PRESENT — so the result stays present too.']
+};
+$('#checkB').onclick=()=>checkMCQ('exB',EXB,'resB');
+
+/* ================= 03 ACCENT ================= */
+const POLLS=[
+ {t:'1. “An accent tells you exactly how educated a person is.”'},
+ {t:'2. “Everyone has an accent — there is no such thing as accentless English.”'},
+ {t:'3. “I would trust a doctor with a strong accent less than one without.”'}
+];
+$('#polls').innerHTML=POLLS.map((p,i)=>'<div class="q"><p>'+p.t+'</p><div class="pollrow">'+['Agree','Disagree','It depends'].map(o=>'<button class="poll" data-p="'+i+'">'+o+'</button>').join('')+'</div></div>').join('');
+$$('.poll').forEach(b=>b.onclick=()=>{b.parentElement.querySelectorAll('.poll').forEach(x=>x.classList.remove('on'));b.classList.add('on')});
+const savedLog=store.accLog;if(savedLog)$('#accLog').value=savedLog;
+$('#accLog').oninput=e=>{store.accLog=e.target.value;save()};
+
+/* ================= 04 VIDEO ================= */
+const PRED=[
+ {q:'A video called “The Simplest Language” will mostly be about…',opts:['Esperanto','a pidgin in Papua New Guinea','sign language','emoji as a global language']},
+ {q:'Will Nas be FOR or AGAINST the idea of one world language?',opts:['Clearly for','Clearly against','For it, but with doubts']},
+ {q:'One country in the video has 800+ languages. My guess:',opts:['Papua New Guinea','Indonesia','Nigeria','Switzerland']}
+];
+$('#predictions').innerHTML=PRED.map((d,i)=>'<div class="q"><p>'+d.q+'</p><div class="opts">'+d.opts.map(o=>'<button class="opt">'+o+'</button>').join('')+'</div></div>').join('');
+$$('#predictions .opt').forEach(b=>b.onclick=()=>{b.parentElement.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel')});
+const LFOR=['the Tower of Babel story','“800 tribes, 800 languages”','a simple English called pidgin','Esperanto','150 hours vs 2,000 hours','“bigger than the Tower of Babel”'];
+$('#listenFors').innerHTML=LFOR.map((t,i)=>'<label style="display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;padding:5px 0"><input type="checkbox" data-lf="'+i+'"> '+t+'</label>').join('');
+const VID=[
+ {q:'What story does the video open with?',opts:['Noah\'s Ark','The Tower of Babel','Romeo and Juliet'],a:1,why:'Babel: one language → God “punishes” humanity with many.'},
+ {q:'Why does Nas call languages “risky”?',opts:['They are hard to spell','The more languages we have, the less we can talk to each other','They are full of irregular verbs'],a:1,why:'His central claim — the one the whole lesson argues with.'},
+ {q:'What finally let Papua New Guinea\'s tribes communicate?',opts:['A simple form of English called pidgin','Translators','Everybody learning Japanese'],a:0,why:'Pidgin — the “simplest language” of the title.'},
+ {q:'Esperanto vs German — the video\'s numbers:',opts:['150 hours vs 2,000 hours','15 hours vs 200 hours','500 hours vs 500 hours'],a:0,why:'“Ten times simpler” — Nas\'s favourite statistic. Worth fact-checking.'},
+ {q:'Nas finishes with the idea that one shared language would let us…',opts:['build something bigger than the Tower of Babel','stop learning anything at all','translate books automatically'],a:0,why:'His punchline — and a perfect debate springboard.'}
+];
+renderMCQ('vidQs',VID,true);
+$('#checkVid').onclick=()=>checkMCQ('vidQs',VID,'resVid');
+
+/* ================= 05 MYTHS ================= */
+const MISSIONS={
+ 1:[{t:'It\'s brain power that limits how many languages a child can learn.',v:'myth',e:'The video says the limit is EXPOSURE, not brain power — a child could theoretically learn all the languages it consistently hears.'},
+    {t:'Learning four languages simultaneously is realistic for a child.',v:'fact',e:'Fact 23 — linguists\' “realistic maximum”. Four is plenty.'},
+    {t:'After about age five, we can no longer hear every sound distinction of every language.',v:'fact',e:'Facts 21–20: babies start with all human sounds; the “critical period” fades around five.'}],
+ 2:[{t:'Most people in the world grow up speaking only one language.',v:'myth',e:'Fact 18: about 75% of the world speaks more than one. Monolinguals are the minority!'},
+    {t:'There are about 7,000 languages on Earth right now.',v:'fact',e:'Fact 17 — and over 2,000 of them in Asia (fact 16).'},
+    {t:'Nearly half of Asia\'s 2,000 languages are spoken in one single country.',v:'fact',e:'Fact 15: Papua New Guinea — the very country from Nas\'s video.'}],
+ 3:[{t:'The UN has six official languages — and Arabic and Russian are both on the list.',v:'fact',e:'Fact 10: Arabic, Mandarin, Russian, English, French, Spanish. Two of YOUR languages are languages of world power.'},
+    {t:'When a language has only two speakers left, they always cooperate to save it.',v:'myth',e:'Fact 1: in Mexico, the last two speakers of Ayapaneco famously refused to talk to each other. A language can die of silence.'},
+    {t:'A language can be in danger even when its last speakers are still alive.',v:'fact',e:'Exactly the Ayapaneco story — survival needs use, not just speakers.'}]
+};
+Object.keys(MISSIONS).forEach(m=>{
+  $('#m'+m).innerHTML=MISSIONS[m].map((st,i)=>'<div class="tfrow"><p>'+st.t+'</p><div class="tfbtns"><button class="tf myth" data-m="'+m+'" data-i="'+i+'" data-v="myth">Myth</button><button class="tf fact" data-m="'+m+'" data-i="'+i+'" data-v="fact">Fact</button></div></div>').join('');
+});
+$$('.tf').forEach(b=>b.onclick=()=>{
+  const row=b.closest('.tfrow');
+  row.querySelectorAll('.tf').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel');
+});
+$$('[data-frag]').forEach(b=>b.onclick=()=>{
+  const [s,e]=b.dataset.frag.split(',');
+  $('#mythPlayer').src='https://www.youtube-nocookie.com/embed/ceEzrjC6i0Y?rel=0&modestbranding=1&start='+s+'&end='+e+'&autoplay=1';
+});
+$('#mythReset').onclick=()=>{$('#mythPlayer').src='https://www.youtube-nocookie.com/embed/ceEzrjC6i0Y?rel=0&modestbranding=1'};
+$$('[data-reveal]').forEach(b=>b.onclick=()=>{
+  const m=b.dataset.reveal;let right=0,out='';
+  MISSIONS[m].forEach((st,i)=>{
+    const row=document.querySelectorAll('#m'+m+' .tfrow')[i];
+    const chosen=row.querySelector('.tf.sel');
+    const good=chosen&&chosen.dataset.v===st.v;
+    if(good)right++;
+    row.querySelectorAll('.tf').forEach(x=>{x.classList.remove('right','badr');if(x.dataset.v===st.v)x.classList.add('right');else if(x===chosen)x.classList.add('badr')});
+    out+='<div style="margin-top:7px">'+(good?'✅':'❌')+' <b>'+(st.v==='fact'?'FACT':'MYTH')+'</b> — '+st.e+'</div>';
+  });
+  const v=$('#v'+m);v.style.display='block';
+  v.innerHTML='<b>'+(m==='1'?'Raid 1':'Raid '+m)+':</b> '+right+'/'+MISSIONS[m].length+' predicted correctly.'+out;
+  if(m==='3')$('#mythWrap').style.display='block';
+});
+
+/* ================= 06 GRAMMAR ================= */
+const GR=[
+ {q:'If Esperanto ___ the world\'s second language back in 1900, English ___ so dominant today.',opts:['became … wouldn\'t be','had become … wouldn\'t be','had become … wouldn\'t have been'],a:1,why:'Past cause (1900) → PRESENT result (today): mixed. Type 3 condition + Type 2 result.'},
+ {q:'If you ___ Japanese before you were five, you ___ every sound distinction of it now.',opts:['had picked up … would hear','picked up … would have heard','will pick up … hear'],a:0,why:'The critical period is gone (past) → the ability is gone NOW (present): mixed again.'},
+ {q:'If English ___ a global language, the internet ___ a much more local place.',opts:['never became … will be','had never become … would be','had never become … would have been'],a:1,why:'Unreal past cause → present-day result. “Would have been” would anchor the result in the past too.'},
+ {q:'If world leaders generally ___ two languages, summit translators ___ so indispensable.',opts:['spoke … wouldn\'t be','had spoken … wouldn\'t have been','speak … aren\'t'],a:0,why:'The condition is about a general PRESENT state → Type 2 in both halves.'},
+ {q:'If the last two Ayapaneco speakers ___ to each other, the language ___ endangered now.',opts:['hadn\'t stopped talking … wouldn\'t be','didn\'t stop … wouldn\'t have been','hadn\'t stopped … wouldn\'t have been'],a:0,why:'They DID stop (past fact) → the danger exists NOW (present result). Mixed, both halves negated.'},
+ {q:'Suppose you could instantly download any language — you still ___ to bridge the cultural gap.',opts:['would still need','would still have needed','will still need'],a:0,why:'Present unreal condition (“could download”) → present result: plain Type 2. Even magic doesn\'t fix culture.'}
+];
+renderMCQ('grQs',GR,true);
+$('#checkGr').onclick=()=>checkMCQ('grQs',GR,'resGr');
+const GRO=[
+ {p:'If you had grown up monolingual in a small town, how different would your view of accents be?',ex:'I\'d probably notice accents less — and judge them more. If nobody around me had ever switched languages, bilinguals would seem exotic to me.'},
+ {p:'If English had never become a global language, which language would probably be the lingua franca now — and which would YOU be learning?',ex:'French or Mandarin would be the realistic candidates. I\'d probably be learning Mandarin now — and Russian would matter far less online.'},
+ {p:'If one universal language really replaced all others, what would we lose first?',ex:'We\'d lose humour and poetry first — they\'re deeply rooted in culture. A universal language might facilitate communication, but it couldn\'t convey subtle nuances.'},
+ {p:'If your future children spoke only English, what would you do to protect their linguistic identity?',ex:'I\'d switch between languages at home every single day — Russian at breakfast, English at school, Arabic on Fridays. Rules would be deeply rooted in family culture.'}
+];
+$('#grOpen').innerHTML=GRO.map((d,i)=>'<div class="q"><p>'+(i+1)+'. '+d.p+'</p><textarea style="min-height:52px" placeholder="Your clause — start with “…” or a full sentence"></textarea></div>').join('');
+$('#showGrOpen').onclick=()=>{
+  const box=$('#grOpenAnswers');
+  if(box.style.display==='none'){box.style.display='block';
+    box.innerHTML=GRO.map((d,i)=>'<div class="gapline"><b>Sample '+(i+1)+':</b> '+d.ex+'</div>').join('');
+    $('#showGrOpen').textContent='🙈 Hide samples'}
+  else{box.style.display='none';$('#showGrOpen').textContent='👁 Compare ideas'}
+};
+const DEB=[
+ {tag:'Type 2',t:'Would the world be better off with a single universal language?'},
+ {tag:'Opinion',t:'Can you truly understand a culture without speaking its language?'},
+ {tag:'Accent',t:'Does having an accent affect someone\'s credibility?'},
+ {tag:'Identity',t:'Do you feel like a different person when speaking another language?'},
+ {tag:'Personal',t:'Has learning Arabic changed the way you think about language?'},
+ {tag:'Type 3',t:'If English had never become a global language, what would the world look like today?'}
+];
+$('#debGrid').innerHTML=DEB.map(d=>'<div class="debq"><span class="tag">'+d.tag+'</span>'+d.t+'</div>').join('');
+$('#spinDeb').onclick=()=>{
+  $$('.debq').forEach(x=>x.classList.remove('spot'));
+  const n=Math.floor(Math.random()*DEB.length);
+  $$('.debq')[n].classList.add('spot');
+  $('#debPick').textContent='Question '+(n+1)+' — go!';
+};
+
+/* ================= 07 EXIT ================= */
+const TOPICS=[
+ '“One world, one language?” — Argue FOR or AGAINST a universal language. Use Nas\'s evidence — and break it.',
+ '“My linguistic identity” — You speak Russian, English and Arabic. Who are you in each one, and who would you lose?',
+ '“Accentism” — Is judging people by their accent the last acceptable prejudice? Take a side.'
+];
+let lastTopic=-1;
+$('#spinTopic').onclick=()=>{
+  let n;do{n=Math.floor(Math.random()*TOPICS.length)}while(n===lastTopic&&TOPICS.length>1);
+  lastTopic=n;
+  $('#topicBox').innerHTML='<b>Your topic:</b> '+TOPICS[n];
+};
+$('#exprGrid').innerHTML=DECK.map((d,i)=>'<button class="expr" data-e="'+i+'">'+d[0]+'</button>').join('');
+$$('.expr').forEach(b=>b.onclick=()=>{b.classList.toggle('on');
+  const n=$$('.expr.on').length;
+  $('#exprCount').textContent=n+' / 5 min';
+  $('#exprMsg').innerHTML=n>=5?'✅ <b>Five+</b> — exit ticket standard met. Now land the punchline!':'Five or more = exit ticket passed. ('+n+' so far)';
+  $('#exprMsg').style.color=n>=5?'#16a34a':'';
+});
+let tLeft=120,tInt=null;
+function tFace(){const m=Math.floor(tLeft/60),s=tLeft%60;const el=$('#timerFace');el.textContent=m+':'+(s<10?'0':'')+s;el.classList.toggle('warn',tLeft<=30)}
+$('#tStart').onclick=()=>{
+  if(tInt)return;
+  tInt=setInterval(()=>{
+    tLeft--;tFace();
+    if(tLeft<=0){clearInterval(tInt);tInt=null;$('#timerFace').textContent='Time!';}
+  },1000);
+};
+$('#tPause').onclick=()=>{if(tInt){clearInterval(tInt);tInt=null}};
+$('#tReset').onclick=()=>{if(tInt){clearInterval(tInt);tInt=null}tLeft=120;tFace()};
+tFace();
+['fbLex','fbGram','fbNext'].forEach(id=>{
+  if(store[id])document.getElementById(id).value=store[id];
+  document.getElementById(id).oninput=e=>{store[id]=e.target.value;save()};
+});
+</script>
+</body>
+</html>
